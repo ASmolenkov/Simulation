@@ -1,5 +1,7 @@
 package world;
 
+import factory.creature.CreatureHerbivoreFactory;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -37,6 +39,7 @@ public class MapWorld {
     public void addEntity(Entity entity){
         entityPositionMap.put(entity.getPosition(),entity);
     }
+
 
     public boolean isPositionAvailable(Coordinate position){
         return !entityPositionMap.containsKey(position);

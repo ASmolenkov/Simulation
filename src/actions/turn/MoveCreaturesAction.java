@@ -1,12 +1,12 @@
-package actions;
+package actions.turn;
 
-import world.Coordinate;
+import actions.Action;
 import world.Creature;
 import world.MapWorld;
 
 import java.util.HashMap;
 
-public class MoveCreaturesAction  implements Action{
+public class MoveCreaturesAction  implements Action {
 
     @Override
     public void perform(MapWorld mapWorld) {

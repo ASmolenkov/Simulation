@@ -1,5 +1,7 @@
-import actions.GenerateLandscapeAction;
-import actions.MoveCreaturesAction;
+import actions.init.GenerateLandscapeAction;
+import actions.turn.AddingGrassAction;
+import actions.turn.AddingHerbivoreAction;
+import actions.turn.MoveCreaturesAction;
 import creature.generate.CreatureCountCalculator;
 import creature.generate.CreatureSpawner;
 import creature.generate.EmptyCoordinateFinder;
@@ -12,7 +14,7 @@ import java.util.Random;
 
 public class Main {
     public static void main(String[] args) throws InterruptedException {
-        MapWorld mapWorld = new MapWorld(10,10);
+        MapWorld mapWorld = new MapWorld(13,13);
         BFSExplorer explorer = new BFSExplorer(mapWorld);
         Random random = new Random();
         ConsoleRenderer consoleRenderer = new ConsoleRenderer();
@@ -22,20 +24,9 @@ public class Main {
         generateLandscape.perform(mapWorld);
 
         WolfFactory wolfFactory = WolfFactory.withDefaultConfig();
-        Coordinate wolfPosition = new Coordinate(5,5);
-        Wolf wolf = wolfFactory.createDefault(wolfPosition,explorer);
-        mapWorld.addEntity(wolf);
-        System.out.println("Размер мапы: " + mapWorld.getEntityPositionMap().size());
-
         RabbitFactory rabbitFactory = RabbitFactory.withDefaultConfig();
-        Coordinate rabbitPosition = new Coordinate(1,1);
-        Rabbit rabbit = rabbitFactory.createDefault(rabbitPosition,explorer);
-        mapWorld.addEntity(rabbit);
-        System.out.println("Размер мапы: " + mapWorld.getEntityPositionMap().size());
 
         consoleRenderer.render(mapWorld);
-        System.out.println("Координаты кролика: " + rabbit.getPosition());
-        System.out.println("Координаты волка: " + wolf.getPosition());
 
         MoveCreaturesAction moveCreaturesAction = new MoveCreaturesAction();
         CreatureCountCalculator countCalculator = new CreatureCountCalculator(random, 0.1);
@@ -45,8 +36,13 @@ public class Main {
         CreatureSpawner<Creature> creatureSpawner = new CreatureSpawner<Creature>(mapWorld, random,new EmptyCoordinateFinder(random,mapWorld),countCalculator,explorer);
         creatureSpawner.addFactory(CreatureType.HERBIVORE,rabbitFactory);
         creatureSpawner.addFactory(CreatureType.PREDATOR,wolfFactory);
+        creatureSpawner.perform(mapWorld);
 
-        creatureSpawner.spawnCreatures();
+
+
+
+        AddingGrassAction addingGrassAction = new AddingGrassAction(mapWorld,0.125, 10);
+        AddingHerbivoreAction addingHerbivoreAction = new AddingHerbivoreAction(1, mapWorld, 0.04);
 
 
        while (hasHerbivores(mapWorld)){
@@ -54,9 +50,8 @@ public class Main {
             moveCreaturesAction.perform(mapWorld);
             mapWorld.removeDeadCreatures();
             consoleRenderer.render(mapWorld);
-            System.out.println("Жизни кролика: " + rabbit.getHealth());
-            System.out.println("Координаты кролика: " + rabbit.getPosition());
-            System.out.println("Координаты волка: " + wolf.getPosition());
+            addingGrassAction.perform(mapWorld);
+            addingHerbivoreAction.perform(mapWorld);
 
             Thread.sleep(2000);
         }

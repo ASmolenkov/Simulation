@@ -1,5 +1,6 @@
 package creature.generate;
 
+import actions.Action;
 import factory.creature.CreatureFactory;
 import factory.creature.RabbitFactory;
 import factory.creature.WolfFactory;
@@ -7,7 +8,7 @@ import world.*;
 
 import java.util.*;
 
-public class CreatureSpawner<T extends Creature> {
+public class CreatureSpawner<T extends Creature> implements Action {
     private final MapWorld mapWorld;
     private final Random random;
     private final CoordinateFinder emptyCoordinatesFinder;
@@ -25,11 +26,16 @@ public class CreatureSpawner<T extends Creature> {
         this.random = random;
     }
 
+    @Override
+    public void perform(MapWorld mapWorld) {
+        spawnCreatures();
+    }
+
     public void addFactory(CreatureType creatureType, CreatureFactory<? extends T> factory){
         factories.put(creatureType,factory);
     }
 
-    public void spawnCreatures(){
+    private void spawnCreatures(){
         int mapSize = mapWorld.getSize();
         Map<CreatureType, Integer> countCreature = countCalculator.calculateCounts(mapSize);
 
@@ -49,5 +55,6 @@ public class CreatureSpawner<T extends Creature> {
             }
         } );
     }
+
 
 }
