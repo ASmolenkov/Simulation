@@ -1,10 +1,7 @@
 package render;
 
 import world.Coordinate;
-import world.Entity;
 import world.MapWorld;
-
-import java.util.Map;
 
 public class ConsoleRenderer implements Renderer {
 
@@ -14,11 +11,16 @@ public class ConsoleRenderer implements Renderer {
             for (int x = 0; x < mapWorld.getWidth(); x++) {
                 Coordinate coordinate = new Coordinate(x,y);
                 if(mapWorld.getEntityPositionMap().containsKey(coordinate)){
-                    //System.out.print("[" + x + "," + y + "]");
-                    System.out.print((mapWorld.getEntityPositionMap().get(coordinate).getIcon()));
+                    String sprite = mapWorld.getEntityPositionMap().get(coordinate).getSprite();
+                    System.out.print(formatCell(sprite));
                 }
             }
             System.out.println();
         }
+    }
+
+    private static String formatCell(String sprite) {
+        // Форсируем ширину в 2 символа
+        return sprite.length() >= 2 ? sprite : sprite + " ";
     }
 }

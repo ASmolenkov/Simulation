@@ -11,14 +11,12 @@ import java.util.Random;
 public class AddingGrassAction implements Action {
     private MapWorld mapWorld;
     private Random random;
-    private final double targetGrassPercentage;
-    private final int maxRegrowthPerTurn;
+    private static final double TARGET_GRASS_PERCENTAGE = 0.1;
+    private static final int MAX_REGROWTH_PER_TURN = 10;
 
-    public AddingGrassAction(MapWorld mapWorld, double targetGrassPercentage, int maxRegrowthPerTurn) {
+    public AddingGrassAction(MapWorld mapWorld) {
         this.mapWorld = mapWorld;
         this.random = new Random();
-        this.targetGrassPercentage = targetGrassPercentage;
-        this.maxRegrowthPerTurn = maxRegrowthPerTurn;
     }
 
     @Override
@@ -29,10 +27,10 @@ public class AddingGrassAction implements Action {
     private void regrowGrass(){
         int currentGrassCount = currentGrassCount();
         int totalCells = mapWorld.getSize();
-        int targetGrassCount = (int) (totalCells * targetGrassPercentage);
+        int targetGrassCount = (int) (totalCells * TARGET_GRASS_PERCENTAGE);
 
         if(currentGrassCount < targetGrassCount){
-            int grassToAdd = Math.max(targetGrassCount - currentGrassCount, maxRegrowthPerTurn);
+            int grassToAdd = Math.max(targetGrassCount - currentGrassCount,MAX_REGROWTH_PER_TURN);
             addGrassInRandomEmptySpots(grassToAdd);
         }
     }

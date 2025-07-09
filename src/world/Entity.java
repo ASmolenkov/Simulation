@@ -14,5 +14,5 @@ public abstract class Entity {
         this.position = newPosition;
     }
 
-    public abstract String getIcon();
+    public abstract String getSprite();
 }

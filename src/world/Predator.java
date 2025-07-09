@@ -19,7 +19,6 @@ public abstract class Predator extends Creature {
         }
         List<Coordinate> pathInTarget = explorer.findPathToCoordinate(this.getPosition(), target);
         if (!pathInTarget.isEmpty()) {
-            System.out.println(pathInTarget.getFirst());
             if (isHerbivoreNearby(mapWorld, getPosition())) {
                 attack(mapWorld);
 

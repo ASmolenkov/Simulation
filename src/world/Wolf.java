@@ -1,14 +1,14 @@
 package world;
 
 public class Wolf extends Predator{
-    private static final String ICON = "🐺";
+    private static final String SPRITE = "🐺";
 
     public Wolf(Coordinate position, int speed, int health, int attackPower, BFSExplorer explorer) {
         super(position, speed, health, attackPower, explorer);
     }
 
     @Override
-    public String getIcon() {
-        return ICON;
+    public String getSprite() {
+        return SPRITE;
     }
 }

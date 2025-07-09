@@ -1,14 +1,10 @@
 package creature.generate;
 
-import actions.Action;
 import factory.creature.CreatureFactory;
-import factory.creature.RabbitFactory;
-import factory.creature.WolfFactory;
 import world.*;
-
 import java.util.*;
 
-public class CreatureSpawner<T extends Creature> implements Action {
+public class CreatureSpawner<T extends Creature> {
     private final MapWorld mapWorld;
     private final Random random;
     private final CoordinateFinder emptyCoordinatesFinder;
@@ -26,16 +22,13 @@ public class CreatureSpawner<T extends Creature> implements Action {
         this.random = random;
     }
 
-    @Override
-    public void perform(MapWorld mapWorld) {
-        spawnCreatures();
-    }
+
 
     public void addFactory(CreatureType creatureType, CreatureFactory<? extends T> factory){
         factories.put(creatureType,factory);
     }
 
-    private void spawnCreatures(){
+    public void spawnCreatures(){
         int mapSize = mapWorld.getSize();
         Map<CreatureType, Integer> countCreature = countCalculator.calculateCounts(mapSize);
 

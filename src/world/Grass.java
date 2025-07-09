@@ -1,15 +1,15 @@
 package world;
 
 public class Grass extends LandScape {
-    private static final String ICON = "🌿";
+    private static final String SPRITE = "🍀";
 
     public Grass(Coordinate position) {
         super(position);
     }
 
     @Override
-    public String getIcon() {
-        return ICON;
+    public String getSprite() {
+        return SPRITE;
     }
 
     @Override

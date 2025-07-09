@@ -12,15 +12,13 @@ import java.util.Random;
 public class AddingHerbivoreAction implements Action {
     private MapWorld mapWorld;
     private Random random;
-    private final double targetHerbivorePercentage;
-    private final int maxRegrowthPerTurn;
+    private static final double TARGET_HERBIVORE_PERCENTAGE = 0.4;
+    private static final int MAX_REGROWTH_PER_TURN = 1;
     private final RabbitFactory rabbitFactory;
 
-    public AddingHerbivoreAction(int maxRegrowthPerTurn, MapWorld mapWorld, double targetHerbivorePercentage) {
+    public AddingHerbivoreAction(MapWorld mapWorld) {
         this.mapWorld = mapWorld;
         this.random = new Random();
-        this.targetHerbivorePercentage = targetHerbivorePercentage;
-        this.maxRegrowthPerTurn = maxRegrowthPerTurn;
         this.rabbitFactory = RabbitFactory.withDefaultConfig();
     }
 
@@ -34,10 +32,10 @@ public class AddingHerbivoreAction implements Action {
     private void addHerbivore(){
         int currentHerbivore = currentHerbivoreCount();
         int totalCells = mapWorld.getSize();
-        int targetHerbivoreCount = (int) (totalCells * targetHerbivorePercentage);
+        int targetHerbivoreCount = (int) (totalCells * TARGET_HERBIVORE_PERCENTAGE);
 
         if(currentHerbivore < targetHerbivoreCount){
-            int herbivoreToAdd = Math.min(targetHerbivoreCount - currentHerbivore, maxRegrowthPerTurn);
+            int herbivoreToAdd = Math.min(targetHerbivoreCount - currentHerbivore, MAX_REGROWTH_PER_TURN);
             addHerbivoreInRandomEmptySpots(herbivoreToAdd);
         }
     }
