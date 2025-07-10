@@ -11,8 +11,8 @@ import java.util.Random;
 public class AddingGrassAction implements Action {
     private MapWorld mapWorld;
     private Random random;
-    private static final double TARGET_GRASS_PERCENTAGE = 0.1;
-    private static final int MAX_REGROWTH_PER_TURN = 10;
+    private static final double TARGET_GRASS_PERCENTAGE = 0.05;
+    private static final int MAX_REGROWTH_PER_TURN = 5;
 
     public AddingGrassAction(MapWorld mapWorld) {
         this.mapWorld = mapWorld;

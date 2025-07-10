@@ -1,7 +1,7 @@
 package world;
 
 public class Rock extends LandScape {
-    private static final String SPRITE = "🗿" ;
+    private static final String SPRITE = "⛰️";
 
     public Rock(Coordinate position) {
         super(position);

@@ -12,7 +12,7 @@ import java.util.Random;
 public class AddingHerbivoreAction implements Action {
     private MapWorld mapWorld;
     private Random random;
-    private static final double TARGET_HERBIVORE_PERCENTAGE = 0.4;
+    private static final double TARGET_HERBIVORE_PERCENTAGE = 0.03;
     private static final int MAX_REGROWTH_PER_TURN = 1;
     private final RabbitFactory rabbitFactory;
 
