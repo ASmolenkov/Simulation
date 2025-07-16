@@ -1,12 +1,14 @@
 package world;
 
+import pathfinding.Pathfinder;
+
 import java.util.*;
 
 public abstract class Predator extends Creature {
-    private final BFSExplorer explorer;
+    private final Pathfinder explorer;
     private int attackPower;
 
-    public Predator(Coordinate position, int speed, int health, int attackPower, BFSExplorer explorer) {
+    public Predator(Coordinate position, int speed, int health, int attackPower, Pathfinder explorer) {
         super(position, speed, health);
         this.explorer = explorer;
         this.attackPower = attackPower;
@@ -17,7 +19,7 @@ public abstract class Predator extends Creature {
         if (target == null || target.equals(this.getPosition())) {
             return;
         }
-        List<Coordinate> pathInTarget = explorer.findPathToCoordinate(this.getPosition(), target);
+        List<Coordinate> pathInTarget = explorer.findPathToTarget(this.getPosition(), target);
         if (!pathInTarget.isEmpty()) {
             if (isHerbivoreNearby(mapWorld, getPosition())) {
                 attack(mapWorld);

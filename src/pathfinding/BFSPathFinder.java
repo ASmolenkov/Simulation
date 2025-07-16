@@ -1,4 +1,6 @@
-package world;
+package pathfinding;
+
+import world.*;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -6,11 +8,11 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.BiConsumer;
 import java.util.function.Predicate;
 
-public class BFSExplorer {
+public class BFSPathFinder implements Pathfinder {
     private final MapWorld mapWorld;
     private final int MAX_SEARCH_DEPTH = 100;
 
-    public BFSExplorer(MapWorld mapWorld) {
+    public BFSPathFinder(MapWorld mapWorld) {
         this.mapWorld = mapWorld;
     }
 
@@ -27,7 +29,7 @@ public class BFSExplorer {
         return result.get();
     }
 
-    public List<Coordinate> findPathToCoordinate (Coordinate start, Coordinate target){
+    public List<Coordinate> findPathToTarget(Coordinate start, Coordinate target){
         Map<Coordinate,Coordinate> cameFrom = new HashMap<>();
         final AtomicBoolean found = new AtomicBoolean(false);
 

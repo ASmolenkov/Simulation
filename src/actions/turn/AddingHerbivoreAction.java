@@ -2,6 +2,7 @@ package actions.turn;
 
 import actions.Action;
 import factory.creature.RabbitFactory;
+import pathfinding.BFSPathFinder;
 import world.*;
 
 import java.util.ArrayList;
@@ -70,7 +71,7 @@ public class AddingHerbivoreAction implements Action {
             if(added >= amount){
                 break;
             }
-            Rabbit rabbit = rabbitFactory.createDefault(spot, new BFSExplorer(mapWorld));
+            Rabbit rabbit = rabbitFactory.createDefault(spot, new BFSPathFinder(mapWorld));
             mapWorld.addEntity(rabbit);
             added++;
         }

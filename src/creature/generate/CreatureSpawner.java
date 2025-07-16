@@ -1,6 +1,7 @@
 package creature.generate;
 
 import factory.creature.CreatureFactory;
+import pathfinding.Pathfinder;
 import world.*;
 import java.util.*;
 
@@ -10,10 +11,10 @@ public class CreatureSpawner<T extends Creature> {
     private final CoordinateFinder emptyCoordinatesFinder;
     private final CreatureCountCalculator countCalculator;
     private final Map<CreatureType, CreatureFactory<? extends T>> factories;
-    private final BFSExplorer bfsExplorer;
+    private final Pathfinder bfsExplorer;
 
 
-    public CreatureSpawner(MapWorld mapWorld, Random random, CoordinateFinder emptyCoordinatesFinder, CreatureCountCalculator countCalculator, BFSExplorer explorer) {
+    public CreatureSpawner(MapWorld mapWorld, Random random, CoordinateFinder emptyCoordinatesFinder, CreatureCountCalculator countCalculator, Pathfinder explorer) {
         this.mapWorld = mapWorld ;
         this.emptyCoordinatesFinder = emptyCoordinatesFinder;
         this.countCalculator = countCalculator;

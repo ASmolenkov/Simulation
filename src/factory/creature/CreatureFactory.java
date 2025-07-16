@@ -1,10 +1,10 @@
 package factory.creature;
 
-import world.BFSExplorer;
+import pathfinding.Pathfinder;
 import world.Coordinate;
 import world.Creature;
 
 public interface CreatureFactory <T extends Creature>{
-    T createDefault(Coordinate position, BFSExplorer explorer);
-    T create(Coordinate position, CreatureConfig config, BFSExplorer explorer);
+    T createDefault(Coordinate position, Pathfinder explorer);
+    T create(Coordinate position, CreatureConfig config, Pathfinder explorer);
 }

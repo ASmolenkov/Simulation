@@ -13,7 +13,7 @@ public class PredatorConfig extends CreatureConfig {
     }
 
     public static class Builder extends CreatureConfig.Builder<Builder>{
-        private int attackPower = 2;
+        private int attackPower = 3;
 
         public Builder(){
             super(1, 10);

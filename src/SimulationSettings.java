@@ -5,13 +5,15 @@ import creature.generate.EmptyCoordinateFinder;
 import factory.creature.CreatureFactory;
 import factory.creature.RabbitFactory;
 import factory.creature.WolfFactory;
+import pathfinding.BFSPathFinder;
+import pathfinding.Pathfinder;
 import world.*;
 
 import java.util.Random;
 
 public class SimulationSettings {
     private MapWorld mapWorld;
-    private BFSExplorer bfsExplorer;
+    private Pathfinder bfsExplorer;
     private final Random random = new Random();
     private final CoordinateFinder emptyCoordinateFinder;
     private CreatureCountCalculator creatureCountCalculator;
@@ -23,7 +25,7 @@ public class SimulationSettings {
         this.rabbitFactory = RabbitFactory.withDefaultConfig();
         this.wolfFactory = WolfFactory.withDefaultConfig();
         this.mapWorld = mapWorld;
-        this.bfsExplorer = new BFSExplorer(mapWorld);
+        this.bfsExplorer = new BFSPathFinder(mapWorld);
         this.creatureCountCalculator = new CreatureCountCalculator(random, 0.1);
         creatureCountCalculator.addCreatureTypeAndProbabilities(CreatureType.HERBIVORE, 0.7);
         creatureCountCalculator.addCreatureTypeAndProbabilities(CreatureType.PREDATOR, 0.3);
@@ -37,7 +39,7 @@ public class SimulationSettings {
         return mapWorld;
     }
 
-    public BFSExplorer getBfsExplorer() {
+    public Pathfinder getBfsExplorer() {
         return bfsExplorer;
     }
 

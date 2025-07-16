@@ -1,12 +1,14 @@
 package world;
 
+import pathfinding.Pathfinder;
+
 import java.util.*;
 
 public abstract class Herbivore extends Creature {
-    private final BFSExplorer explorer;
+    private final Pathfinder explorer;
 
 
-    public Herbivore(Coordinate position, int speed, int health, BFSExplorer explorer) {
+    public Herbivore(Coordinate position, int speed, int health, Pathfinder explorer) {
         super(position, speed, health);
         this.explorer = explorer;
     }
@@ -17,11 +19,11 @@ public abstract class Herbivore extends Creature {
         if(target == null || target.equals(this.getPosition())){
             return;
         }
-        List<Coordinate> pathInTarget = explorer.findPathToCoordinate(this.getPosition(), target);
+        List<Coordinate> pathInTarget = explorer.findPathToTarget(this.getPosition(), target);
         if(!pathInTarget.isEmpty()){
 
             if(isHerbivoreNearby(mapWorld, this.position)){
-                attack(mapWorld);
+                eatGrass(mapWorld);
                 mapWorld.getEntityPositionMap().put(target, new EmptyArea(target));
             }
             else {
@@ -35,7 +37,7 @@ public abstract class Herbivore extends Creature {
         return explorer.findNearestTarget(start, entity -> entity instanceof Grass);
     }
 
-    private void attack(MapWorld mapWorld) {
+    private void eatGrass(MapWorld mapWorld) {
         Coordinate target = explorer.findNearestTarget(this.getPosition(), entity -> entity instanceof Herbivore);
         Creature creature = (Creature) mapWorld.getEntityPositionMap().get(target);
         creature.plusHealth();

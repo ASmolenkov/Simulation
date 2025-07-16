@@ -1,9 +1,11 @@
 package world;
 
+import pathfinding.Pathfinder;
+
 public class Rabbit extends Herbivore{
     private static final String SPRITE = "🐇";
 
-    public Rabbit(Coordinate position, int speed, int health, BFSExplorer explorer) {
+    public Rabbit(Coordinate position, int speed, int health, Pathfinder explorer) {
         super(position, speed, health, explorer);
     }
 
