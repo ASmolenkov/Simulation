@@ -2,6 +2,7 @@ package creature.generate;
 
 import factory.creature.CreatureFactory;
 import pathfinding.Pathfinder;
+import pathfinding.TargetFinder;
 import world.*;
 import java.util.*;
 
@@ -11,15 +12,17 @@ public class CreatureSpawner<T extends Creature> {
     private final CoordinateFinder emptyCoordinatesFinder;
     private final CreatureCountCalculator countCalculator;
     private final Map<CreatureType, CreatureFactory<? extends T>> factories;
-    private final Pathfinder bfsExplorer;
+    private final TargetFinder targetExplorer;
+    private final Pathfinder pathExplorer;
 
 
-    public CreatureSpawner(MapWorld mapWorld, Random random, CoordinateFinder emptyCoordinatesFinder, CreatureCountCalculator countCalculator, Pathfinder explorer) {
+    public CreatureSpawner(MapWorld mapWorld, Random random, CoordinateFinder emptyCoordinatesFinder, CreatureCountCalculator countCalculator, TargetFinder targetExplorer, Pathfinder pathExplorer) {
         this.mapWorld = mapWorld ;
         this.emptyCoordinatesFinder = emptyCoordinatesFinder;
         this.countCalculator = countCalculator;
         this.factories = new HashMap<>();
-        this.bfsExplorer = explorer;
+        this.targetExplorer = targetExplorer;
+        this.pathExplorer = pathExplorer;
         this.random = random;
     }
 
@@ -43,7 +46,7 @@ public class CreatureSpawner<T extends Creature> {
             }
             for (int i = 0; i < count; i++) {
                 Coordinate position = emptyCoordinatesFinder.findRandomEmptyCoordinate();
-                T creature = factory.createDefault(position, bfsExplorer);
+                T creature = factory.createDefault(position,targetExplorer,pathExplorer);
                 mapWorld.addEntity(creature);
                 emptyCoordinatesFinder.markPositionAsOccupied(position);
             }

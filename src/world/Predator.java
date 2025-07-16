@@ -1,25 +1,29 @@
 package world;
 
 import pathfinding.Pathfinder;
+import pathfinding.TargetFinder;
 
 import java.util.*;
 
 public abstract class Predator extends Creature {
-    private final Pathfinder explorer;
     private int attackPower;
+    private final TargetFinder targetExplorer;
+    private final Pathfinder pathExplorer;
 
-    public Predator(Coordinate position, int speed, int health, int attackPower, Pathfinder explorer) {
+    public Predator(Coordinate position, int speed, int health, int attackPower, TargetFinder targetExplorer, Pathfinder pathExplorer) {
         super(position, speed, health);
-        this.explorer = explorer;
+        this.targetExplorer = targetExplorer;
+        this.pathExplorer = pathExplorer;
         this.attackPower = attackPower;
     }
     @Override
     public void findAndMoveToTarget(MapWorld mapWorld) {
-        Coordinate target = explorer.findNearestTarget(this.getPosition(), entity -> entity instanceof Herbivore);
+        Coordinate target = targetExplorer.findNearestTarget(this.getPosition(), entity -> entity instanceof Herbivore);
         if (target == null || target.equals(this.getPosition())) {
             return;
         }
-        List<Coordinate> pathInTarget = explorer.findPathToTarget(this.getPosition(), target);
+        List<Coordinate> pathInTarget = pathExplorer.findPathToTarget(this.getPosition(), target);
+
         if (!pathInTarget.isEmpty()) {
             if (isHerbivoreNearby(mapWorld, getPosition())) {
                 attack(mapWorld);
@@ -36,11 +40,11 @@ public abstract class Predator extends Creature {
 
     @Override
     public Coordinate findTarget(MapWorld mapWorld, Coordinate start) {
-        return explorer.findNearestTarget(start, entity -> entity instanceof Herbivore);
+        return targetExplorer.findNearestTarget(start, entity -> entity instanceof Herbivore);
     }
 
     private void attack(MapWorld mapWorld) {
-        Coordinate target = explorer.findNearestTarget(this.getPosition(), entity -> entity instanceof Herbivore);
+        Coordinate target = targetExplorer.findNearestTarget(this.getPosition(), entity -> entity instanceof Herbivore);
         Creature creature = (Creature) mapWorld.getEntityPositionMap().get(target);
         creature.minusHealth(attackPower);
     }

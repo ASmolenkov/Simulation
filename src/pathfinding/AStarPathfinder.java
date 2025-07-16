@@ -15,11 +15,6 @@ public class AStarPathfinder implements Pathfinder {
 
 
     @Override
-    public Coordinate findNearestTarget(Coordinate start, Predicate<Entity> targetCondition) {
-        return null;
-    }
-
-    @Override
     public List<Coordinate> findPathToTarget(Coordinate start, Coordinate target) {
         PriorityQueue<Node> openSet = new PriorityQueue<>(Comparator.comparingDouble(Node::getF));
         Set<Node> closetSet = new HashSet<>();
@@ -91,6 +86,9 @@ public class AStarPathfinder implements Pathfinder {
         while (cameFrom.containsKey(current)) {
             current = cameFrom.get(current);
             path.add(0, current.getCoordinate()); // Добавляем в начало
+        }
+        if(!path.isEmpty()){
+            path.removeFirst();
         }
 
         return path;

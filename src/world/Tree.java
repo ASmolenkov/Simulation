@@ -1,7 +1,7 @@
 package world;
 
 public class Tree extends LandScape {
-    private static final String SPRITE = "🌲";
+    private static final String SPRITE = "🌳";
 
     public Tree(Coordinate position) {
         super(position);

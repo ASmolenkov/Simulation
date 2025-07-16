@@ -43,7 +43,6 @@ public class Simulation {
         this.initActions.add(new GenerateCreatureAction(simulationSettings.getCreatureSpawner(),
                 mapWorld,simulationSettings.getCreatureCountCalculator(),simulationSettings.getEmptyCoordinateFinder()));
 
-
         this.turnActions = new ArrayList<>();
         this.turnActions.add(new AddingGrassAction(mapWorld));
         this.turnActions.add(new AddingHerbivoreAction(mapWorld));
@@ -53,8 +52,6 @@ public class Simulation {
         this.consoleRenderer = new ConsoleRenderer();
 
     }
-
-
 
     public void starSimulation() throws InterruptedException {
         System.out.println(WELCOME);

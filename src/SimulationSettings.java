@@ -5,15 +5,15 @@ import creature.generate.EmptyCoordinateFinder;
 import factory.creature.CreatureFactory;
 import factory.creature.RabbitFactory;
 import factory.creature.WolfFactory;
-import pathfinding.BFSPathFinder;
-import pathfinding.Pathfinder;
+import pathfinding.*;
 import world.*;
 
 import java.util.Random;
 
 public class SimulationSettings {
     private MapWorld mapWorld;
-    private Pathfinder bfsExplorer;
+    private final TargetFinder targetExplorer;
+    private final Pathfinder pathExplorer;
     private final Random random = new Random();
     private final CoordinateFinder emptyCoordinateFinder;
     private CreatureCountCalculator creatureCountCalculator;
@@ -25,12 +25,13 @@ public class SimulationSettings {
         this.rabbitFactory = RabbitFactory.withDefaultConfig();
         this.wolfFactory = WolfFactory.withDefaultConfig();
         this.mapWorld = mapWorld;
-        this.bfsExplorer = new BFSPathFinder(mapWorld);
+        this.targetExplorer = new BFSTargetFinder(mapWorld);
+        this.pathExplorer = new AStarPathfinder(mapWorld);
         this.creatureCountCalculator = new CreatureCountCalculator(random, 0.1);
         creatureCountCalculator.addCreatureTypeAndProbabilities(CreatureType.HERBIVORE, 0.7);
         creatureCountCalculator.addCreatureTypeAndProbabilities(CreatureType.PREDATOR, 0.3);
         this.emptyCoordinateFinder = new EmptyCoordinateFinder(random,mapWorld);
-        this.creatureSpawner = new CreatureSpawner<>(mapWorld,random,emptyCoordinateFinder,creatureCountCalculator,bfsExplorer);
+        this.creatureSpawner = new CreatureSpawner<>(mapWorld,random,emptyCoordinateFinder,creatureCountCalculator,targetExplorer,pathExplorer);
         this.creatureSpawner.addFactory(CreatureType.HERBIVORE,rabbitFactory);
         this.creatureSpawner.addFactory(CreatureType.PREDATOR, wolfFactory);
     }
@@ -39,28 +40,12 @@ public class SimulationSettings {
         return mapWorld;
     }
 
-    public Pathfinder getBfsExplorer() {
-        return bfsExplorer;
-    }
-
-    public Random getRandom() {
-        return random;
-    }
-
     public CoordinateFinder getEmptyCoordinateFinder() {
         return emptyCoordinateFinder;
     }
 
     public CreatureCountCalculator getCreatureCountCalculator() {
         return creatureCountCalculator;
-    }
-
-    public CreatureFactory<Rabbit> getRabbitFactory() {
-        return rabbitFactory;
-    }
-
-    public CreatureFactory<Wolf> getWolfFactory() {
-        return wolfFactory;
     }
 
     public CreatureSpawner<Creature> getCreatureSpawner() {

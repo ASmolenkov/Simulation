@@ -1,6 +1,7 @@
 package factory.creature;
 
 import pathfinding.Pathfinder;
+import pathfinding.TargetFinder;
 import world.*;
 
 import java.util.Objects;
@@ -20,18 +21,18 @@ public class RabbitFactory implements CreatureFactory<Rabbit> {
     }
 
     @Override
-    public Rabbit createDefault(Coordinate position, Pathfinder explorer) {
-        return instantiateRabbit(position,defaultConfig,explorer);
+    public Rabbit createDefault(Coordinate position, TargetFinder targetExplorer, Pathfinder pathExplorer) {
+        return instantiateRabbit(position,defaultConfig,targetExplorer, pathExplorer);
     }
 
     @Override
-    public Rabbit create(Coordinate position, CreatureConfig config, Pathfinder explorer) {
+    public Rabbit create(Coordinate position, CreatureConfig config, TargetFinder targetExplorer, Pathfinder pathExplorer) {
         HerbivoreConfig userConfig = validateConfig(config);
-        return instantiateRabbit(position,userConfig,explorer);
+        return instantiateRabbit(position,userConfig,targetExplorer, pathExplorer);
     }
 
-    private Rabbit instantiateRabbit (Coordinate position, HerbivoreConfig config, Pathfinder explorer){
-        return new Rabbit(position,config.getBaseSpeed(),config.getBaseHealth(),explorer);
+    private Rabbit instantiateRabbit (Coordinate position, HerbivoreConfig config, TargetFinder targetExplorer, Pathfinder pathExplorer){
+        return new Rabbit(position,config.getBaseSpeed(),config.getBaseHealth(),targetExplorer, pathExplorer);
     }
 
     private HerbivoreConfig validateConfig(CreatureConfig config) {

@@ -33,6 +33,7 @@ public abstract class Creature extends Entity {
         if(this.health == 4){
             this.health++;
         }
+
     }
 
 }
