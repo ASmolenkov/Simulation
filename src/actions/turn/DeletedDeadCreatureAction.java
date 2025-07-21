@@ -20,8 +20,7 @@ public class DeletedDeadCreatureAction implements Action {
         List<Coordinate> deadCreature = new ArrayList<>();
         Map<Coordinate, Entity> world = mapWorld.getEntityPositionMap();
         world.forEach((coordinate, entity) -> {
-            if(entity instanceof Creature){
-                Creature creature =(Creature) entity;
+            if(entity instanceof Creature creature){
                 if(creature.getHealth() <= 0){
                     deadCreature.add(coordinate);
                 }

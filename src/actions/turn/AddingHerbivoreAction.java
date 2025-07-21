@@ -1,7 +1,9 @@
 package actions.turn;
 
 import actions.Action;
+import factory.creature.CreatureFactory;
 import factory.creature.RabbitFactory;
+import pathfinding.AStarPathfinder;
 import pathfinding.BFSPathFinder;
 import pathfinding.BFSTargetFinder;
 import world.*;
@@ -12,11 +14,11 @@ import java.util.List;
 import java.util.Random;
 
 public class AddingHerbivoreAction implements Action {
-    private MapWorld mapWorld;
-    private Random random;
     private static final double TARGET_HERBIVORE_PERCENTAGE = 0.03;
     private static final int MAX_REGROWTH_PER_TURN = 1;
-    private final RabbitFactory rabbitFactory;
+    private final MapWorld mapWorld;
+    private final Random random;
+    private final CreatureFactory<Rabbit> rabbitFactory;
 
     public AddingHerbivoreAction(MapWorld mapWorld) {
         this.mapWorld = mapWorld;
@@ -42,8 +44,6 @@ public class AddingHerbivoreAction implements Action {
         }
     }
 
-
-
     private int currentHerbivoreCount() {
         int count = 0;
 
@@ -57,22 +57,18 @@ public class AddingHerbivoreAction implements Action {
 
     private void addHerbivoreInRandomEmptySpots(int amount) {
         List<Coordinate> emptySpots = new ArrayList<>();
-
         mapWorld.getEntityPositionMap().forEach((coordinate, entity) -> {
             if (entity instanceof EmptyArea){
                 emptySpots.add(coordinate);
             }
         });
-
         Collections.shuffle(emptySpots,random);
-
         int added = 0;
-
         for (Coordinate spot: emptySpots){
             if(added >= amount){
                 break;
             }
-            Rabbit rabbit = rabbitFactory.createDefault(spot,new BFSTargetFinder(mapWorld), new BFSPathFinder(mapWorld));
+            Rabbit rabbit = rabbitFactory.createDefault(spot,new BFSTargetFinder(mapWorld), new AStarPathfinder(mapWorld));
             mapWorld.addEntity(rabbit);
             added++;
         }

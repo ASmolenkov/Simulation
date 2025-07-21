@@ -17,7 +17,7 @@ public class MoveCreaturesAction  implements Action {
     public void perform() {
       new HashMap<>(mapWorld.getEntityPositionMap()).forEach((coordinate, entity) -> {
             if (entity instanceof Creature creature){
-                ((Creature) entity).findAndMoveToTarget(mapWorld);
+                creature.findAndMoveToTarget(mapWorld);
             }
         });
     }
