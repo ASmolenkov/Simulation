@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.Random;
 
 public class AddingGrassAction implements Action {
-    private MapWorld mapWorld;
-    private Random random;
+    private final MapWorld mapWorld;
+    private final Random random;
     private static final double TARGET_GRASS_PERCENTAGE = 0.05;
     private static final int MAX_REGROWTH_PER_TURN = 5;
 
@@ -20,22 +20,22 @@ public class AddingGrassAction implements Action {
     }
 
     @Override
-    public void perform(MapWorld mapWorld) {
+    public void perform() {
         regrowGrass();
     }
 
     private void regrowGrass(){
-        int currentGrassCount = currentGrassCount();
+        int currentGrassCount = currentAmountGrassToMapWorld();
         int totalCells = mapWorld.getSize();
         int targetGrassCount = (int) (totalCells * TARGET_GRASS_PERCENTAGE);
 
         if(currentGrassCount < targetGrassCount){
-            int grassToAdd = Math.max(targetGrassCount - currentGrassCount,MAX_REGROWTH_PER_TURN);
+            int grassToAdd = Math.min(targetGrassCount - currentGrassCount,MAX_REGROWTH_PER_TURN);
             addGrassInRandomEmptySpots(grassToAdd);
         }
     }
 
-    private int currentGrassCount(){
+    private int currentAmountGrassToMapWorld(){
         int count = 0;
         for (Entity entity: mapWorld.getEntityPositionMap().values()){
             if(entity instanceof Grass){
@@ -52,11 +52,8 @@ public class AddingGrassAction implements Action {
                 emptySpots.add(coordinate);
             }
         });
-
         Collections.shuffle(emptySpots, random);
-
         int added = 0;
-
         for (Coordinate spot: emptySpots){
             if(added >= amount){
                 break;

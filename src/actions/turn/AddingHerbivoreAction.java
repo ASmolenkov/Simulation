@@ -26,7 +26,7 @@ public class AddingHerbivoreAction implements Action {
 
 
     @Override
-    public void perform(MapWorld mapWorld) {
+    public void perform() {
         addHerbivore();
 
     }

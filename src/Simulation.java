@@ -40,14 +40,12 @@ public class Simulation {
         this.mapWorld = mapWorld;
         this.simulationSettings = new SimulationSettings(mapWorld);
         this.initActions = new ArrayList<>();
-        this.initActions.add(new GenerateLandscapeAction());
-        this.initActions.add(new GenerateCreatureAction(simulationSettings.getCreatureSpawner(),
-                mapWorld,simulationSettings.getCreatureCountCalculator(),simulationSettings.getEmptyCoordinateFinder()));
-
+        this.initActions.add(new GenerateLandscapeAction(mapWorld));
+        this.initActions.add(new GenerateCreatureAction(simulationSettings.getCreatureSpawner()));
         this.turnActions = new ArrayList<>();
         this.turnActions.add(new AddingGrassAction(mapWorld));
         this.turnActions.add(new AddingHerbivoreAction(mapWorld));
-        this.turnActions.add(new MoveCreaturesAction());
+        this.turnActions.add(new MoveCreaturesAction(mapWorld));
         this.turnActions.add(new DeletedDeadCreatureAction(mapWorld));
         this.moveCounter = moveCounter;
 
@@ -73,11 +71,11 @@ public class Simulation {
     }
 
     private void init() {
-        initActions.forEach(action -> action.perform(mapWorld));
+        initActions.forEach(Action::perform);
     }
 
     private void turn(){
-        turnActions.forEach(action -> action.perform(mapWorld));
+        turnActions.forEach(Action::perform);
     }
 
     private void startCommandListener(){

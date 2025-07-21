@@ -16,7 +16,7 @@ public class DeletedDeadCreatureAction implements Action {
     }
 
     @Override
-    public void perform(MapWorld mapWorld) {
+    public void perform() {
         List<Coordinate> deadCreature = new ArrayList<>();
         Map<Coordinate, Entity> world = mapWorld.getEntityPositionMap();
         world.forEach((coordinate, entity) -> {

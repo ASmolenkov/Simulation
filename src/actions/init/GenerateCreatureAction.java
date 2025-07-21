@@ -1,27 +1,21 @@
 package actions.init;
 
 import actions.Action;
-import creature.generate.CoordinateFinder;
-import creature.generate.CreatureCountCalculator;
 import creature.generate.CreatureSpawner;
-
+import world.Creature;
 import world.MapWorld;
 
 public class GenerateCreatureAction implements Action {
-    private CreatureSpawner creatureSpawner;
-    private MapWorld mapWorld;
-    private CreatureCountCalculator countCalculator;
-    private CoordinateFinder emptyCoordinateFinder;
+    private final CreatureSpawner<Creature> creatureSpawner;
 
-    public GenerateCreatureAction(CreatureSpawner creatureSpawner, MapWorld mapWorld, CreatureCountCalculator countCalculator, CoordinateFinder emptyCoordinateFinder) {
+
+    public GenerateCreatureAction(CreatureSpawner<Creature> creatureSpawner) {
         this.creatureSpawner = creatureSpawner;
-        this.mapWorld = mapWorld;
-        this.countCalculator = countCalculator;
-        this.emptyCoordinateFinder = emptyCoordinateFinder;
+
     }
 
     @Override
-    public void perform(MapWorld mapWorld) {
+    public void perform() {
         creatureSpawner.spawnCreatures();
     }
 }

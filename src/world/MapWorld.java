@@ -13,7 +13,6 @@ public class MapWorld {
     private final Map <Coordinate, Entity> entityPositionMap;
 
 
-
     public MapWorld(int width, int height) {
         if (width < 10 || height < 10) {
             throw new IllegalArgumentException("The width and height of the map cannot be less than 10");
@@ -68,10 +67,6 @@ public class MapWorld {
         entityPositionMap.put(newPosition, creature);
 
         creature.setPosition(newPosition);
-    }
-
-    public boolean isNotHerbivore(Coordinate coordinate){
-        return !(entityPositionMap.get(coordinate) instanceof Grass);
     }
 
 }

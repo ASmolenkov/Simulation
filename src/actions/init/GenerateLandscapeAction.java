@@ -14,41 +14,30 @@ public class GenerateLandscapeAction implements Action {
     private final static double GRASS_PROBABILITY = 0.3;
     private final static double TREE_PROBABILITY = 0.3;
     private final Random random;
+    private final MapWorld mapWorld;
 
-    public GenerateLandscapeAction() {
+    public GenerateLandscapeAction(MapWorld mapWorld) {
+        this.mapWorld = mapWorld;
         this.random = new Random();
     }
 
     @Override
-    public void perform(MapWorld mapWorld) {
-        List<Coordinate> availableCoords = new ArrayList<>();
-        for (int x = 0; x < mapWorld.getHeight(); x++) {
-            for (int y = 0; y < mapWorld.getWidth(); y++) {
-                Coordinate pos = new Coordinate(x, y);
-                if (mapWorld.isPositionAvailable(pos)) {
-                    availableCoords.add(pos);
-                }
-            }
-        }
-
-        Collections.shuffle(availableCoords, random);
-
-        int totalLandscape = (int)(availableCoords.size() * MAX_LANDSCAPE_PERCENTAGE);
-
-        for (int i = 0; i < availableCoords.size(); i++) {
-            Coordinate pos = availableCoords.get(i);
+    public void perform() {
+        List<Coordinate> availableCoordinates = fillFreeCoordinates(mapWorld);
+        int totalLandscape = (int)(availableCoordinates.size() * MAX_LANDSCAPE_PERCENTAGE);
+        for (int i = 0; i < availableCoordinates.size(); i++) {
+            Coordinate pos = availableCoordinates.get(i);
             Entity entity;
             if (i < totalLandscape) {
-                entity = generateTerrain(pos);
+                entity = generateRandomTerrain(pos);
             } else {
                 entity = new EmptyArea(pos);
             }
-
             mapWorld.addEntity(entity);
         }
     }
 
-    private Entity generateTerrain(Coordinate position){
+    private Entity generateRandomTerrain(Coordinate position){
         double rand = random.nextDouble();
         double cumulativeProbability = 0.0;
 
@@ -67,5 +56,19 @@ public class GenerateLandscapeAction implements Action {
             return new Tree(position);
         }
         return new EmptyArea(position);
+    }
+
+    private List<Coordinate> fillFreeCoordinates(MapWorld mapWorld){
+        List<Coordinate> availableCoordinates = new ArrayList<>();
+        for (int x = 0; x < mapWorld.getHeight(); x++) {
+            for (int y = 0; y < mapWorld.getWidth(); y++) {
+                Coordinate pos = new Coordinate(x, y);
+                if (mapWorld.isPositionAvailable(pos)) {
+                    availableCoordinates.add(pos);
+                }
+            }
+        }
+        Collections.shuffle(availableCoordinates, random);
+        return availableCoordinates;
     }
 }
