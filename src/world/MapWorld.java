@@ -15,6 +15,9 @@ public class MapWorld {
 
 
     public MapWorld(int width, int height) {
+        if (width < 10 || height < 10) {
+            throw new IllegalArgumentException("The width and height of the map cannot be less than 10");
+        }
         this.width = width;
         this.height = height;
         entityPositionMap = new HashMap<>();
@@ -71,17 +74,5 @@ public class MapWorld {
         return !(entityPositionMap.get(coordinate) instanceof Grass);
     }
 
-    public void removeDeadCreatures(){
-        List<Coordinate> deadCreature = new ArrayList<>();
-          (entityPositionMap).forEach((coordinate, entity) -> {
-            if(entity instanceof Creature){
-                Creature creature =(Creature) entity;
-                if(creature.getHealth() <= 0){
-                    deadCreature.add(coordinate);
-                }
-            }
-        });
-          deadCreature.forEach(coordinate -> entityPositionMap.put(coordinate, new EmptyArea(coordinate)));
-    }
 }
 

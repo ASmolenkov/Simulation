@@ -23,7 +23,7 @@ public abstract class Herbivore extends Creature {
             return;
         }
         List<Coordinate> pathInTarget = pathExplorer.findPathToTarget(this.getPosition(), target);
-        if(!pathInTarget.isEmpty()){
+        if(!pathInTarget.isEmpty() && mapWorld.isWithinBounds(pathInTarget.getFirst())){
 
             if(isHerbivoreNearby(mapWorld, this.position)){
                 eatGrass(mapWorld);

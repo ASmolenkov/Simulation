@@ -3,6 +3,7 @@ import actions.init.GenerateCreatureAction;
 import actions.init.GenerateLandscapeAction;
 import actions.turn.AddingGrassAction;
 import actions.turn.AddingHerbivoreAction;
+import actions.turn.DeletedDeadCreatureAction;
 import actions.turn.MoveCreaturesAction;
 import render.ConsoleRenderer;
 import world.MapWorld;
@@ -47,6 +48,7 @@ public class Simulation {
         this.turnActions.add(new AddingGrassAction(mapWorld));
         this.turnActions.add(new AddingHerbivoreAction(mapWorld));
         this.turnActions.add(new MoveCreaturesAction());
+        this.turnActions.add(new DeletedDeadCreatureAction(mapWorld));
         this.moveCounter = moveCounter;
 
         this.consoleRenderer = new ConsoleRenderer();
@@ -64,7 +66,6 @@ public class Simulation {
         while (isRunning){
             checkPauseState();
             turn();
-            System.out.println();
             consoleRenderer.render(mapWorld);
             Thread.sleep(TIME_PAUSE);
         }

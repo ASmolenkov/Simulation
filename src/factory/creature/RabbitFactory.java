@@ -9,7 +9,7 @@ import java.util.Objects;
 public class RabbitFactory implements CreatureFactory<Rabbit> {
     private final HerbivoreConfig defaultConfig;
     private static final int DEFAULT_SPEED = 1;
-    private static final int DEFAULT_HEALTH = 4;
+    private static final int DEFAULT_HEALTH = 5;
 
 
     public RabbitFactory(HerbivoreConfig defaultConfig) {

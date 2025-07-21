@@ -1,6 +1,8 @@
 package render;
 
 import world.Coordinate;
+import world.Creature;
+import world.Entity;
 import world.MapWorld;
 
 public class ConsoleRenderer implements Renderer {
@@ -12,15 +14,13 @@ public class ConsoleRenderer implements Renderer {
                 Coordinate coordinate = new Coordinate(x,y);
                 if(mapWorld.getEntityPositionMap().containsKey(coordinate)){
                     String sprite = mapWorld.getEntityPositionMap().get(coordinate).getSprite();
-                    System.out.print(formatCell(sprite));
+                    System.out.print(sprite);
                 }
             }
             System.out.println();
         }
+        System.out.println();
     }
 
-    private static String formatCell(String sprite) {
-        // Форсируем ширину в 2 символа
-        return sprite.length() >= 2 ? sprite : sprite + " ";
-    }
+
 }
