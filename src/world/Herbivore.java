@@ -6,67 +6,37 @@ import pathfinding.TargetFinder;
 import java.util.*;
 
 public abstract class Herbivore extends Creature {
-    private final TargetFinder targetExplorer;
-    private final Pathfinder pathExplorer;
-
 
     public Herbivore(Coordinate position, int speed, int health, TargetFinder targetExplorer, Pathfinder pathExplorer) {
-        super(position, speed, health);
-        this.targetExplorer = targetExplorer;
-        this.pathExplorer = pathExplorer;
-    }
+        super(position, targetExplorer, pathExplorer, speed, health);
 
+    }
     @Override
     protected Class<? extends Entity> getTargetType(){
         return Grass.class;
     }
 
     @Override
-    public void findAndMoveToTarget(MapWorld mapWorld){
-        Coordinate target = targetExplorer.findNearestTarget(this.getPosition(), entity -> entity instanceof Grass);
-        if(target == null || target.equals(this.getPosition())){
-            return;
-        }
-        List<Coordinate> pathInTarget = pathExplorer.findPathToTarget(this.getPosition(), target);
-        makeMove(mapWorld, pathInTarget, target);
-    }
-
-    @Override
     public void makeMove(MapWorld mapWorld, List<Coordinate> pathInTarget, Coordinate target){
         if(!pathInTarget.isEmpty() && mapWorld.isWithinBounds(pathInTarget.getFirst())){
-
-            if(isHerbivoreNearby(mapWorld, this.position)){
+            if(isEntityNearby(mapWorld, position,getTargetType())){
                 eatGrass(mapWorld);
+                System.out.println("Кролик съел траву");
                 mapWorld.getEntityPositionMap().put(target, new EmptyArea(target));
-            } else if (mapWorld.getEntityPositionMap().get(pathInTarget.get(getSpeed())) instanceof Grass) {
+            }
+            else if(pathInTarget.size() == 1){
                 mapWorld.updatePosition(this, pathInTarget.getFirst());
-            } else {
+            }
+            else {
                 mapWorld.updatePosition(this, pathInTarget.get(getSpeed()));
             }
         }
     }
 
     private void eatGrass(MapWorld mapWorld) {
-        Coordinate target = targetExplorer.findNearestTarget(this.getPosition(), entity -> entity instanceof Herbivore);
-        Creature creature = (Creature) mapWorld.getEntityPositionMap().get(target);
-        creature.plusHealth();
+        this.plusHealth();
     }
 
-    private boolean isHerbivoreNearby(MapWorld mapWorld, Coordinate currentPosition) {
-        for (int dx = -1; dx <= 1; dx++) {
-            for (int dy = -1; dy <= 1; dy++) {
-                if (dx == 0 && dy == 0) {
-                    continue;
-                }
-                Coordinate neighbor = new Coordinate(currentPosition.getWidth() + dx, currentPosition.getHeight() + dy);
-                Entity entity = mapWorld.getEntityPositionMap().get(neighbor);
-                if (entity instanceof Grass) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
 }
 
 

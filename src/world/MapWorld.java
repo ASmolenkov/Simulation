@@ -56,17 +56,22 @@ public class MapWorld {
         if (creature == null || newPosition == null) {
             throw new IllegalArgumentException("Creature and Coordinate cannot be null");
         }
-
         entityPositionMap.put(creature.getPosition(), new EmptyArea(creature.getPosition()));
-
-
         if (entityPositionMap.get(newPosition) instanceof Predator) {
             throw new IllegalStateException("Coordinate " + newPosition + " is already occupied");
         }
-
         entityPositionMap.put(newPosition, creature);
-
         creature.setPosition(newPosition);
+    }
+
+    public int getCountRabbet(){
+        int countRabbit = 0;
+        for (Entity entity: entityPositionMap.values()){
+            if(entity instanceof Rabbit){
+                countRabbit++;
+            }
+        }
+        return countRabbit;
     }
 
 }

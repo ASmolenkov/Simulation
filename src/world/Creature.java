@@ -1,18 +1,34 @@
 package world;
 
+import pathfinding.Pathfinder;
+import pathfinding.TargetFinder;
+
 import java.util.List;
 
 public abstract class Creature extends Entity {
+
+    protected final TargetFinder targetFinder;
+    protected final Pathfinder pathfinder;
+
     private final int speed;
     private int health;
 
-    public Creature(Coordinate position, int speed, int health) {
+    public Creature(Coordinate position, TargetFinder targetFinder, Pathfinder pathfinder, int speed, int health) {
         super(position);
+        this.targetFinder = targetFinder;
+        this.pathfinder = pathfinder;
         this.speed = speed;
         this.health = health;
     }
 
-    public abstract void findAndMoveToTarget(MapWorld mapWorld);
+    public void findAndMoveToTarget(MapWorld mapWorld){
+        Coordinate target = targetFinder.findNearestTarget(this.getPosition(), entity -> getTargetType().isInstance(entity));
+        if(target == null || target.equals(this.getPosition())){
+            return;
+        }
+        List<Coordinate> pathToTarget = pathfinder.findPathToTarget(this.getPosition(),target);
+        makeMove(mapWorld, pathToTarget,target);
+    }
 
     public abstract void makeMove(MapWorld mapWorld, List<Coordinate> pathInTarget, Coordinate target);
 
@@ -29,11 +45,11 @@ public abstract class Creature extends Entity {
     }
 
     public void plusHealth() {
-        if(this.health <= 3){
-            this.health += 2;
-        }
         if(this.health == 4){
             this.health++;
+        }
+        if(this.health <= 3){
+            this.health += 2;
         }
 
     }
