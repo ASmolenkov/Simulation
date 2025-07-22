@@ -14,5 +14,4 @@ public abstract class Entity {
         this.position = newPosition;
     }
 
-    public abstract String getSprite();
 }

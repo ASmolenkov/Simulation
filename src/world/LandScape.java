@@ -5,5 +5,4 @@ public abstract class LandScape extends Entity{
         super(position);
     }
 
-    public abstract String getSprite();
 }

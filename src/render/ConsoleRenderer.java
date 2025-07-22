@@ -2,6 +2,8 @@ package render;
 
 import world.*;
 
+import java.util.Map;
+
 public class ConsoleRenderer implements Renderer {
 
     private static final String WOLF_SPRITE = "🐺";
@@ -10,6 +12,9 @@ public class ConsoleRenderer implements Renderer {
     private static final String ROCK_SPRITE = "🗻";
     private static final String TREE_SPRITE = "🌳";
     private static final String EMPTY_AREA_SPRITE = "🟫";
+
+    private static final Map<Class<? extends Entity>, String> SPRITES = Map.of(Wolf.class, WOLF_SPRITE, Rabbit.class,RABBIT_SPRITE,
+            Grass.class,GRASS_SPRITE, Rock.class, ROCK_SPRITE, Tree.class, TREE_SPRITE, EmptyArea.class, EMPTY_AREA_SPRITE);
 
     @Override
     public void render(MapWorld mapWorld)  {
@@ -25,29 +30,8 @@ public class ConsoleRenderer implements Renderer {
     }
 
     private void printSprite(Entity entity){
-        if(entity instanceof Wolf){
-            System.out.print(WOLF_SPRITE);
-        }
-
-        if(entity instanceof Rabbit){
-            System.out.print(RABBIT_SPRITE);
-        }
-
-        if(entity instanceof Grass){
-            System.out.print(GRASS_SPRITE);
-        }
-
-        if(entity instanceof Rock){
-            System.out.print(ROCK_SPRITE);
-        }
-
-        if(entity instanceof Tree){
-            System.out.print(TREE_SPRITE);
-        }
-
-        if(entity instanceof EmptyArea){
-            System.out.print(EMPTY_AREA_SPRITE);
-        }
+        String sprite = SPRITES.getOrDefault(entity.getClass(),EMPTY_AREA_SPRITE);
+        System.out.print(sprite);
     }
 
 

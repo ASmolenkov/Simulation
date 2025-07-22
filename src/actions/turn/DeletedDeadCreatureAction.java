@@ -27,6 +27,6 @@ public class DeletedDeadCreatureAction implements Action {
                 }
             }
         });
-        deadCreature.forEach(world::remove);
+        deadCreature.forEach(coordinate -> mapWorld.getEntityPositionMap().put(coordinate, new EmptyArea(coordinate)));
     }
 }
