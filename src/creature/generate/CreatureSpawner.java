@@ -26,32 +26,40 @@ public class CreatureSpawner<T extends Creature> {
         this.random = random;
     }
 
-
-
     public void addFactory(CreatureType creatureType, CreatureFactory<? extends T> factory){
         factories.put(creatureType,factory);
     }
 
     public void spawnCreatures(){
-        int mapSize = mapWorld.getSize();
-        Map<CreatureType, Integer> countCreature = countCalculator.calculateCounts(mapSize);
-
-        if(!emptyCoordinatesFinder.hasEmptyCoordinates()){
-            throw new IllegalStateException("There are no free places for creatures to spawn.");
-        }
-        countCreature.forEach((type, count) -> {
-            CreatureFactory<? extends T> factory = factories.get(type);
-            if(factories == null){
-                throw new IllegalStateException("No factory registered for type: " + type);
-            }
-            for (int i = 0; i < count; i++) {
-                Coordinate position = emptyCoordinatesFinder.findRandomEmptyCoordinate();
-                T creature = factory.createDefault(position,targetExplorer,pathExplorer);
-                mapWorld.addEntity(creature);
-                emptyCoordinatesFinder.markPositionAsOccupied(position);
-            }
-        } );
+        ensureSpawnPossible();
+        Map<CreatureType, Integer> creatureCounts = countCalculator.calculateCounts(mapWorld.getSize());
+        creatureCounts.forEach(this::spawnCreaturesOfType);
     }
 
+    private void validateFactoryExists(CreatureType creatureType){
+        if(!factories.containsKey(creatureType)){
+            throw new IllegalStateException("No factory registered for type: " + creatureType);
+        }
+    }
 
+    private void spawnSingleCreature(CreatureType creatureType){
+        Coordinate position = emptyCoordinatesFinder.findRandomEmptyCoordinate();
+        CreatureFactory<? extends T> factory = factories.get(creatureType);
+        T creature = factory.createDefault(position, targetExplorer, pathExplorer);
+        mapWorld.addEntity(creature);
+        emptyCoordinatesFinder.markPositionAsOccupied(position);
+    }
+
+    private void spawnCreaturesOfType(CreatureType creatureType, int count){
+        validateFactoryExists(creatureType);
+        for (int i = 0; i < count; i++) {
+            spawnSingleCreature(creatureType);
+        }
+    }
+
+    private void ensureSpawnPossible() {
+        if (!emptyCoordinatesFinder.hasEmptyCoordinates()) {
+            throw new IllegalStateException("There are no free places for creatures to spawn.");
+        }
+    }
 }

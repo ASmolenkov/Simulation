@@ -73,6 +73,4 @@ public abstract class Creature extends Entity {
         return false;
     }
 
-
-
 }

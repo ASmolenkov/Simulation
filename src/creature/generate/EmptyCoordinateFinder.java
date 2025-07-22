@@ -20,7 +20,6 @@ public class EmptyCoordinateFinder implements CoordinateFinder{
     @Override
     public Coordinate findRandomEmptyCoordinate() throws IllegalStateException {
         List<Coordinate> emptyPosition = new ArrayList<>();
-
         mapWorld.getEntityPositionMap().forEach((coordinate, entity) -> {
             if(mapWorld.getEntityPositionMap().get(coordinate) instanceof EmptyArea && !occupiedCache.contains(coordinate)){
                 emptyPosition.add(coordinate);
