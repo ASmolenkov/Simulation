@@ -16,6 +16,12 @@ public abstract class Predator extends Creature {
         this.pathExplorer = pathExplorer;
         this.attackPower = attackPower;
     }
+
+    @Override
+    protected Class<? extends Entity> getTargetType(){
+        return Herbivore.class;
+    }
+
     @Override
     public void findAndMoveToTarget(MapWorld mapWorld) {
         Coordinate target = targetExplorer.findNearestTarget(this.getPosition(), entity -> entity instanceof Herbivore);
@@ -23,8 +29,12 @@ public abstract class Predator extends Creature {
             return;
         }
         List<Coordinate> pathInTarget = pathExplorer.findPathToTarget(this.getPosition(), target);
+        makeMove(mapWorld,pathInTarget,target);
+    }
 
-        if (!pathInTarget.isEmpty()) {
+    @Override
+    public void makeMove(MapWorld mapWorld, List<Coordinate> pathInTarget, Coordinate target){
+        if (!pathInTarget.isEmpty() && mapWorld.isWithinBounds(pathInTarget.getFirst())) {
             if (isHerbivoreNearby(mapWorld, getPosition())) {
                 attack(mapWorld);
 
@@ -35,12 +45,6 @@ public abstract class Predator extends Creature {
             }
 
         }
-
-    }
-
-    @Override
-    public Coordinate findTarget(MapWorld mapWorld, Coordinate start) {
-        return targetExplorer.findNearestTarget(start, entity -> entity instanceof Herbivore);
     }
 
     private void attack(MapWorld mapWorld) {

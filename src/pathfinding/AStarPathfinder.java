@@ -39,7 +39,7 @@ public class AStarPathfinder implements Pathfinder {
             closetSet.add(current);
 
             for (Node neighbor: getNeighbors(current)){
-                if(closetSet.contains(neighbor) || !canPassThrough(neighbor.getCoordinate())){
+                if(closetSet.contains(neighbor) || !canPassThrough(neighbor.getCoordinate(),target)){
                     continue;
                 }
 
@@ -94,10 +94,10 @@ public class AStarPathfinder implements Pathfinder {
         return path;
     }
 
-    private boolean canPassThrough(Coordinate coordinate) {
+    private boolean canPassThrough(Coordinate coordinate, Coordinate target) {
         // Общая проверка проходимости
         Entity entity = mapWorld.getEntityPositionMap().get(coordinate);
-        return entity == null || entity instanceof EmptyArea || entity instanceof Grass || entity instanceof Herbivore;
+        return coordinate.equals(target) ||  entity == null || entity instanceof EmptyArea || entity instanceof Grass;
     }
 
 

@@ -1,5 +1,7 @@
 package world;
 
+import java.util.List;
+
 public abstract class Creature extends Entity {
     private final int speed;
     private int health;
@@ -12,7 +14,7 @@ public abstract class Creature extends Entity {
 
     public abstract void findAndMoveToTarget(MapWorld mapWorld);
 
-    public abstract Coordinate findTarget(MapWorld mapWorld, Coordinate start);
+    public abstract void makeMove(MapWorld mapWorld, List<Coordinate> pathInTarget, Coordinate target);
 
     public int getSpeed() {
         return speed;
@@ -35,5 +37,26 @@ public abstract class Creature extends Entity {
         }
 
     }
+
+    protected abstract Class<? extends Entity> getTargetType();
+
+    protected boolean isEntityNearby(MapWorld mapWorld, Coordinate pos, Class<?> entityType) {
+        for (int dx = -1; dx <= 1; dx++) {
+            for (int dy = -1; dy <= 1; dy++) {
+                if (dx == 0 && dy == 0) continue;
+                Coordinate neighbor = new Coordinate(
+                        pos.getWidth() + dx,
+                        pos.getHeight() + dy
+                );
+                Entity entity = mapWorld.getEntityPositionMap().get(neighbor);
+                if (entityType.isInstance(entity)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+
 
 }

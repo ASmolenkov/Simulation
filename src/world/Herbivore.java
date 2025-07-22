@@ -17,12 +17,22 @@ public abstract class Herbivore extends Creature {
     }
 
     @Override
+    protected Class<? extends Entity> getTargetType(){
+        return Grass.class;
+    }
+
+    @Override
     public void findAndMoveToTarget(MapWorld mapWorld){
         Coordinate target = targetExplorer.findNearestTarget(this.getPosition(), entity -> entity instanceof Grass);
         if(target == null || target.equals(this.getPosition())){
             return;
         }
         List<Coordinate> pathInTarget = pathExplorer.findPathToTarget(this.getPosition(), target);
+        makeMove(mapWorld, pathInTarget, target);
+    }
+
+    @Override
+    public void makeMove(MapWorld mapWorld, List<Coordinate> pathInTarget, Coordinate target){
         if(!pathInTarget.isEmpty() && mapWorld.isWithinBounds(pathInTarget.getFirst())){
 
             if(isHerbivoreNearby(mapWorld, this.position)){
@@ -34,11 +44,6 @@ public abstract class Herbivore extends Creature {
                 mapWorld.updatePosition(this, pathInTarget.get(getSpeed()));
             }
         }
-    }
-
-    @Override
-    public Coordinate findTarget(MapWorld mapWorld, Coordinate start) {
-        return targetExplorer.findNearestTarget(start, entity -> entity instanceof Grass);
     }
 
     private void eatGrass(MapWorld mapWorld) {
