@@ -56,7 +56,6 @@ public class BFSExplorer {
     }
 
     private List<Coordinate> getNeighbors(Coordinate coordinate) {
-        // Общая логика получения соседей
         int [][] directions = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
         List<Coordinate> neighbors = new ArrayList<>();
 
@@ -73,13 +72,11 @@ public class BFSExplorer {
     }
 
     private boolean canPassThrough(Coordinate coordinate) {
-        // Общая проверка проходимости
         Entity entity = mapWorld.getEntityPositionMap().get(coordinate);
         return entity == null || entity instanceof EmptyArea || entity instanceof Grass || entity instanceof Herbivore;
     }
 
     protected static class BFSResultFoundException extends RuntimeException {
-        // Можно добавить сообщение для отладки
         public BFSResultFoundException() {
             super("BFS: Target found, early exit");
         }

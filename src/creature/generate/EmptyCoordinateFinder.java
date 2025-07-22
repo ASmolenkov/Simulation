@@ -2,10 +2,10 @@ package creature.generate;
 
 import world.Coordinate;
 import world.EmptyArea;
-import world.Entity;
 import world.MapWorld;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class EmptyCoordinateFinder implements CoordinateFinder{
     private final Random random;
@@ -19,13 +19,10 @@ public class EmptyCoordinateFinder implements CoordinateFinder{
 
     @Override
     public Coordinate findRandomEmptyCoordinate() throws IllegalStateException {
-        List<Coordinate> emptyPosition = new ArrayList<>();
-        mapWorld.getEntityPositionMap().forEach((coordinate, entity) -> {
-            if(mapWorld.getEntityPositionMap().get(coordinate) instanceof EmptyArea && !occupiedCache.contains(coordinate)){
-                emptyPosition.add(coordinate);
-            }
-        });
-
+        List<Coordinate> emptyPosition = mapWorld.getEntityPositionMap().entrySet().stream().
+                filter(entry -> entry.getValue() instanceof EmptyArea).
+                filter(entry ->
+                !occupiedCache.contains(entry.getKey())).map(Map.Entry::getKey).toList();
         if(emptyPosition.isEmpty()){
             throw new IllegalStateException("No free coordinates for spawn");
         }
