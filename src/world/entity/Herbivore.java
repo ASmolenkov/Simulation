@@ -9,6 +9,9 @@ import java.util.*;
 
 public abstract class Herbivore extends Creature {
 
+    private static final int LIFE_BONUS_FOR_FOOD = 1;
+    private static final int SATIETY_BONUS_FOR_FOOD = 3;
+
     public Herbivore(Coordinate position, int speed, int health, int satiety, TargetFinder targetExplorer, Pathfinder pathExplorer) {
         super(position, speed, health, satiety, targetExplorer, pathExplorer);
 
@@ -18,35 +21,29 @@ public abstract class Herbivore extends Creature {
         return Grass.class;
     }
 
-    @Override
-    protected void starve(){
-        this.minusSatiety(1);
-    }
 
     @Override
     public void makeMove(MapWorld mapWorld, List<Coordinate> pathInTarget, Coordinate target){
         if(!pathInTarget.isEmpty() && mapWorld.isWithinBounds(pathInTarget.getFirst())){
             if(isEntityNearby(mapWorld, position,getTargetType())){
                 eat(mapWorld);
-                System.out.println("Кролик съел траву");
                 mapWorld.getEntityPositionMap().put(target, new EmptyArea(target));
             }
             else if(pathInTarget.size() == 1){
                 mapWorld.updatePosition(this, pathInTarget.getFirst());
-                this.starve();
+
             }
             else {
                 mapWorld.updatePosition(this, pathInTarget.get(getSpeed()));
-                this.starve();
+
             }
         }
     }
 
     protected void eat(MapWorld mapWorld) {
-        this.plusHealth(1);
-        this.plusSatiety(1);
+        this.plusHealth(LIFE_BONUS_FOR_FOOD);
+        this.plusSatiety(SATIETY_BONUS_FOR_FOOD);
     }
-
 }
 
 

@@ -12,13 +12,15 @@ public class WolfFactory implements CreatureFactory<Wolf> {
     private static final int DEFAULT_SPEED = 0;
     private static final int DEFAULT_HEALTH = 10;
     private static final int DEFAULT_ATTACK_POWER = 3;
+    private static final int DEFAULT_SATIETY = 5;
+
 
     public WolfFactory(PredatorConfig defaultConfig) {
         this.defaultConfig = Objects.requireNonNull(defaultConfig);
     }
 
     public static WolfFactory withDefaultConfig(){
-        return new WolfFactory(new PredatorConfig.Builder().setSpeed(DEFAULT_SPEED).setHealth(DEFAULT_HEALTH).setAttackPower(DEFAULT_ATTACK_POWER).build());
+        return new WolfFactory(new PredatorConfig.Builder().setSpeed(DEFAULT_SPEED).setHealth(DEFAULT_HEALTH).setAttackPower(DEFAULT_ATTACK_POWER).setSatiety(DEFAULT_SATIETY).build());
     }
 
 

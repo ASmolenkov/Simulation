@@ -8,6 +8,9 @@ import world.MapWorld;
 import java.util.*;
 
 public abstract class Predator extends Creature {
+    private static final int LIFE_BONUS_FOR_FOOD = 2;
+    private static final int SATIETY_BONUS_FOR_FOOD = 2;
+
     private final int attackPower;
 
     public Predator(Coordinate position, int speed, int health, int attackPower,  int satiety, TargetFinder targetFinder, Pathfinder pathfinder) {
@@ -28,16 +31,14 @@ public abstract class Predator extends Creature {
                 System.out.println("Волк атакует");
                 attack(mapWorld);
                 if(isTargetDied(mapWorld, target)){
-                    eat(mapWorld);
+                    this.eat(mapWorld);
                 }
             }
             else if(pathInTarget.size() == 1){
                 mapWorld.updatePosition(this, pathInTarget.getFirst());
-                starve();
             }
             else {
                 mapWorld.updatePosition(this, pathInTarget.get(getSpeed()));
-                starve();
             }
         }
     }
@@ -49,18 +50,14 @@ public abstract class Predator extends Creature {
     }
 
     protected void eat(MapWorld mapWorld) {
-        this.plusHealth(2);
-        this.plusSatiety(2);
-
+        this.plusHealth(LIFE_BONUS_FOR_FOOD);
+        this.plusSatiety(SATIETY_BONUS_FOR_FOOD);
     }
 
-    protected void starve(){
-        this.minusSatiety(1);
-    }
 
     private boolean isTargetDied(MapWorld mapWorld, Coordinate target){
         if(mapWorld.getEntityPositionMap().get(target) instanceof Herbivore herbivore){
-            return herbivore.getSatiety() <= 0;
+            return herbivore.getHealth() <= MIN_HEALTH;
         }
         return false;
     }

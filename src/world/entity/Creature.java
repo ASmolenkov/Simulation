@@ -6,8 +6,12 @@ import world.Coordinate;
 import world.MapWorld;
 
 import java.util.List;
+import java.util.Map;
 
 public abstract class Creature extends Entity {
+    private static final int MAX_SATIETY = 10;
+    private static final int MIN_SATIETY = 0;
+    protected static final int MIN_HEALTH = 0;
 
     protected final TargetFinder targetFinder;
     protected final Pathfinder pathfinder;
@@ -15,6 +19,7 @@ public abstract class Creature extends Entity {
     private final int speed;
     private int health;
     private int satiety;
+
 
     public Creature(Coordinate position, int speed, int health, int satiety, TargetFinder targetFinder, Pathfinder pathfinder) {
         super(position);
@@ -25,7 +30,9 @@ public abstract class Creature extends Entity {
         this.pathfinder = pathfinder;
     }
 
-    protected abstract void starve();
+    public void starve(){
+        this.minusSatiety(1);
+    }
 
     protected abstract void makeMove(MapWorld mapWorld, List<Coordinate> pathInTarget, Coordinate target);
 
@@ -58,10 +65,16 @@ public abstract class Creature extends Entity {
 
     public void minusSatiety(int satiety) {
         this.satiety -= satiety;
+        if(this.satiety < MIN_SATIETY){
+            this.satiety = MIN_SATIETY;
+        }
     }
 
     public void plusSatiety(int satiety) {
         this.satiety += satiety;
+        if(this.satiety > MAX_SATIETY){
+            this.satiety = MAX_SATIETY;
+        }
     }
 
     protected abstract void eat(MapWorld mapWorld);

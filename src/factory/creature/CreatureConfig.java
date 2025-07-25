@@ -44,6 +44,11 @@ public class CreatureConfig {
             return self();
         }
 
+        public T setSatiety(int satiety){
+            this.satiety = satiety;
+            return self();
+        }
+
         protected abstract T self();
         public abstract CreatureConfig build();
     }

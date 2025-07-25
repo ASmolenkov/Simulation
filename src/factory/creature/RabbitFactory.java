@@ -11,6 +11,8 @@ public class RabbitFactory implements CreatureFactory<Rabbit> {
     private final HerbivoreConfig defaultConfig;
     private static final int DEFAULT_SPEED = 1;
     private static final int DEFAULT_HEALTH = 5;
+    private static final int DEFAULT_SATIETY = 7;
+
 
 
     public RabbitFactory(HerbivoreConfig defaultConfig) {
@@ -18,7 +20,7 @@ public class RabbitFactory implements CreatureFactory<Rabbit> {
     }
 
     public static RabbitFactory withDefaultConfig(){
-        return new RabbitFactory(new HerbivoreConfig.Builder().setSpeed(DEFAULT_SPEED).setHealth(DEFAULT_HEALTH).build());
+        return new RabbitFactory(new HerbivoreConfig.Builder().setSpeed(DEFAULT_SPEED).setHealth(DEFAULT_HEALTH).setSatiety(DEFAULT_SATIETY).build());
     }
 
     @Override
