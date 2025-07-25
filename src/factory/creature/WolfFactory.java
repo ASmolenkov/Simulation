@@ -3,7 +3,7 @@ package factory.creature;
 import pathfinding.Pathfinder;
 import pathfinding.TargetFinder;
 import world.Coordinate;
-import world.Wolf;
+import world.entity.Wolf;
 
 import java.util.Objects;
 
@@ -33,8 +33,8 @@ public class WolfFactory implements CreatureFactory<Wolf> {
         return instantiateWolf(position,userConfig,targetExplorer, pathExplorer);
     }
 
-    private Wolf instantiateWolf (Coordinate position, PredatorConfig config, TargetFinder targetExplorer, Pathfinder pathExplorer){
-        return new Wolf(position,config.getBaseSpeed(),config.getBaseHealth(),config.getAttackPower(),targetExplorer, pathExplorer);
+    private Wolf instantiateWolf (Coordinate position, PredatorConfig config, TargetFinder targetFinder, Pathfinder pathfinder){
+        return new Wolf(position,config.getBaseSpeed(),config.getBaseHealth(),config.getAttackPower(), config.getBaseSatiety(), targetFinder, pathfinder);
     }
 
     private PredatorConfig validateConfig(CreatureConfig config) {

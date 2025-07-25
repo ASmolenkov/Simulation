@@ -1,6 +1,10 @@
 package pathfinding;
 
 import world.*;
+import world.entity.EmptyArea;
+import world.entity.Entity;
+import world.entity.Grass;
+import world.entity.Herbivore;
 
 import java.util.*;
 import java.util.function.BiConsumer;

@@ -4,9 +4,12 @@ import actions.Action;
 import factory.creature.CreatureFactory;
 import factory.creature.RabbitFactory;
 import pathfinding.AStarPathfinder;
-import pathfinding.BFSPathFinder;
 import pathfinding.BFSTargetFinder;
 import world.*;
+import world.entity.EmptyArea;
+import world.entity.Entity;
+import world.entity.Herbivore;
+import world.entity.Rabbit;
 
 import java.util.ArrayList;
 import java.util.Collections;

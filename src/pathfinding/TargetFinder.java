@@ -1,7 +1,7 @@
 package pathfinding;
 
 import world.Coordinate;
-import world.Entity;
+import world.entity.Entity;
 
 import java.util.function.Predicate;
 

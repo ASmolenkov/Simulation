@@ -1,11 +1,10 @@
 package creature.generate;
 
 import world.Coordinate;
-import world.EmptyArea;
+import world.entity.EmptyArea;
 import world.MapWorld;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class EmptyCoordinateFinder implements CoordinateFinder{
     private final Random random;

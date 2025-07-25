@@ -1,7 +1,7 @@
 package actions.turn;
 
 import actions.Action;
-import world.Creature;
+import world.entity.Creature;
 import world.MapWorld;
 
 import java.util.HashMap;

@@ -1,6 +1,6 @@
 package creature.generate;
 
-import world.CreatureType;
+import world.entity.CreatureType;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -3,10 +3,12 @@ package factory.creature;
 public class CreatureConfig {
     protected int baseSpeed;
     protected int baseHealth;
+    protected int baseSatiety;
 
-    public CreatureConfig(int baseSpeed, int baseHealth) {
+    public CreatureConfig(int baseSpeed, int baseHealth, int baseSatiety) {
         this.baseSpeed = baseSpeed;
         this.baseHealth = baseHealth;
+        this.baseSatiety = baseSatiety;
     }
 
     public int getBaseSpeed() {
@@ -17,13 +19,19 @@ public class CreatureConfig {
         return baseHealth;
     }
 
+    public int getBaseSatiety(){
+        return baseSatiety;
+    }
+
     public abstract static class Builder<T extends Builder<T>>{
         protected int speed;
         protected int health;
+        protected int satiety;
 
-        protected Builder(int defaultSpeed, int defaultHealth) {
+        protected Builder(int defaultSpeed, int defaultHealth, int defaultSatiety) {
             this.speed = defaultSpeed;
             this.health = defaultHealth;
+            this.satiety = defaultHealth;
         }
 
         public T setSpeed(int speed){

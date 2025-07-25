@@ -2,6 +2,9 @@ package actions.turn;
 
 import actions.Action;
 import world.*;
+import world.entity.Creature;
+import world.entity.EmptyArea;
+import world.entity.Entity;
 
 import java.util.ArrayList;
 import java.util.List;
