@@ -17,11 +17,6 @@ public abstract class Herbivore extends Creature {
         super(position, speed, health, satiety, targetExplorer, pathExplorer);
 
     }
-    @Override
-    protected Class<? extends Entity> getTargetType(){
-        return Grass.class;
-    }
-
 
     @Override
     public void makeMove(MapWorld mapWorld, List<Coordinate> pathInTarget, Coordinate target){
@@ -41,17 +36,22 @@ public abstract class Herbivore extends Creature {
         }
     }
 
-    protected void eat(MapWorld mapWorld) {
-        this.plusHealth(LIFE_BONUS_FOR_FOOD);
-        this.plusSatiety(SATIETY_BONUS_FOR_FOOD);
-    }
-
     @Override
     public  void plusHealth(int plusHealth) {
         this.health += plusHealth;
         if(this.health > MAX_HEALTH){
             this.health = MAX_HEALTH;
         }
+    }
+
+    @Override
+    protected Class<? extends Entity> getTargetType(){
+        return Grass.class;
+    }
+
+    protected void eat(MapWorld mapWorld) {
+        this.plusHealth(LIFE_BONUS_FOR_FOOD);
+        this.plusSatiety(SATIETY_BONUS_FOR_FOOD);
     }
 }
 

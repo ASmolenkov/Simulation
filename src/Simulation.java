@@ -27,8 +27,7 @@ public class Simulation {
 
     private final MapWorld mapWorld;
     private final SimulationSettings simulationSettings;
-    private int moveCounter;
-    private ConsoleRenderer consoleRenderer;
+    private final ConsoleRenderer consoleRenderer;
     private final List<Action> initActions;
     private final List<Action> turnActions;
 
@@ -36,7 +35,7 @@ public class Simulation {
     private volatile boolean isPaused = false;
     private volatile boolean stepRequested = false;
 
-    public Simulation(MapWorld mapWorld, int moveCounter) {
+    public Simulation(MapWorld mapWorld) {
         this.mapWorld = mapWorld;
         this.simulationSettings = new SimulationSettings(mapWorld);
         this.initActions = new ArrayList<>();
@@ -48,8 +47,6 @@ public class Simulation {
         this.turnActions.add(new MoveCreaturesAction(mapWorld));
         this.turnActions.add(new DeletedDeadCreatureAction(mapWorld));
         this.turnActions.add(new HungerAction(mapWorld));
-        this.moveCounter = moveCounter;
-
         this.consoleRenderer = new ConsoleRenderer();
 
     }
@@ -65,7 +62,6 @@ public class Simulation {
         while (isRunning){
             checkPauseState();
             turn();
-            infoCreature(mapWorld);
             consoleRenderer.render(mapWorld);
             Thread.sleep(TIME_PAUSE);
         }
@@ -128,12 +124,4 @@ public class Simulation {
         }
     }
 
-    private void infoCreature(MapWorld mapWorld){
-        mapWorld.getEntityPositionMap().forEach((coordinate, entity) -> {
-            if(entity instanceof Predator creature){
-                System.out.println("Жизнь " + creature.getClass() + " = " + creature.getHealth());
-                System.out.println("Сытость " + creature.getClass() + " = " + creature.getSatiety());
-            }
-        });
-    }
 }

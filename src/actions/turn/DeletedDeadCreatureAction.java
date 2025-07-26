@@ -26,7 +26,6 @@ public class DeletedDeadCreatureAction implements Action {
             if(entity instanceof Creature creature){
                 if(creature.getHealth() <= 0){
                     deadCreature.add(coordinate);
-                    System.out.println("Добавилось животное в список удаления");
                 }
             }
         });

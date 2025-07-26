@@ -30,13 +30,18 @@ public abstract class Creature extends Entity {
         this.pathfinder = pathfinder;
     }
 
-    public void starve(){
-        this.minusSatiety(1);
-    }
+    public abstract void plusHealth(int plusHealth);
+
+    protected abstract void eat(MapWorld mapWorld);
 
     protected abstract void makeMove(MapWorld mapWorld, List<Coordinate> pathInTarget, Coordinate target);
 
     protected abstract Class<? extends Entity> getTargetType();
+
+    public void starve(){
+        this.minusSatiety(1);
+    }
+
 
     public void findAndMoveToTarget(MapWorld mapWorld){
         Coordinate target = targetFinder.findNearestTarget(this.getPosition(), entity -> getTargetType().isInstance(entity));
@@ -63,7 +68,6 @@ public abstract class Creature extends Entity {
         this.position = newPosition;
     }
 
-
     public void minusSatiety(int satiety) {
         this.satiety -= satiety;
         if(this.satiety < MIN_SATIETY){
@@ -78,16 +82,9 @@ public abstract class Creature extends Entity {
         }
     }
 
-    protected abstract void eat(MapWorld mapWorld);
-
-
-
     public void minusHealth(int health) {
         this.health -= health;
     }
-
-    public abstract void plusHealth(int plusHealth);
-
 
     protected boolean isEntityNearby(MapWorld mapWorld, Coordinate pos, Class<?> entityType) {
         for (int dx = -1; dx <= 1; dx++) {

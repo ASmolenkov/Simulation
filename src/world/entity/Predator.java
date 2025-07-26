@@ -20,16 +20,9 @@ public abstract class Predator extends Creature {
     }
 
     @Override
-    protected Class<? extends Entity> getTargetType(){
-        return Herbivore.class;
-    }
-
-
-    @Override
     public void makeMove(MapWorld mapWorld, List<Coordinate> pathInTarget, Coordinate target){
         if (!pathInTarget.isEmpty() && mapWorld.isWithinBounds(pathInTarget.getFirst())) {
             if (isEntityNearby(mapWorld, position, getTargetType())) {
-                System.out.println("Волк атакует");
                 attack(mapWorld);
                 if(isTargetDied(mapWorld, target)){
                     this.eat(mapWorld);
@@ -52,10 +45,9 @@ public abstract class Predator extends Creature {
         }
     }
 
-    private void attack(MapWorld mapWorld) {
-        Coordinate target = targetFinder.findNearestTarget(this.position,entity -> entity instanceof Herbivore);
-        Creature creature = (Creature) mapWorld.getEntityPositionMap().get(target);
-        creature.minusHealth(attackPower);
+    @Override
+    protected Class<? extends Entity> getTargetType(){
+        return Herbivore.class;
     }
 
     protected void eat(MapWorld mapWorld) {
@@ -63,6 +55,11 @@ public abstract class Predator extends Creature {
         this.plusSatiety(SATIETY_BONUS_FOR_FOOD);
     }
 
+    protected void attack(MapWorld mapWorld) {
+        Coordinate target = targetFinder.findNearestTarget(this.position,entity -> entity instanceof Herbivore);
+        Creature creature = (Creature) mapWorld.getEntityPositionMap().get(target);
+        creature.minusHealth(attackPower);
+    }
 
     private boolean isTargetDied(MapWorld mapWorld, Coordinate target){
         if(mapWorld.getEntityPositionMap().get(target) instanceof Herbivore herbivore){
