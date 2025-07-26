@@ -1,5 +1,7 @@
 package world.entity;
 
+import listener.EventType;
+import listener.SimulationEvent;
 import pathfinding.Pathfinder;
 import pathfinding.TargetFinder;
 import world.Coordinate;
@@ -31,12 +33,6 @@ public abstract class Creature extends Entity {
     }
 
     public abstract void plusHealth(int plusHealth);
-
-    protected abstract void eat(MapWorld mapWorld);
-
-    protected abstract void makeMove(MapWorld mapWorld, List<Coordinate> pathInTarget, Coordinate target);
-
-    protected abstract Class<? extends Entity> getTargetType();
 
     public void starve(){
         this.minusSatiety(1);
@@ -85,6 +81,16 @@ public abstract class Creature extends Entity {
     public void minusHealth(int health) {
         this.health -= health;
     }
+
+    protected void die(MapWorld mapWorld){
+        mapWorld.notifyListeners(new SimulationEvent(EventType.ENTITY_DIED, String.format("%s died at %s", getClass().getSimpleName(), position),this));
+    }
+
+    protected abstract void eat(MapWorld mapWorld);
+
+    protected abstract void makeMove(MapWorld mapWorld, List<Coordinate> pathInTarget, Coordinate target);
+
+    protected abstract Class<? extends Entity> getTargetType();
 
     protected boolean isEntityNearby(MapWorld mapWorld, Coordinate pos, Class<?> entityType) {
         for (int dx = -1; dx <= 1; dx++) {

@@ -1,5 +1,7 @@
 package world.entity;
 
+import listener.EventType;
+import listener.SimulationEvent;
 import pathfinding.Pathfinder;
 import pathfinding.TargetFinder;
 import world.Coordinate;
@@ -60,7 +62,17 @@ public abstract class Predator extends Creature {
         Coordinate target = targetFinder.findNearestTarget(this.position,entity -> entity instanceof Herbivore);
         Creature creature = (Creature) mapWorld.getEntityPositionMap().get(target);
         creature.minusHealth(attackPower);
+        notifyAttack(mapWorld, creature, target);
     }
+
+    protected void notifyAttack(MapWorld world, Creature target, Coordinate targetPosition) {
+        String message = String.format("⚔️ %s attacked %s at %s",
+                getClass().getSimpleName(),
+                target.getClass().getSimpleName(),
+                position);
+        world.notifyListeners(new SimulationEvent(EventType.ATTACK, message, this));
+    }
+
 
 
     private boolean isTargetDied(MapWorld mapWorld, Coordinate target){

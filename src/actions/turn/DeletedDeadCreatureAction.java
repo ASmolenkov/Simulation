@@ -1,6 +1,8 @@
 package actions.turn;
 
 import actions.Action;
+import listener.EventType;
+import listener.SimulationEvent;
 import world.*;
 import world.entity.Creature;
 import world.entity.EmptyArea;
@@ -26,6 +28,7 @@ public class DeletedDeadCreatureAction implements Action {
             if(entity instanceof Creature creature){
                 if(creature.getHealth() <= 0){
                     deadCreature.add(coordinate);
+                    mapWorld.notifyListeners(new SimulationEvent(EventType.ENTITY_DIED, String.format("%s is died ☠️" , creature.getClass().getSimpleName()),creature));
                 }
             }
         });

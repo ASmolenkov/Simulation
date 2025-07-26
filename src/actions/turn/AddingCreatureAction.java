@@ -4,6 +4,8 @@ import actions.Action;
 import factory.creature.CreatureFactory;
 import factory.creature.RabbitFactory;
 import factory.creature.WolfFactory;
+import listener.EventType;
+import listener.SimulationEvent;
 import pathfinding.AStarPathfinder;
 import pathfinding.BFSTargetFinder;
 import world.*;
@@ -14,7 +16,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-public class AddingHerbivoreAction implements Action {
+public class AddingCreatureAction implements Action {
     private static final double TARGET_HERBIVORE_PERCENTAGE = 0.03;
     private static final double TARGET_PREDATOR_PERCENTAGE = 0.02;
     private static final int MAX_REGROWTH_PER_TURN = 1;
@@ -23,7 +25,7 @@ public class AddingHerbivoreAction implements Action {
     private final CreatureFactory<Rabbit> rabbitFactory;
     private final CreatureFactory<Wolf> wolfFactory;
 
-    public AddingHerbivoreAction(MapWorld mapWorld) {
+    public AddingCreatureAction(MapWorld mapWorld) {
         this.mapWorld = mapWorld;
         this.random = new Random();
         this.rabbitFactory = RabbitFactory.withDefaultConfig();
@@ -52,6 +54,7 @@ public class AddingHerbivoreAction implements Action {
         getEmptySpots().stream().limit(amount).forEach(spot ->{
             T creature = creatureFactory.createDefault(spot, new BFSTargetFinder(mapWorld), new AStarPathfinder(mapWorld));
             mapWorld.addEntity(creature);
+            mapWorld.notifyListeners(new SimulationEvent(EventType.ENTITY_SPAWNED, String.format("A new one was born %s", creature.getClass().getSimpleName()),creature));
         });
     }
 

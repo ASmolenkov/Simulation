@@ -1,5 +1,7 @@
 package world.entity;
 
+import listener.EventType;
+import listener.SimulationEvent;
 import pathfinding.Pathfinder;
 import pathfinding.TargetFinder;
 import world.Coordinate;
@@ -24,6 +26,7 @@ public abstract class Herbivore extends Creature {
             if(isEntityNearby(mapWorld, position,getTargetType())){
                 eat(mapWorld);
                 mapWorld.getEntityPositionMap().put(target, new EmptyArea(target));
+                notifyEat(mapWorld,target);
             }
             else if(pathInTarget.size() == 1){
                 mapWorld.updatePosition(this, pathInTarget.getFirst());
@@ -47,6 +50,12 @@ public abstract class Herbivore extends Creature {
     @Override
     protected Class<? extends Entity> getTargetType(){
         return Grass.class;
+    }
+
+    protected void notifyEat(MapWorld world, Coordinate targetPosition) {
+        String message = String.format("🍴 %s eat Grass to %s",
+                getClass().getSimpleName(), targetPosition.toString());
+        world.notifyListeners(new SimulationEvent(EventType.EAT, message, this));
     }
 
     protected void eat(MapWorld mapWorld) {

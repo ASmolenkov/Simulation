@@ -2,11 +2,9 @@ import actions.Action;
 import actions.init.GenerateCreatureAction;
 import actions.init.GenerateLandscapeAction;
 import actions.turn.*;
+import listener.ConsoleLogger;
 import render.ConsoleRenderer;
 import world.MapWorld;
-import world.entity.Creature;
-import world.entity.Predator;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -37,13 +35,14 @@ public class Simulation {
 
     public Simulation(MapWorld mapWorld) {
         this.mapWorld = mapWorld;
+        mapWorld.addListener(new ConsoleLogger());
         this.simulationSettings = new SimulationSettings(mapWorld);
         this.initActions = new ArrayList<>();
         this.initActions.add(new GenerateLandscapeAction(mapWorld));
         this.initActions.add(new GenerateCreatureAction(simulationSettings.getCreatureSpawner()));
         this.turnActions = new ArrayList<>();
         this.turnActions.add(new AddingGrassAction(mapWorld));
-        this.turnActions.add(new AddingHerbivoreAction(mapWorld));
+        this.turnActions.add(new AddingCreatureAction(mapWorld));
         this.turnActions.add(new MoveCreaturesAction(mapWorld));
         this.turnActions.add(new DeletedDeadCreatureAction(mapWorld));
         this.turnActions.add(new HungerAction(mapWorld));

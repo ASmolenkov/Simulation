@@ -1,14 +1,20 @@
 package world;
 
+import listener.EventType;
+import listener.SimulationEvent;
+import listener.SimulationListener;
 import world.entity.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class MapWorld {
     private final int width;
     private final int height;
     private final Map <Coordinate, Entity> entityPositionMap;
+    private final List<SimulationListener> listeners = new ArrayList<>();
 
 
     public MapWorld(int width, int height) {
@@ -19,6 +25,15 @@ public class MapWorld {
         this.height = height;
         entityPositionMap = new HashMap<>();
     }
+
+    public void addListener(SimulationListener listener) {
+        listeners.add(listener);
+    }
+
+    public void notifyListeners(SimulationEvent event){
+        listeners.forEach(l -> l.onEvent(event));
+    }
+
 
     public Map<Coordinate, Entity> getEntityPositionMap() {
         return entityPositionMap;
@@ -63,6 +78,8 @@ public class MapWorld {
         }
         entityPositionMap.put(newPosition, creature);
         creature.setPosition(newPosition);
+
+        notifyListeners(new SimulationEvent(EventType.ENTITY_MOVED, String.format( "➡️ %s moved to %s", creature.getClass().getSimpleName(), newPosition), creature));
     }
 
     public int getCountRabbet(){
