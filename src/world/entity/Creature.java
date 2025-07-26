@@ -17,7 +17,7 @@ public abstract class Creature extends Entity {
     protected final Pathfinder pathfinder;
 
     private final int speed;
-    private int health;
+    protected int health;
     private int satiety;
 
 
@@ -63,6 +63,7 @@ public abstract class Creature extends Entity {
         this.position = newPosition;
     }
 
+
     public void minusSatiety(int satiety) {
         this.satiety -= satiety;
         if(this.satiety < MIN_SATIETY){
@@ -85,13 +86,7 @@ public abstract class Creature extends Entity {
         this.health -= health;
     }
 
-    public void plusHealth(int plusHealth) {
-        if(this.health <= (this.health - 1)){
-            this.health += 1;
-        }
-        this.health += plusHealth;
-
-    }
+    public abstract void plusHealth(int plusHealth);
 
 
     protected boolean isEntityNearby(MapWorld mapWorld, Coordinate pos, Class<?> entityType) {

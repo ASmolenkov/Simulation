@@ -9,7 +9,8 @@ import java.util.*;
 
 public abstract class Predator extends Creature {
     private static final int LIFE_BONUS_FOR_FOOD = 2;
-    private static final int SATIETY_BONUS_FOR_FOOD = 2;
+    private static final int SATIETY_BONUS_FOR_FOOD = 5;
+    private static final int MAX_HEALTH = 10;
 
     private final int attackPower;
 
@@ -40,6 +41,14 @@ public abstract class Predator extends Creature {
             else {
                 mapWorld.updatePosition(this, pathInTarget.get(getSpeed()));
             }
+        }
+    }
+
+    @Override
+    public  void plusHealth(int plusHealth) {
+        this.health += plusHealth;
+        if(this.health > MAX_HEALTH){
+            this.health = MAX_HEALTH;
         }
     }
 
