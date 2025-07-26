@@ -1,12 +1,12 @@
 import actions.Action;
 import actions.init.GenerateCreatureAction;
 import actions.init.GenerateLandscapeAction;
-import actions.turn.AddingGrassAction;
-import actions.turn.AddingHerbivoreAction;
-import actions.turn.DeletedDeadCreatureAction;
-import actions.turn.MoveCreaturesAction;
+import actions.turn.*;
 import render.ConsoleRenderer;
 import world.MapWorld;
+import world.entity.Creature;
+import world.entity.Predator;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -47,6 +47,7 @@ public class Simulation {
         this.turnActions.add(new AddingHerbivoreAction(mapWorld));
         this.turnActions.add(new MoveCreaturesAction(mapWorld));
         this.turnActions.add(new DeletedDeadCreatureAction(mapWorld));
+        this.turnActions.add(new HungerAction(mapWorld));
         this.moveCounter = moveCounter;
 
         this.consoleRenderer = new ConsoleRenderer();
@@ -64,6 +65,7 @@ public class Simulation {
         while (isRunning){
             checkPauseState();
             turn();
+            infoCreature(mapWorld);
             consoleRenderer.render(mapWorld);
             Thread.sleep(TIME_PAUSE);
         }
@@ -124,5 +126,14 @@ public class Simulation {
         if(stepRequested){
             stepRequested = false;
         }
+    }
+
+    private void infoCreature(MapWorld mapWorld){
+        mapWorld.getEntityPositionMap().forEach((coordinate, entity) -> {
+            if(entity instanceof Predator creature){
+                System.out.println("Жизнь " + creature.getClass() + " = " + creature.getHealth());
+                System.out.println("Сытость " + creature.getClass() + " = " + creature.getSatiety());
+            }
+        });
     }
 }

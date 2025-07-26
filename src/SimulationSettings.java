@@ -7,6 +7,10 @@ import factory.creature.RabbitFactory;
 import factory.creature.WolfFactory;
 import pathfinding.*;
 import world.*;
+import world.entity.Creature;
+import world.entity.CreatureType;
+import world.entity.Rabbit;
+import world.entity.Wolf;
 
 import java.util.Random;
 

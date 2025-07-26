@@ -3,13 +3,13 @@ package factory.creature;
 public class HerbivoreConfig extends CreatureConfig {
 
     public HerbivoreConfig(Builder builder) {
-        super(builder.speed, builder.health);
+        super(builder.speed, builder.health, builder.satiety);
     }
 
     public static class Builder extends CreatureConfig.Builder<HerbivoreConfig.Builder>{
 
         public Builder(){
-            super(2,5);
+            super(2,5, 5);
         }
 
         @Override

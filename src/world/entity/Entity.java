@@ -1,4 +1,6 @@
-package world;
+package world.entity;
+
+import world.Coordinate;
 
 public abstract class Entity {
     protected Coordinate position;
@@ -10,8 +12,6 @@ public abstract class Entity {
         return position;
     }
 
-    protected void setPosition(Coordinate newPosition){
-        this.position = newPosition;
-    }
+
 
 }

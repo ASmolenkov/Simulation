@@ -1,7 +1,7 @@
 package pathfinding;
 
 import world.Coordinate;
-import world.Entity;
+import world.entity.Entity;
 import world.MapWorld;
 
 import java.util.concurrent.atomic.AtomicReference;

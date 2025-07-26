@@ -2,8 +2,7 @@ package actions.init;
 
 import actions.Action;
 import creature.generate.CreatureSpawner;
-import world.Creature;
-import world.MapWorld;
+import world.entity.Creature;
 
 public class GenerateCreatureAction implements Action {
     private final CreatureSpawner<Creature> creatureSpawner;

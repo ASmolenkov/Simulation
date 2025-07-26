@@ -1,9 +1,11 @@
 package pathfinding;
 
 import world.*;
+import world.entity.EmptyArea;
+import world.entity.Entity;
+import world.entity.Grass;
 
 import java.util.*;
-import java.util.function.Predicate;
 
 public class AStarPathfinder implements Pathfinder {
     private static final int[][] DIRECTIONS = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};

@@ -2,6 +2,7 @@ package actions.init;
 
 import actions.Action;
 import world.*;
+import world.entity.*;
 
 import java.util.ArrayList;
 import java.util.Collections;

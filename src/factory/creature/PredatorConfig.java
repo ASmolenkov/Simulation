@@ -4,7 +4,7 @@ public class PredatorConfig extends CreatureConfig {
     private int attackPower;
 
     public PredatorConfig(Builder builder) {
-        super(builder.speed, builder.health);
+        super(builder.speed, builder.health, builder.satiety);
         this.attackPower = builder.attackPower;
     }
 
@@ -16,7 +16,7 @@ public class PredatorConfig extends CreatureConfig {
         private int attackPower = 3;
 
         public Builder(){
-            super(1, 10);
+            super(1, 10, 7);
         }
 
         public Builder setAttackPower(int attackPower){

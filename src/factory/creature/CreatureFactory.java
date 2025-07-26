@@ -3,7 +3,7 @@ package factory.creature;
 import pathfinding.Pathfinder;
 import pathfinding.TargetFinder;
 import world.Coordinate;
-import world.Creature;
+import world.entity.Creature;
 
 public interface CreatureFactory <T extends Creature>{
     T createDefault(Coordinate position, TargetFinder targetExplorer, Pathfinder pathExplorer);

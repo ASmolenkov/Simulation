@@ -1,6 +1,7 @@
 package render;
 
 import world.*;
+import world.entity.*;
 
 import java.util.Map;
 

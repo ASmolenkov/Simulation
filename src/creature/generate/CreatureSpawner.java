@@ -4,6 +4,9 @@ import factory.creature.CreatureFactory;
 import pathfinding.Pathfinder;
 import pathfinding.TargetFinder;
 import world.*;
+import world.entity.Creature;
+import world.entity.CreatureType;
+
 import java.util.*;
 
 public class CreatureSpawner<T extends Creature> {
