@@ -54,6 +54,9 @@ public class MapWorld {
         if (creature == null || newPosition == null) {
             throw new IllegalArgumentException("Creature and Coordinate cannot be null");
         }
+        if(!isWithinBounds(newPosition)){
+            return;
+        }
         entityPositionMap.put(creature.getPosition(), new EmptyArea(creature.getPosition()));
         if (entityPositionMap.get(newPosition) instanceof Predator) {
             throw new IllegalStateException("Coordinate " + newPosition + " is already occupied");

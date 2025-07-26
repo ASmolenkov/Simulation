@@ -11,8 +11,4 @@ public abstract class Entity {
         this.position = position;
     }
 
-
-
-
-
 }
