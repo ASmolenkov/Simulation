@@ -15,8 +15,8 @@ public abstract class Herbivore extends Creature {
     private static final int SATIETY_BONUS_FOR_FOOD = 3;
     private static final int MAX_HEALTH = 5;
 
-    public Herbivore(Coordinate position, int speed, int health, int satiety, TargetFinder targetExplorer, Pathfinder pathExplorer) {
-        super(position, speed, health, satiety, targetExplorer, pathExplorer);
+    public Herbivore(Coordinate position, int speed, int health, int satiety, int maxSearchDepth, TargetFinder targetExplorer, Pathfinder pathExplorer) {
+        super(position, speed, health, satiety, maxSearchDepth, targetExplorer, pathExplorer);
 
     }
 
@@ -30,11 +30,9 @@ public abstract class Herbivore extends Creature {
             }
             else if(pathInTarget.size() == 1){
                 mapWorld.updatePosition(this, pathInTarget.getFirst());
-
             }
             else {
                 mapWorld.updatePosition(this, pathInTarget.get(getSpeed()));
-
             }
         }
     }

@@ -4,6 +4,7 @@ import actions.Action;
 import factory.creature.CreatureFactory;
 import factory.creature.RabbitFactory;
 import factory.creature.WolfFactory;
+import listener.ConsoleLogger;
 import listener.EventType;
 import listener.SimulationEvent;
 import pathfinding.AStarPathfinder;
@@ -47,6 +48,7 @@ public class AddingCreatureAction implements Action {
         if (currentCount < targetCount) {
             int toAdd = Math.min(targetCount - currentCount, MAX_REGROWTH_PER_TURN);
             addCreatureInRandomEmptySpots(toAdd, factory);
+
         }
     }
 
@@ -54,7 +56,7 @@ public class AddingCreatureAction implements Action {
         getEmptySpots().stream().limit(amount).forEach(spot ->{
             T creature = creatureFactory.createDefault(spot, new BFSTargetFinder(mapWorld), new AStarPathfinder(mapWorld));
             mapWorld.addEntity(creature);
-            mapWorld.notifyListeners(new SimulationEvent(EventType.ENTITY_SPAWNED, String.format("A new one was born %s", creature.getClass().getSimpleName()),creature));
+            notifyBirth(creature);
         });
     }
 
@@ -73,5 +75,9 @@ public class AddingCreatureAction implements Action {
         });
         Collections.shuffle(emptySpots,random);
         return emptySpots;
+    }
+
+    private void notifyBirth(Creature creature){
+        mapWorld.notifyListeners(new SimulationEvent(EventType.ENTITY_SPAWNED, String.format("🙏 A new one was born %s", creature.getClass().getSimpleName()),creature));
     }
 }

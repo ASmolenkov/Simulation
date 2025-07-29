@@ -18,6 +18,7 @@ public class SimulationSettings {
     private static final double PERCENTAGE_FILL_MAP_WORLD = 0.1;
     private static final double PROBABILITIES_HERBIVORE = 0.7;
     private static final double PROBABILITIES_PREDATOR = 0.3;
+    private static final double MAX_SEARCH_DEPTH_RABBIT = 7;
 
     private final MapWorld mapWorld;
     private final TargetFinder targetExplorer;

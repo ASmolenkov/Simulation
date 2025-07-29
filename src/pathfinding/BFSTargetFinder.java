@@ -1,6 +1,7 @@
 package pathfinding;
 
 import world.Coordinate;
+import world.entity.Creature;
 import world.entity.Entity;
 import world.MapWorld;
 
@@ -14,7 +15,7 @@ public class BFSTargetFinder extends BFSExplorer implements TargetFinder {
     }
 
     @Override
-    public Coordinate findNearestTarget(Coordinate start, Predicate<Entity> targetCondition){
+    public Coordinate findNearestTarget(Creature move, Coordinate start, Predicate<Entity> targetCondition){
         AtomicReference<Coordinate> result = new AtomicReference<>(start);
 
         bfsSearch(start,(current, cameFrom) -> {
@@ -23,7 +24,7 @@ public class BFSTargetFinder extends BFSExplorer implements TargetFinder {
                 result.set(current);
                 throw new BFSExplorer.BFSResultFoundException();
             }
-        }, MAX_SEARCH_DEPTH);
+        }, move.getMaxSearchDepth());
         return result.get();
     }
 }

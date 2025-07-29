@@ -11,12 +11,10 @@ import java.util.Scanner;
 
 
 public class Simulation {
-    private static final String WELCOME = "Welcome to the \"Simulation!\"";
     private static final String COMMAND_STOP = "stop";
     private static final String COMMAND_STEP = "step";
     private static final String COMMAND_CONTINUE = "continue";
     private static final String COMMAND_PAUSE = "pause";
-    private static final String COMMAND_TEMPLATE = "To control the simulation, use the commands: %s, %s, %s, %s. \n";
     private static final String STOPPED_SIMULATION = "Simulation is stopped";
     private static final String PAUSED_SIMULATION_TEMPLATE = "Simulation paused. Enter '%s' or '%s\n";
     private static final String UNKNOWN_COMMAND_TEMPLATE = "Unknown command. Available: %s, %s, %s, %s \n";
@@ -51,8 +49,7 @@ public class Simulation {
     }
 
     public void starSimulation() throws InterruptedException {
-        System.out.println(WELCOME);
-        System.out.printf(COMMAND_TEMPLATE, COMMAND_STOP, COMMAND_PAUSE, COMMAND_CONTINUE, COMMAND_STEP);
+        SimulationWelcomePrint.printWelcome();
 
         startCommandListener();
         init();

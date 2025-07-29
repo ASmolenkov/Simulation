@@ -11,10 +11,10 @@ import java.util.function.BiConsumer;
 
 public class BFSExplorer {
     protected MapWorld mapWorld;
-    protected final static int MAX_SEARCH_DEPTH = Integer.MAX_VALUE;
 
     public BFSExplorer(MapWorld mapWorld) {
         this.mapWorld = mapWorld;
+
     }
 
     protected void bfsSearch(Coordinate start, BiConsumer<Coordinate, Map<Coordinate, Coordinate>> processNode, int maxDepth){
@@ -34,7 +34,7 @@ public class BFSExplorer {
 
                 try {
                     processNode.accept(current, cameFrom);
-                }catch (BFSExplorer.BFSResultFoundException e){
+                }catch (BFSResultFoundException e){
                     return;
                 }
                 for (Coordinate neighbor : getNeighbors(current)) {

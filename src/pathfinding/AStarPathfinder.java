@@ -41,7 +41,7 @@ public class AStarPathfinder implements Pathfinder {
             closetSet.add(current);
 
             for (Node neighbor: getNeighbors(current)){
-                if(closetSet.contains(neighbor) || !canPassThrough(neighbor.getCoordinate(),target)){
+                if(closetSet.contains(neighbor) || !canPassThrough(neighbor.getCoordinate(),target) || !mapWorld.isWithinBounds(neighbor.getCoordinate())){
                     continue;
                 }
 
@@ -87,12 +87,11 @@ public class AStarPathfinder implements Pathfinder {
 
         while (cameFrom.containsKey(current)) {
             current = cameFrom.get(current);
-            path.add(0, current.getCoordinate()); // Добавляем в начало
+            path.addFirst(current.getCoordinate());
         }
         if(!path.isEmpty()){
             path.removeFirst();
         }
-
         return path;
     }
 
@@ -101,7 +100,5 @@ public class AStarPathfinder implements Pathfinder {
         Entity entity = mapWorld.getEntityPositionMap().get(coordinate);
         return coordinate.equals(target) ||  entity == null || entity instanceof EmptyArea || entity instanceof Grass;
     }
-
-
 
 }

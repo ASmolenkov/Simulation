@@ -4,11 +4,13 @@ public class CreatureConfig {
     protected int baseSpeed;
     protected int baseHealth;
     protected int baseSatiety;
+    protected int baseMaxSearchDepth;
 
-    public CreatureConfig(int baseSpeed, int baseHealth, int baseSatiety) {
+    public CreatureConfig(int baseSpeed, int baseHealth, int baseSatiety, int baseMaxSearchDepth) {
         this.baseSpeed = baseSpeed;
         this.baseHealth = baseHealth;
         this.baseSatiety = baseSatiety;
+        this.baseMaxSearchDepth = baseMaxSearchDepth;
     }
 
     public int getBaseSpeed() {
@@ -27,11 +29,13 @@ public class CreatureConfig {
         protected int speed;
         protected int health;
         protected int satiety;
+        protected int maxSearchDepth;
 
-        protected Builder(int defaultSpeed, int defaultHealth, int defaultSatiety) {
+        protected Builder(int defaultSpeed, int defaultHealth, int defaultSatiety, int maxSearchDepth) {
             this.speed = defaultSpeed;
             this.health = defaultHealth;
-            this.satiety = defaultHealth;
+            this.satiety = defaultSatiety;
+            this.maxSearchDepth = maxSearchDepth;
         }
 
         public T setSpeed(int speed){
@@ -46,6 +50,11 @@ public class CreatureConfig {
 
         public T setSatiety(int satiety){
             this.satiety = satiety;
+            return self();
+        }
+
+        public T setMaxSearchDepth (int maxSearchDepth){
+            this.maxSearchDepth = maxSearchDepth;
             return self();
         }
 

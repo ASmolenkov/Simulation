@@ -12,6 +12,7 @@ public class RabbitFactory implements CreatureFactory<Rabbit> {
     private static final int DEFAULT_SPEED = 1;
     private static final int DEFAULT_HEALTH = 5;
     private static final int DEFAULT_SATIETY = 7;
+    private static final int DEFAULT_MAX_SEARCH_DEPTH = 7;
 
 
 
@@ -37,7 +38,7 @@ public class RabbitFactory implements CreatureFactory<Rabbit> {
     }
 
     private Rabbit instantiateRabbit (Coordinate position, HerbivoreConfig config,TargetFinder targetFinder, Pathfinder pathfinder){
-        return new Rabbit(position,config.getBaseSpeed(),config.getBaseHealth(), config.getBaseSatiety(), targetFinder, pathfinder);
+        return new Rabbit(position,config.getBaseSpeed(),config.getBaseHealth(), config.getBaseSatiety(), DEFAULT_MAX_SEARCH_DEPTH, targetFinder, pathfinder);
     }
 
     private HerbivoreConfig validateConfig(CreatureConfig config) {

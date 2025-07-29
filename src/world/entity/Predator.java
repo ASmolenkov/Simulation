@@ -16,8 +16,8 @@ public abstract class Predator extends Creature {
 
     private final int attackPower;
 
-    public Predator(Coordinate position, int speed, int health, int attackPower,  int satiety, TargetFinder targetFinder, Pathfinder pathfinder) {
-        super(position,speed, health, satiety, targetFinder, pathfinder);
+    public Predator(Coordinate position, int speed, int health, int attackPower, int maxSearchDepth,  int satiety, TargetFinder targetFinder, Pathfinder pathfinder) {
+        super(position,speed, health, satiety, maxSearchDepth, targetFinder, pathfinder);
         this.attackPower = attackPower;
     }
 
@@ -59,7 +59,7 @@ public abstract class Predator extends Creature {
     }
 
     protected void attack(MapWorld mapWorld) {
-        Coordinate target = targetFinder.findNearestTarget(this.position,entity -> entity instanceof Herbivore);
+        Coordinate target = targetFinder.findNearestTarget(this, this.position,entity -> entity instanceof Herbivore);
         Creature creature = (Creature) mapWorld.getEntityPositionMap().get(target);
         creature.minusHealth(attackPower);
         notifyAttack(mapWorld, creature, target);

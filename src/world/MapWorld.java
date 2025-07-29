@@ -78,8 +78,7 @@ public class MapWorld {
         }
         entityPositionMap.put(newPosition, creature);
         creature.setPosition(newPosition);
-
-        notifyListeners(new SimulationEvent(EventType.ENTITY_MOVED, String.format( "➡️ %s moved to %s", creature.getClass().getSimpleName(), newPosition), creature));
+        notifyOfMove(creature, newPosition);
     }
 
     public int getCountRabbet(){
@@ -90,6 +89,10 @@ public class MapWorld {
             }
         }
         return countRabbit;
+    }
+
+    private void notifyOfMove(Creature creature, Coordinate newPosition){
+        notifyListeners(new SimulationEvent(EventType.ENTITY_MOVED, String.format( "➡️ %s moved to %s", creature.getClass().getSimpleName(), newPosition), creature));
     }
 
 }

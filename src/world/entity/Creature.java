@@ -18,18 +18,20 @@ public abstract class Creature extends Entity {
     protected final TargetFinder targetFinder;
     protected final Pathfinder pathfinder;
 
+    private final int maxSearchDepth;
     private final int speed;
     protected int health;
     private int satiety;
 
 
-    public Creature(Coordinate position, int speed, int health, int satiety, TargetFinder targetFinder, Pathfinder pathfinder) {
+    public Creature(Coordinate position, int speed, int health, int satiety, int maxSearchDepth, TargetFinder targetFinder, Pathfinder pathfinder) {
         super(position);
         this.speed = speed;
         this.health = health;
         this.satiety = satiety;
         this.targetFinder = targetFinder;
         this.pathfinder = pathfinder;
+        this.maxSearchDepth = maxSearchDepth;
     }
 
     public abstract void plusHealth(int plusHealth);
@@ -40,7 +42,7 @@ public abstract class Creature extends Entity {
 
 
     public void findAndMoveToTarget(MapWorld mapWorld){
-        Coordinate target = targetFinder.findNearestTarget(this.getPosition(), entity -> getTargetType().isInstance(entity));
+        Coordinate target = targetFinder.findNearestTarget(this, this.getPosition(), entity -> getTargetType().isInstance(entity));
         if(target == null || target.equals(this.getPosition())){
             return;
         }
@@ -58,6 +60,10 @@ public abstract class Creature extends Entity {
 
     public int getSatiety() {
         return satiety;
+    }
+
+    public int getMaxSearchDepth() {
+        return maxSearchDepth;
     }
 
     public void setPosition(Coordinate newPosition){
@@ -80,10 +86,6 @@ public abstract class Creature extends Entity {
 
     public void minusHealth(int health) {
         this.health -= health;
-    }
-
-    protected void die(MapWorld mapWorld){
-        mapWorld.notifyListeners(new SimulationEvent(EventType.ENTITY_DIED, String.format("%s died at %s", getClass().getSimpleName(), position),this));
     }
 
     protected abstract void eat(MapWorld mapWorld);
