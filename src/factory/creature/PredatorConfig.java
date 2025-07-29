@@ -12,11 +12,11 @@ public class PredatorConfig extends CreatureConfig {
         return attackPower;
     }
 
-    public static class Builder extends CreatureConfig.Builder<Builder>{
+    public static class Builder extends CreatureConfig.Builder<PredatorConfig.Builder>{
         private int attackPower = 3;
 
         public Builder(){
-            super(1, 10, 7, 10);
+            super(1, 10,5, 10);
         }
 
         public Builder setAttackPower(int attackPower){

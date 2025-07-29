@@ -18,7 +18,7 @@ public abstract class Creature extends Entity {
     protected final TargetFinder targetFinder;
     protected final Pathfinder pathfinder;
 
-    private final int maxSearchDepth;
+    protected final int maxSearchDepth;
     private final int speed;
     protected int health;
     private int satiety;

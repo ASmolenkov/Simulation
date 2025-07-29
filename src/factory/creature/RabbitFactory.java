@@ -12,7 +12,7 @@ public class RabbitFactory implements CreatureFactory<Rabbit> {
     private static final int DEFAULT_SPEED = 1;
     private static final int DEFAULT_HEALTH = 5;
     private static final int DEFAULT_SATIETY = 7;
-    private static final int DEFAULT_MAX_SEARCH_DEPTH = 7;
+    private static final int DEFAULT_MAX_SEARCH_DEPTH = 10;
 
 
 
@@ -21,15 +21,13 @@ public class RabbitFactory implements CreatureFactory<Rabbit> {
     }
 
     public static RabbitFactory withDefaultConfig(){
-        return new RabbitFactory(new HerbivoreConfig.Builder().setSpeed(DEFAULT_SPEED).setHealth(DEFAULT_HEALTH).setSatiety(DEFAULT_SATIETY).build());
+        return new RabbitFactory(new HerbivoreConfig.Builder().setSpeed(DEFAULT_SPEED).setHealth(DEFAULT_HEALTH).setSatiety(DEFAULT_SATIETY).setMaxSearchDepth(DEFAULT_MAX_SEARCH_DEPTH).build());
     }
 
     @Override
     public Rabbit createDefault(Coordinate position, TargetFinder targetExplorer, Pathfinder pathExplorer) {
         return instantiateRabbit(position,defaultConfig,targetExplorer, pathExplorer);
     }
-
-
 
     @Override
     public Rabbit create(Coordinate position, CreatureConfig config, TargetFinder targetFinder, Pathfinder pathfinder) {
@@ -38,7 +36,7 @@ public class RabbitFactory implements CreatureFactory<Rabbit> {
     }
 
     private Rabbit instantiateRabbit (Coordinate position, HerbivoreConfig config,TargetFinder targetFinder, Pathfinder pathfinder){
-        return new Rabbit(position,config.getBaseSpeed(),config.getBaseHealth(), config.getBaseSatiety(), DEFAULT_MAX_SEARCH_DEPTH, targetFinder, pathfinder);
+        return new Rabbit(position,config.getBaseSpeed(),config.getBaseHealth(), config.getBaseSatiety(), config.baseMaxSearchDepth, targetFinder, pathfinder);
     }
 
     private HerbivoreConfig validateConfig(CreatureConfig config) {

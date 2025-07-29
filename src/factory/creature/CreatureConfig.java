@@ -25,17 +25,21 @@ public class CreatureConfig {
         return baseSatiety;
     }
 
+    public int getBaseMaxSearchDepth(){
+        return baseMaxSearchDepth;
+    }
+
     public abstract static class Builder<T extends Builder<T>>{
         protected int speed;
         protected int health;
         protected int satiety;
         protected int maxSearchDepth;
 
-        protected Builder(int defaultSpeed, int defaultHealth, int defaultSatiety, int maxSearchDepth) {
+        protected Builder(int defaultSpeed, int defaultHealth, int defaultSatiety, int defaultMaxSearchDepth) {
             this.speed = defaultSpeed;
             this.health = defaultHealth;
             this.satiety = defaultSatiety;
-            this.maxSearchDepth = maxSearchDepth;
+            this.maxSearchDepth = defaultMaxSearchDepth;
         }
 
         public T setSpeed(int speed){

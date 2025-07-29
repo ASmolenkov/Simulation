@@ -10,10 +10,10 @@ import java.util.List;
 import java.util.Random;
 
 public class GenerateLandscapeAction implements Action {
-    private final static double MAX_LANDSCAPE_PERCENTAGE = 0.15;
-    private final static double ROCK_PROBABILITY = 0.3;
-    private final static double GRASS_PROBABILITY = 0.3;
-    private final static double TREE_PROBABILITY = 0.3;
+    private final static double MAX_LANDSCAPE_PERCENTAGE = 0.19;
+    private final static double ROCK_PROBABILITY = 0.325;
+    private final static double GRASS_PROBABILITY = 0.350;
+    private final static double TREE_PROBABILITY = 0.325;
     private final Random random;
     private final MapWorld mapWorld;
 

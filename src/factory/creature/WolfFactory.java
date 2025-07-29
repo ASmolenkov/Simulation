@@ -13,7 +13,7 @@ public class WolfFactory implements CreatureFactory<Wolf> {
     private static final int DEFAULT_HEALTH = 10;
     private static final int DEFAULT_ATTACK_POWER = 3;
     private static final int DEFAULT_SATIETY = 5;
-    private static final int DEFAULT_MAX_SEARCH_DEPTH = 10;
+    private static final int DEFAULT_MAX_SEARCH_DEPTH = 15;
 
 
     public WolfFactory(PredatorConfig defaultConfig) {
@@ -21,9 +21,8 @@ public class WolfFactory implements CreatureFactory<Wolf> {
     }
 
     public static WolfFactory withDefaultConfig(){
-        return new WolfFactory(new PredatorConfig.Builder().setSpeed(DEFAULT_SPEED).setHealth(DEFAULT_HEALTH).setAttackPower(DEFAULT_ATTACK_POWER).setSatiety(DEFAULT_SATIETY).build());
+        return new WolfFactory(new PredatorConfig.Builder().setSpeed(DEFAULT_SPEED).setHealth(DEFAULT_HEALTH).setAttackPower(DEFAULT_ATTACK_POWER).setSatiety(DEFAULT_SATIETY).setMaxSearchDepth(DEFAULT_MAX_SEARCH_DEPTH).build());
     }
-
 
     @Override
     public Wolf createDefault(Coordinate position, TargetFinder targetExplorer, Pathfinder pathExplorer) {
@@ -37,7 +36,7 @@ public class WolfFactory implements CreatureFactory<Wolf> {
     }
 
     private Wolf instantiateWolf (Coordinate position, PredatorConfig config, TargetFinder targetFinder, Pathfinder pathfinder){
-        return new Wolf(position,config.getBaseSpeed(),config.getBaseHealth(),config.getAttackPower(), config.getBaseSatiety(), DEFAULT_MAX_SEARCH_DEPTH, targetFinder, pathfinder);
+        return new Wolf(position,config.getBaseSpeed(), config.getBaseHealth(), config.getAttackPower(), config.getBaseSatiety(), config.getBaseMaxSearchDepth(), targetFinder, pathfinder);
     }
 
     private PredatorConfig validateConfig(CreatureConfig config) {
