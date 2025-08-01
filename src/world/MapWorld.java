@@ -61,8 +61,8 @@ public class MapWorld {
     }
 
     public boolean isWithinBounds(Coordinate coordinate){
-        return coordinate.getWidth() >= 0 && coordinate.getWidth() <= width &&
-                coordinate.getHeight() >= 0 && coordinate.getHeight() <= height;
+        return coordinate.getWidth() >= 0 && coordinate.getWidth() <= width - 1 &&
+                coordinate.getHeight() >= 0 && coordinate.getHeight() <= height - 1;
     }
 
     public void updatePosition(Creature creature, Coordinate newPosition) {
