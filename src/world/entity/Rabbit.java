@@ -26,13 +26,11 @@ public class Rabbit extends Herbivore {
                 eat(mapWorld);
                 mapWorld.getEntityPositionMap().put(target, new EmptyArea(target));
                 notifyEat(mapWorld,target);
+                return;
             }
-            else if(pathInTarget.size() == 1){
-                mapWorld.updatePosition(this, pathInTarget.getFirst());
-            }
-            else {
-                mapWorld.updatePosition(this, pathInTarget.get(getSpeed()));
-            }
+            int stepsToMove = Math.min(this.getSpeed(), pathInTarget.size());
+
+            movement(this, pathInTarget.get(stepsToMove - 1),mapWorld);
         }
     }
 

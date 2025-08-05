@@ -9,10 +9,10 @@ import java.util.Objects;
 
 public class WolfFactory implements CreatureFactory<Wolf> {
     private final PredatorConfig defaultConfig;
-    private static final int DEFAULT_SPEED = 0;
+    private static final int DEFAULT_SPEED = 1;
     private static final int DEFAULT_HEALTH = 10;
     private static final int DEFAULT_ATTACK_POWER = 3;
-    private static final int DEFAULT_SATIETY = 5;
+    private static final int DEFAULT_SATIETY = 7;
     private static final int DEFAULT_MAX_SEARCH_DEPTH = 15;
 
 

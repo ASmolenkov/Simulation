@@ -8,7 +8,7 @@ import world.MapWorld;
 import java.util.List;
 
 public abstract class Creature extends Entity {
-    private static final int MAX_SATIETY = 10;
+    public static final int MAX_SATIETY = 10;
     private static final int MIN_SATIETY = 0;
     protected static final int MIN_HEALTH = 0;
 
@@ -16,9 +16,10 @@ public abstract class Creature extends Entity {
     protected final Pathfinder pathfinder;
 
     protected final int maxSearchDepth;
-    private final int speed;
+    private int speed;
     protected int health;
     private int satiety;
+    private boolean speedBoosted = false;
 
 
     public Creature(Coordinate position, int speed, int health, int satiety, int maxSearchDepth, TargetFinder targetFinder, Pathfinder pathfinder) {
@@ -82,6 +83,18 @@ public abstract class Creature extends Entity {
         }
     }
 
+    public boolean isSpeedBoosted() {
+        return speedBoosted;
+    }
+
+    public void setSpeedBoosted(boolean speedBoosted) {
+        this.speedBoosted = speedBoosted;
+    }
+
+    public void setTemporarySpeed(int temporarySpeed){
+        this.speed = temporarySpeed;
+    }
+
 
 
     protected abstract void eat(MapWorld mapWorld);
@@ -124,5 +137,6 @@ public abstract class Creature extends Entity {
     private List<Coordinate> findPathToTarget(Coordinate target, MapWorld mapWorld) {
         return pathfinder.findPathToTarget(this.getPosition(), target);
     }
+
 
 }

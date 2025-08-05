@@ -17,7 +17,7 @@ public class Simulation {
     private static final String COMMAND_CONTINUE = "continue";
     private static final String COMMAND_PAUSE = "pause";
     private static final String STOPPED_SIMULATION = "Simulation is stopped";
-    private static final String PAUSED_SIMULATION_TEMPLATE = "Simulation paused. Enter '%s' or '%s\n";
+    private static final String PAUSED_SIMULATION_TEMPLATE = "Simulation paused. Enter '%s' or '%s'\n";
     private static final String UNKNOWN_COMMAND_TEMPLATE = "Unknown command. Available: %s, %s, %s, %s \n";
     private static final int TIME_PAUSE = 3000;
 

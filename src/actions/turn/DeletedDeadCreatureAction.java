@@ -28,10 +28,14 @@ public class DeletedDeadCreatureAction implements Action {
             if(entity instanceof Creature creature){
                 if(creature.getHealth() <= 0){
                     deadCreature.add(coordinate);
-                    mapWorld.notifyListeners(new SimulationEvent(EventType.ENTITY_DIED, String.format("%s is died ☠️" , creature.getClass().getSimpleName()),creature));
+                    notifyDead(creature);
                 }
             }
         });
         deadCreature.forEach(coordinate -> mapWorld.getEntityPositionMap().put(coordinate, new EmptyArea(coordinate)));
+    }
+
+    private void notifyDead(Creature creature){
+        mapWorld.notifyListeners(new SimulationEvent(EventType.ENTITY_DIED, String.format("%s is died ☠️" , creature.getClass().getSimpleName()),creature));
     }
 }

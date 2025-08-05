@@ -7,4 +7,5 @@ public enum EventType {
     ATTACK,
     EAT,
     HUNGER,
+    FULL,
 }
