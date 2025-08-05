@@ -31,6 +31,7 @@ public abstract class Creature extends Entity {
         this.maxSearchDepth = maxSearchDepth;
     }
 
+    public abstract void plusHealth(int plusHealth);
 
     public int getSpeed() {
         return speed;
@@ -52,8 +53,6 @@ public abstract class Creature extends Entity {
         this.position = newPosition;
     }
 
-    public abstract void plusHealth(int plusHealth);
-
     public void minusHealth(int health) {
         this.health -= health;
     }
@@ -63,19 +62,11 @@ public abstract class Creature extends Entity {
     }
 
 
-    public void findAndMoveToTarget(MapWorld mapWorld){
-        Coordinate target = targetFinder.findNearestTarget(this, this.getPosition(), entity -> getTargetType().isInstance(entity));
-
-        if(target == null || target.equals(this.getPosition())){
-            Coordinate freeCell = targetFinder.findFreeCell(this, mapWorld);
-            List<Coordinate> pathToFreeCell = pathfinder.findPathToTarget(this.getPosition(), freeCell);
-            makeMove(mapWorld, pathToFreeCell, freeCell);
-            return;
-        }
-        List<Coordinate> pathToTarget = pathfinder.findPathToTarget(this.getPosition(),target);
-        makeMove(mapWorld, pathToTarget,target);
+    public void performMovementAction(MapWorld mapWorld){
+        Coordinate target = findTarget(mapWorld);
+        List<Coordinate> path = findPathToTarget(target, mapWorld);
+        makeMove(mapWorld, path,target);
     }
-
 
     public void minusSatiety(int satiety) {
         this.satiety -= satiety;
@@ -120,6 +111,18 @@ public abstract class Creature extends Entity {
             }
         }
         return false;
+    }
+
+    private Coordinate findTarget(MapWorld mapWorld) {
+        Coordinate target = targetFinder.findNearestTarget(this, this.getPosition(), entity -> getTargetType().isInstance(entity));
+        if(target == null || target.equals(this.getPosition())){
+            return targetFinder.findFreeCell(this, mapWorld);
+        }
+        return target;
+    }
+
+    private List<Coordinate> findPathToTarget(Coordinate target, MapWorld mapWorld) {
+        return pathfinder.findPathToTarget(this.getPosition(), target);
     }
 
 }

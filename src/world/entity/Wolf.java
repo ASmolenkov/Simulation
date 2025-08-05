@@ -40,10 +40,10 @@ public class Wolf extends Predator {
                 }
             }
             else if(pathInTarget.size() == 1){
-                mapWorld.updatePosition(this, pathInTarget.getFirst());
+                movement(this, pathInTarget.getFirst(), mapWorld);
             }
             else {
-                mapWorld.updatePosition(this, pathInTarget.get(getSpeed()));
+                movement(this, pathInTarget.get(getSpeed()),mapWorld);
             }
         }
     }
