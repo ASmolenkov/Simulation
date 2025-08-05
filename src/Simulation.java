@@ -4,6 +4,7 @@ import actions.init.GenerateLandscapeAction;
 import actions.turn.*;
 import listener.ConsoleLogger;
 import render.ConsoleRenderer;
+import render.SimulationWelcomePrint;
 import world.MapWorld;
 import java.util.ArrayList;
 import java.util.List;

@@ -23,7 +23,7 @@ public abstract class Herbivore extends Creature {
     @Override
     public void makeMove(MapWorld mapWorld, List<Coordinate> pathInTarget, Coordinate target){
         if(!pathInTarget.isEmpty() && mapWorld.isWithinBounds(pathInTarget.getFirst())){
-            if(isEntityNearby(mapWorld, position,getTargetType())){
+            if(isTargetNearby(mapWorld, position,getTargetType())){
                 eat(mapWorld);
                 mapWorld.getEntityPositionMap().put(target, new EmptyArea(target));
                 notifyEat(mapWorld,target);
@@ -50,6 +50,11 @@ public abstract class Herbivore extends Creature {
         return Grass.class;
     }
 
+    @Override
+    protected Class<? extends Entity> getEnemyType(){
+        return Predator.class;
+    }
+
     protected void notifyEat(MapWorld world, Coordinate targetPosition) {
         String message = String.format("🍴 %s eat Grass to %s",
                 getClass().getSimpleName(), targetPosition.toString());
@@ -60,6 +65,13 @@ public abstract class Herbivore extends Creature {
         this.plusHealth(LIFE_BONUS_FOR_FOOD);
         this.plusSatiety(SATIETY_BONUS_FOR_FOOD);
     }
+
+    private boolean isEnemyVisible(){
+        Coordinate enemy = targetFinder.findNearestTarget(this, this.getPosition(), entity -> getEnemyType().isInstance(entity));
+        return enemy != null;
+    }
+
+
 }
 
 

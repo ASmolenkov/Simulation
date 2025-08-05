@@ -26,11 +26,16 @@ public abstract class Predator extends Creature {
         return Herbivore.class;
     }
 
+    @Override
+    protected Class<? extends Entity> getEnemyType(){
+        return Predator.class;
+    }
+
 
     @Override
     public void makeMove(MapWorld mapWorld, List<Coordinate> pathInTarget, Coordinate target){
         if (!pathInTarget.isEmpty() && mapWorld.isWithinBounds(pathInTarget.getFirst())) {
-            if (isEntityNearby(mapWorld, position, getTargetType())) {
+            if (isTargetNearby(mapWorld, position, getTargetType())) {
                 attack(mapWorld);
                 if(isTargetDied(mapWorld, target)){
                     this.eat(mapWorld);
@@ -72,8 +77,6 @@ public abstract class Predator extends Creature {
                 position);
         world.notifyListeners(new SimulationEvent(EventType.ATTACK, message, this));
     }
-
-
 
     private boolean isTargetDied(MapWorld mapWorld, Coordinate target){
         if(mapWorld.getEntityPositionMap().get(target) instanceof Herbivore herbivore){

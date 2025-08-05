@@ -1,3 +1,5 @@
+package render;
+
 public class SimulationWelcomePrint {
     private static final String WELCOME = "    Welcome to the \"Simulation\"!    ";
     private static final String CONTROL_SIMULATION = " To control the simulation, use the:";

@@ -2,9 +2,13 @@ package pathfinding;
 
 import world.Coordinate;
 import world.entity.Creature;
+import world.entity.EmptyArea;
 import world.entity.Entity;
 import world.MapWorld;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Predicate;
 
@@ -27,4 +31,26 @@ public class BFSTargetFinder extends BFSExplorer implements TargetFinder {
         }, move.getMaxSearchDepth());
         return result.get();
     }
+
+    @Override
+    public Coordinate findFreeCell(Creature move, MapWorld mapWorld){
+        Random random = new Random();
+        List<Coordinate> freeCells = new ArrayList<>();
+        for (int i = 0; i < move.getMaxSearchDepth(); i++) {
+            for (int j = 0; j < move.getMaxSearchDepth(); j++) {
+                Coordinate coordinate = new Coordinate(move.getPosition().getWidth() + i, move.getPosition().getHeight() + j);
+                if(move.getPosition().equals(coordinate)){
+                    continue;
+                }
+                if(mapWorld.isWithinBounds(coordinate) && mapWorld.getEntityPositionMap().get(coordinate) instanceof EmptyArea){
+                    freeCells.add(coordinate);
+                }
+            }
+        }
+        if(freeCells.isEmpty()){
+            return move.getPosition();
+        }
+        return freeCells.get(random.nextInt(freeCells.size()));
+    }
+
 }
