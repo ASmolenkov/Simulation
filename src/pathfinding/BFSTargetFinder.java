@@ -52,4 +52,5 @@ public class BFSTargetFinder extends BFSExplorer implements TargetFinder {
         }
         return freeCells.get(random.nextInt(freeCells.size()));
     }
+
 }

@@ -78,8 +78,6 @@ public abstract class Predator extends Creature {
         world.notifyListeners(new SimulationEvent(EventType.ATTACK, message, this));
     }
 
-
-
     private boolean isTargetDied(MapWorld mapWorld, Coordinate target){
         if(mapWorld.getEntityPositionMap().get(target) instanceof Herbivore herbivore){
             return herbivore.getHealth() <= MIN_HEALTH;
