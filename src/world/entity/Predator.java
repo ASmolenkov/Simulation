@@ -21,11 +21,8 @@ public abstract class Predator extends Creature {
 
     protected abstract void attack(MapWorld mapWorld);
 
-    protected boolean isTargetDied(MapWorld mapWorld, Coordinate target){
-        if(mapWorld.getEntityPositionMap().get(target) instanceof Creature creature){
-            return creature.getHealth() <= MIN_HEALTH;
-        }
-        return false;
+    protected boolean isTargetDied(Creature creature){
+        return creature.getHealth() <= MIN_HEALTH;
     }
 
 }

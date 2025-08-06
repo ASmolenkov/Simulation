@@ -35,7 +35,7 @@ public class Wolf extends Predator {
         if (!pathInTarget.isEmpty() && mapWorld.isWithinBounds(pathInTarget.getFirst())) {
             if (isTargetNearby(mapWorld, position, getTargetType())) {
                 attack(mapWorld);
-                if(isTargetDied(mapWorld, target)){
+                if(isTargetDied((Creature) mapWorld.getEntityPositionMap().get(target))){
                     this.eat(mapWorld);
 
                 }
