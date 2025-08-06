@@ -8,6 +8,8 @@ import world.entity.Rabbit;
 import java.util.Objects;
 
 public class RabbitFactory implements CreatureFactory<Rabbit> {
+    private static final String REQUIRES_HERBIVORE_CONFIG = "Requires HerbivoreConfig";
+
     private final HerbivoreConfig defaultConfig;
     private static final int DEFAULT_SPEED = 2;
     private static final int DEFAULT_HEALTH = 5;
@@ -41,7 +43,7 @@ public class RabbitFactory implements CreatureFactory<Rabbit> {
 
     private HerbivoreConfig validateConfig(CreatureConfig config) {
         if (!(config instanceof HerbivoreConfig)) {
-            throw new IllegalArgumentException("Requires PredatorConfig");
+            throw new IllegalArgumentException(REQUIRES_HERBIVORE_CONFIG);
         }
         return (HerbivoreConfig) config;
     }

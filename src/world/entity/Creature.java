@@ -114,8 +114,8 @@ public abstract class Creature extends Entity {
             for (int dy = -1; dy <= 1; dy++) {
                 if (dx == 0 && dy == 0) continue;
                 Coordinate neighbor = new Coordinate(
-                        pos.getWidth() + dx,
-                        pos.getHeight() + dy
+                        pos.width() + dx,
+                        pos.height() + dy
                 );
                 Entity entity = mapWorld.getEntityPositionMap().get(neighbor);
                 if (entityType.isInstance(entity)) {

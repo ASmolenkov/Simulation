@@ -8,10 +8,5 @@ public class Grass extends LandScape {
         super(position);
     }
 
-    @Override
-    public String toString() {
-        return "Grass{" +
-                "position=" + position +
-                '}';
-    }
+
 }

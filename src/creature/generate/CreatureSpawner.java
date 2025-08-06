@@ -10,6 +10,9 @@ import world.entity.CreatureType;
 import java.util.*;
 
 public class CreatureSpawner<T extends Creature> {
+    private static final String NO_FACTORY = "No factory registered for type: ";
+    private static final String NO_FREE_PLACES = "No factory registered for type: ";
+
     private final MapWorld mapWorld;
     private final Random random;
     private final CoordinateFinder emptyCoordinatesFinder;
@@ -41,7 +44,7 @@ public class CreatureSpawner<T extends Creature> {
 
     private void validateFactoryExists(CreatureType creatureType){
         if(!factories.containsKey(creatureType)){
-            throw new IllegalStateException("No factory registered for type: " + creatureType);
+            throw new IllegalStateException(NO_FACTORY + creatureType);
         }
     }
 
@@ -62,7 +65,7 @@ public class CreatureSpawner<T extends Creature> {
 
     private void ensureSpawnPossible() {
         if (!emptyCoordinatesFinder.hasEmptyCoordinates()) {
-            throw new IllegalStateException("There are no free places for creatures to spawn.");
+            throw new IllegalStateException(NO_FREE_PLACES);
         }
     }
 }

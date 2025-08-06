@@ -1,6 +1,8 @@
 package actions.turn;
 
 import actions.Action;
+import listener.EventType;
+import listener.SimulationEvent;
 import world.*;
 import world.entity.EmptyArea;
 import world.entity.Entity;
@@ -25,6 +27,7 @@ public class AddingGrassAction implements Action {
     @Override
     public void perform() {
         regrowGrass();
+
     }
 
     private void regrowGrass(){
@@ -62,6 +65,7 @@ public class AddingGrassAction implements Action {
                 break;
             }
             mapWorld.addEntity(new Grass(spot));
+            mapWorld.notifyListeners(new SimulationEvent(EventType.GRASS_GROWING, String.format("🌿 the grass is growing %s", spot)));
             added++;
         }
     }

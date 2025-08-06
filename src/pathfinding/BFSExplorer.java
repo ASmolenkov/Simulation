@@ -10,6 +10,8 @@ import java.util.*;
 import java.util.function.BiConsumer;
 
 public class BFSExplorer {
+    private static final String TARGET_FOUND = "BFS: Target found, early exit";
+
     protected MapWorld mapWorld;
 
     public BFSExplorer(MapWorld mapWorld) {
@@ -64,8 +66,8 @@ public class BFSExplorer {
         List<Coordinate> neighbors = new ArrayList<>();
 
         for (int[] dir : directions){
-            int newX = coordinate.getWidth() + dir[0];
-            int newY = coordinate.getHeight() + dir[1];
+            int newX = coordinate.width() + dir[0];
+            int newY = coordinate.height() + dir[1];
             Coordinate neighbor = new Coordinate(newX, newY);
 
             if(mapWorld.isWithinBounds(neighbor)){
@@ -82,7 +84,7 @@ public class BFSExplorer {
 
     protected static class BFSResultFoundException extends RuntimeException {
         public BFSResultFoundException() {
-            super("BFS: Target found, early exit");
+            super(TARGET_FOUND);
         }
     }
 }

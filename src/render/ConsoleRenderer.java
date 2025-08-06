@@ -9,7 +9,7 @@ public class ConsoleRenderer implements Renderer {
 
     private static final String WOLF_SPRITE = "🐺";
     private static final String RABBIT_SPRITE = "🐇";
-    private static final String GRASS_SPRITE = "🌱";
+    private static final String GRASS_SPRITE = "🌿";
     private static final String ROCK_SPRITE = "🗻";
     private static final String TREE_SPRITE = "🌳";
     private static final String EMPTY_AREA_SPRITE = "🟫";

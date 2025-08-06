@@ -8,10 +8,4 @@ public class EmptyArea extends LandScape {
         super(position);
     }
 
-    @Override
-    public String toString() {
-        return "EmptyArea{" +
-                "position=" + position +
-                '}';
-    }
 }

@@ -1,13 +1,10 @@
 package world.entity;
 
-import listener.EventType;
-import listener.SimulationEvent;
 import pathfinding.Pathfinder;
 import pathfinding.TargetFinder;
 import world.Coordinate;
 import world.MapWorld;
 
-import java.util.*;
 
 public abstract class Predator extends Creature {
 

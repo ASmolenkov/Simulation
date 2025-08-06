@@ -8,6 +8,8 @@ import world.entity.Wolf;
 import java.util.Objects;
 
 public class WolfFactory implements CreatureFactory<Wolf> {
+    private static final String REQUIRES_PREDATOR_CONFIG = "Requires PredatorConfig";
+
     private final PredatorConfig defaultConfig;
     private static final int DEFAULT_SPEED = 1;
     private static final int DEFAULT_HEALTH = 10;
@@ -41,7 +43,7 @@ public class WolfFactory implements CreatureFactory<Wolf> {
 
     private PredatorConfig validateConfig(CreatureConfig config) {
         if (!(config instanceof PredatorConfig)) {
-            throw new IllegalArgumentException("Requires PredatorConfig");
+            throw new IllegalArgumentException(REQUIRES_PREDATOR_CONFIG);
         }
         return (PredatorConfig) config;
     }

@@ -9,6 +9,8 @@ import world.entity.Creature;
 public class HungerAction implements Action {
     private static final int HUNGRY = Creature.MAX_SATIETY / 2;
     private static final int CHANGE_OF_SPEED = 1;
+    private static final String CREATURE_HUNGRY_TEMPLATE = "😧 %s hungry and walks faster!";
+    private static final String CREATURE_EAT_FILL_TEMPLATE = "😌 %s ate his fill and calmed down";
     private final MapWorld mapWorld;
 
     public HungerAction(MapWorld mapWorld) {
@@ -44,10 +46,10 @@ public class HungerAction implements Action {
     }
 
     private void notifyHungry(Creature creature){
-        mapWorld.notifyListeners(new SimulationEvent(EventType.HUNGER,String.format("😧" + creature.getClass().getSimpleName() + " hungry and walks faster!"),creature));
+        mapWorld.notifyListeners(new SimulationEvent(EventType.HUNGER,String.format(CREATURE_HUNGRY_TEMPLATE, creature.getClass().getSimpleName()),creature));
     }
 
     private void notifyEat(Creature creature){
-        mapWorld.notifyListeners(new SimulationEvent(EventType.FULL,String.format("😌" + creature.getClass().getSimpleName() + " ate his fill and calmed down"),creature));
+        mapWorld.notifyListeners(new SimulationEvent(EventType.FULL_EAT,String.format(CREATURE_EAT_FILL_TEMPLATE, creature.getClass().getSimpleName()),creature));
     }
 }

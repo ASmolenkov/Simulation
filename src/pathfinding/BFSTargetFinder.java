@@ -38,7 +38,7 @@ public class BFSTargetFinder extends BFSExplorer implements TargetFinder {
         List<Coordinate> freeCells = new ArrayList<>();
         for (int i = 0; i < move.getMaxSearchDepth(); i++) {
             for (int j = 0; j < move.getMaxSearchDepth(); j++) {
-                Coordinate coordinate = new Coordinate(move.getPosition().getWidth() + i, move.getPosition().getHeight() + j);
+                Coordinate coordinate = new Coordinate(move.getPosition().width() + i, move.getPosition().height() + j);
                 if(move.getPosition().equals(coordinate)){
                     continue;
                 }

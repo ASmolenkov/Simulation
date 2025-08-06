@@ -65,14 +65,14 @@ public class AStarPathfinder implements Pathfinder {
     }
 
     private double heuristic (Coordinate a, Coordinate b){
-        return Math.abs(a.getWidth() - b.getWidth()) + Math.abs(a.getHeight() - b.getHeight());
+        return Math.abs(a.width() - b.width()) + Math.abs(a.height() - b.height());
     }
 
     private List<Node> getNeighbors(Node node){
         List<Node> neighbors = new ArrayList<>();
         for (int dir[]: DIRECTIONS){
-            int newX = node.getCoordinate().getWidth() + dir[0];
-            int newY = node.getCoordinate().getHeight() + dir[1];
+            int newX = node.getCoordinate().width() + dir[0];
+            int newY = node.getCoordinate().height() + dir[1];
             Coordinate newCoordinate = new Coordinate(newX, newY);
             if(mapWorld.isWithinBounds(newCoordinate)){
                 neighbors.add(new Node(newCoordinate));
