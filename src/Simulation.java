@@ -3,6 +3,7 @@ import actions.init.GenerateCreatureAction;
 import actions.init.GenerateLandscapeAction;
 import actions.turn.*;
 import listener.ConsoleLogger;
+import listener.FinalInfo;
 import render.ConsoleRenderer;
 import render.SimulationWelcomePrint;
 import world.MapWorld;
@@ -21,7 +22,7 @@ public class Simulation {
     private static final String UNKNOWN_COMMAND_TEMPLATE = "Unknown command. Available: %s, %s, %s, %s \n";
     private static final int TIME_PAUSE = 3000;
 
-
+    private final FinalInfo finalInfo = new FinalInfo();
     private final MapWorld mapWorld;
     private final SimulationSettings simulationSettings;
     private final ConsoleRenderer consoleRenderer;
@@ -35,6 +36,7 @@ public class Simulation {
     public Simulation(MapWorld mapWorld) {
         this.mapWorld = mapWorld;
         mapWorld.addListener(new ConsoleLogger());
+        mapWorld.addListener(finalInfo);
         this.simulationSettings = new SimulationSettings(mapWorld);
         this.initActions = new ArrayList<>();
         this.initActions.add(new GenerateLandscapeAction(mapWorld));
@@ -81,6 +83,7 @@ public class Simulation {
                 switch (command){
                     case COMMAND_STOP:
                         isRunning = false;
+                        finalInfo.printFinalInfo();
                         break;
                     case COMMAND_PAUSE:
                         isPaused = true;

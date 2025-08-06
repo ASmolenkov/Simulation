@@ -32,9 +32,7 @@ public class Wolf extends Predator {
 
     @Override
     public void makeMove(MapWorld mapWorld, List<Coordinate> pathInTarget, Coordinate target){
-
         if (!pathInTarget.isEmpty() && mapWorld.isWithinBounds(pathInTarget.getFirst())) {
-
             if (isTargetNearby(mapWorld, position, getTargetType())) {
                 attack(mapWorld);
                 if(isTargetDied(mapWorld, target)){

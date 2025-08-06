@@ -36,6 +36,6 @@ public class DeletedDeadCreatureAction implements Action {
     }
 
     private void notifyDead(Creature creature){
-        mapWorld.notifyListeners(new SimulationEvent(EventType.ENTITY_DIED, String.format("%s is died ☠️" , creature.getClass().getSimpleName()),creature));
+        mapWorld.notifyListeners(new SimulationEvent(EventType.ENTITY_DIED, String.format("☠️ %s is died " , creature.getClass().getSimpleName()),creature));
     }
 }

@@ -2,6 +2,7 @@ package actions.turn;
 
 import actions.Action;
 import listener.EventType;
+import listener.FinalInfo;
 import listener.SimulationEvent;
 import world.*;
 import world.entity.EmptyArea;
