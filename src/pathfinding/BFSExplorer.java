@@ -9,7 +9,8 @@ import java.util.*;
 import java.util.function.BiConsumer;
 
 public class BFSExplorer {
-    private static final String TARGET_FOUND = "BFS: Target found, early exit";
+
+    private static final int[][] DIRECTIONS = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
 
     protected WorldMap worldMap;
 
@@ -61,10 +62,9 @@ public class BFSExplorer {
     }
 
     private List<Coordinate> getNeighbors(Coordinate coordinate) {
-        int [][] directions = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
         List<Coordinate> neighbors = new ArrayList<>();
 
-        for (int[] dir : directions){
+        for (int[] dir : DIRECTIONS){
             int newX = coordinate.width() + dir[0];
             int newY = coordinate.height() + dir[1];
             Coordinate neighbor = new Coordinate(newX, newY);
@@ -82,6 +82,7 @@ public class BFSExplorer {
     }
 
     protected static class BFSResultFoundException extends RuntimeException {
+        private static final String TARGET_FOUND = "BFS: Target found, early exit";
         public BFSResultFoundException() {
             super(TARGET_FOUND);
         }
