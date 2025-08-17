@@ -8,11 +8,11 @@ import listener.EventType;
 import listener.SimulationEvent;
 import pathfinding.AStarPathfinder;
 import pathfinding.BFSTargetFinder;
+import util.FindListEmptyCoordinates;
 import world.*;
 import world.entity.*;
 
-import java.util.ArrayList;
-import java.util.Collections;
+
 import java.util.List;
 import java.util.Random;
 
@@ -66,14 +66,7 @@ public class AddingCreatureAction implements Action {
     }
 
     private List<Coordinate> getEmptySpots(){
-        List<Coordinate> emptySpots = new ArrayList<>();
-        worldMap.getEntityPosition().forEach((coordinate, entity) -> {
-            if (entity instanceof EmptyArea){
-                emptySpots.add(coordinate);
-            }
-        });
-        Collections.shuffle(emptySpots,random);
-        return emptySpots;
+        return FindListEmptyCoordinates.getEmptyCoordinates(worldMap);
     }
 
     private void notifyBirth(Creature creature){

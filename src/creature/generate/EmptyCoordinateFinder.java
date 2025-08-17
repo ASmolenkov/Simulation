@@ -1,7 +1,7 @@
 package creature.generate;
 
+import util.FindListEmptyCoordinates;
 import world.Coordinate;
-import world.entity.EmptyArea;
 import world.WorldMap;
 
 import java.util.*;
@@ -20,10 +20,7 @@ public class EmptyCoordinateFinder implements CoordinateFinder{
 
     @Override
     public Coordinate findRandomEmptyCoordinate() throws IllegalStateException {
-        List<Coordinate> emptyPosition = worldMap.getEntityPosition().entrySet().stream().
-                filter(entry -> entry.getValue() instanceof EmptyArea).
-                filter(entry ->
-                !occupiedCache.contains(entry.getKey())).map(Map.Entry::getKey).toList();
+        List<Coordinate> emptyPosition = FindListEmptyCoordinates.getEmptyCoordinates(worldMap);
         if(emptyPosition.isEmpty()){
             throw new IllegalStateException(NO_FREE_COORDINATES);
         }
@@ -32,7 +29,8 @@ public class EmptyCoordinateFinder implements CoordinateFinder{
 
     @Override
     public boolean hasEmptyCoordinates() {
-        return worldMap.getEntityPosition().values().stream().anyMatch(entity -> entity instanceof EmptyArea);
+        List<Coordinate> emptyCoordinates = FindListEmptyCoordinates.getEmptyCoordinates(worldMap);
+        return emptyCoordinates.isEmpty();
     }
 
     @Override

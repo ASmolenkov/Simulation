@@ -58,6 +58,9 @@ public class WorldMap {
     public void addEntity(Entity entity){
         entityPosition.put(entity.getPosition(),entity);
     }
+    public void subEntity(Coordinate coordinate){
+        entityPosition.remove(coordinate);
+    }
 
 
     public boolean isPositionAvailable(Coordinate position){
@@ -76,7 +79,7 @@ public class WorldMap {
         if(!isWithinBounds(newPosition)){
             return;
         }
-        entityPosition.put(creature.getPosition(), new EmptyArea(creature.getPosition()));
+        entityPosition.remove(creature.getPosition());
         if (entityPosition.get(newPosition) instanceof Predator) {
             throw new IllegalStateException(String.format(EXCEPTION_COORDINATE_OCCUPIED_TEMPLATE, newPosition) );
         }

@@ -24,7 +24,7 @@ public class Rabbit extends Herbivore {
         if(!pathInTarget.isEmpty() && worldMap.isWithinBounds(pathInTarget.getFirst())){
             if(isTargetNearby(worldMap, position,getTargetType())){
                 eat(worldMap);
-                worldMap.getEntityPosition().put(target, new EmptyArea(target));
+                worldMap.subEntity(target);
                 notifyEat(worldMap,target);
                 return;
             }

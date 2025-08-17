@@ -1,7 +1,6 @@
 package pathfinding;
 
 import world.*;
-import world.entity.EmptyArea;
 import world.entity.Entity;
 import world.entity.Grass;
 
@@ -98,7 +97,7 @@ public class AStarPathfinder implements Pathfinder {
     private boolean canPassThrough(Coordinate coordinate, Coordinate target) {
         // Общая проверка проходимости
         Entity entity = worldMap.getEntityPosition().get(coordinate);
-        return coordinate.equals(target) ||  entity == null || entity instanceof EmptyArea || entity instanceof Grass;
+        return coordinate.equals(target) ||  entity == null || entity instanceof Grass;
     }
 
 }

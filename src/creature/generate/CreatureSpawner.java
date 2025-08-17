@@ -11,7 +11,7 @@ import java.util.*;
 
 public class CreatureSpawner<T extends Creature> {
     private static final String NO_FACTORY = "No factory registered for type: ";
-    private static final String NO_FREE_PLACES = "No factory registered for type: ";
+    private static final String NO_FREE_PLACES = "There are no available coordinates";
 
     private final WorldMap worldMap;
     private final Random random;
@@ -64,7 +64,7 @@ public class CreatureSpawner<T extends Creature> {
     }
 
     private void ensureSpawnPossible() {
-        if (!emptyCoordinatesFinder.hasEmptyCoordinates()) {
+        if (emptyCoordinatesFinder.hasEmptyCoordinates()) {
             throw new IllegalStateException(NO_FREE_PLACES);
         }
     }

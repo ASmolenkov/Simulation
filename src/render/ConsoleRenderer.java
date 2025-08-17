@@ -15,7 +15,7 @@ public class ConsoleRenderer implements Renderer {
     private static final String EMPTY_AREA_SPRITE = "🟫";
 
     private static final Map<Class<? extends Entity>, String> SPRITES = Map.of(Wolf.class, WOLF_SPRITE, Rabbit.class,RABBIT_SPRITE,
-            Grass.class,GRASS_SPRITE, Rock.class, ROCK_SPRITE, Tree.class, TREE_SPRITE, EmptyArea.class, EMPTY_AREA_SPRITE);
+            Grass.class,GRASS_SPRITE, Rock.class, ROCK_SPRITE, Tree.class, TREE_SPRITE);
 
     @Override
     public void render(WorldMap worldMap)  {
@@ -31,9 +31,16 @@ public class ConsoleRenderer implements Renderer {
     }
 
     private void printSprite(Entity entity){
-        String sprite = SPRITES.getOrDefault(entity.getClass(),EMPTY_AREA_SPRITE);
-        System.out.print(sprite);
+        switch (entity) {
+            case null -> System.out.print(EMPTY_AREA_SPRITE);
+            case Wolf wolf -> System.out.print(WOLF_SPRITE);
+            case Rabbit rabbit -> System.out.print(RABBIT_SPRITE);
+            case Rock rock -> System.out.print(ROCK_SPRITE);
+            case Tree tree -> System.out.print(TREE_SPRITE);
+            case Grass grass -> System.out.print(GRASS_SPRITE);
+            default -> {
+            }
+        }
     }
-
 
 }

@@ -3,25 +3,20 @@ package actions.turn;
 import actions.Action;
 import listener.EventType;
 import listener.SimulationEvent;
+import util.FindListEmptyCoordinates;
 import world.*;
-import world.entity.EmptyArea;
 import world.entity.Entity;
 import world.entity.Grass;
-
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Random;
+
 
 public class AddingGrassAction implements Action {
     private final WorldMap worldMap;
-    private final Random random;
     private static final double TARGET_GRASS_PERCENTAGE = 0.05;
     private static final int MAX_REGROWTH_PER_TURN = 5;
 
     public AddingGrassAction(WorldMap worldMap) {
         this.worldMap = worldMap;
-        this.random = new Random();
     }
 
     @Override
@@ -52,13 +47,7 @@ public class AddingGrassAction implements Action {
     }
 
     private void addGrassInRandomEmptySpots(int amount){
-        List<Coordinate> emptySpots = new ArrayList<>();
-        worldMap.getEntityPosition().forEach((coordinate, entity) -> {
-            if(entity instanceof EmptyArea){
-                emptySpots.add(coordinate);
-            }
-        });
-        Collections.shuffle(emptySpots, random);
+        List<Coordinate> emptySpots = FindListEmptyCoordinates.getEmptyCoordinates(worldMap);
         int added = 0;
         for (Coordinate spot: emptySpots){
             if(added >= amount){

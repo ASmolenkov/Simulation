@@ -1,7 +1,6 @@
 package pathfinding;
 
 import world.*;
-import world.entity.EmptyArea;
 import world.entity.Entity;
 import world.entity.Grass;
 import world.entity.Herbivore;
@@ -79,7 +78,7 @@ public class BFSExplorer {
 
     private boolean canPassThrough(Coordinate coordinate) {
         Entity entity = worldMap.getEntityPosition().get(coordinate);
-        return entity == null || entity instanceof EmptyArea || entity instanceof Grass || entity instanceof Herbivore;
+        return entity == null || entity instanceof Grass || entity instanceof Herbivore;
     }
 
     protected static class BFSResultFoundException extends RuntimeException {
