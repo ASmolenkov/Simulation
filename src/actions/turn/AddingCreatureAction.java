@@ -8,7 +8,7 @@ import listener.EventType;
 import listener.SimulationEvent;
 import pathfinding.AStarPathfinder;
 import pathfinding.BFSTargetFinder;
-import util.FindListEmptyCoordinates;
+import util.WorldMapUtils;
 import world.*;
 import world.entity.*;
 
@@ -42,7 +42,7 @@ public class AddingCreatureAction implements Action {
 
     private <T extends Creature> void addCreaturesByType(Class<T> creatureType, double targetPercentage, CreatureFactory<T> factory) {
         int currentCount = getCreatureCount(creatureType);
-        int targetCount = (int) (worldMap.getSize() * targetPercentage);
+        int targetCount = (int) (WorldMapUtils.getSizeMap(worldMap) * targetPercentage);
 
         if (currentCount < targetCount) {
             int toAdd = Math.min(targetCount - currentCount, MAX_REGROWTH_PER_TURN);
@@ -66,7 +66,7 @@ public class AddingCreatureAction implements Action {
     }
 
     private List<Coordinate> getEmptySpots(){
-        return FindListEmptyCoordinates.getEmptyCoordinates(worldMap);
+        return WorldMapUtils.getEmptyCoordinates(worldMap);
     }
 
     private void notifyBirth(Creature creature){

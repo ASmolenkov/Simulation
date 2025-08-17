@@ -3,6 +3,7 @@ package creature.generate;
 import factory.creature.CreatureFactory;
 import pathfinding.Pathfinder;
 import pathfinding.TargetFinder;
+import util.WorldMapUtils;
 import world.*;
 import world.entity.Creature;
 import world.entity.CreatureType;
@@ -38,7 +39,7 @@ public class CreatureSpawner<T extends Creature> {
 
     public void spawnCreatures(){
         ensureSpawnPossible();
-        Map<CreatureType, Integer> creatureCounts = countCalculator.calculateCounts(worldMap.getSize());
+        Map<CreatureType, Integer> creatureCounts = countCalculator.calculateCounts(WorldMapUtils.getSizeMap(worldMap));
         creatureCounts.forEach(this::spawnCreaturesOfType);
     }
 

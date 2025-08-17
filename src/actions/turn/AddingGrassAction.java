@@ -3,7 +3,7 @@ package actions.turn;
 import actions.Action;
 import listener.EventType;
 import listener.SimulationEvent;
-import util.FindListEmptyCoordinates;
+import util.WorldMapUtils;
 import world.*;
 import world.entity.Entity;
 import world.entity.Grass;
@@ -27,7 +27,7 @@ public class AddingGrassAction implements Action {
 
     private void regrowGrass(){
         int currentGrassCount = currentAmountGrassToMapWorld();
-        int totalCells = worldMap.getSize();
+        int totalCells = WorldMapUtils.getSizeMap(worldMap);
         int targetGrassCount = (int) (totalCells * TARGET_GRASS_PERCENTAGE);
 
         if(currentGrassCount < targetGrassCount){
@@ -47,7 +47,7 @@ public class AddingGrassAction implements Action {
     }
 
     private void addGrassInRandomEmptySpots(int amount){
-        List<Coordinate> emptySpots = FindListEmptyCoordinates.getEmptyCoordinates(worldMap);
+        List<Coordinate> emptySpots = WorldMapUtils.getEmptyCoordinates(worldMap);
         int added = 0;
         for (Coordinate spot: emptySpots){
             if(added >= amount){

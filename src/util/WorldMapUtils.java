@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class FindListEmptyCoordinates {
+public class WorldMapUtils {
 
     public static List<Coordinate> getEmptyCoordinates(WorldMap worldMap){
         List<Coordinate> emptyCoordinates = new ArrayList<>();

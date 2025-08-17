@@ -47,10 +47,6 @@ public class WorldMap {
         return height;
     }
 
-    public int getSize(){
-        return width * height;
-    }
-
     public Entity getEntity(Coordinate coordinate){
        return entityPosition.get(coordinate);
     }
