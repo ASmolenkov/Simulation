@@ -14,6 +14,7 @@ public class WorldMap {
     private static final String EXCEPTION_SIZE_MAP = "The width and height of the map cannot be less than 10";
     private static final String EXCEPTION_NULL = "Creature and Coordinate cannot be null";
     private static final String EXCEPTION_COORDINATE_OCCUPIED_TEMPLATE = "Coordinate %s is already occupied";
+    private static final String EXCEPTION_COORDINATE_GOES_BEYOND_MAP_TEMPLATE = "Coordinate %s goes beyond the map";
 
     private final int width;
     private final int height;
@@ -58,6 +59,9 @@ public class WorldMap {
         entityPosition.put(entity.getPosition(),entity);
     }
     public void subEntity(Coordinate coordinate){
+        if(!isWithinBounds(coordinate)){
+            throw new IllegalArgumentException(String.format(EXCEPTION_COORDINATE_GOES_BEYOND_MAP_TEMPLATE, coordinate));
+        }
         entityPosition.remove(coordinate);
     }
 
@@ -67,6 +71,9 @@ public class WorldMap {
 
 
     public boolean isPositionAvailable(Coordinate position){
+        if(!isWithinBounds(position)){
+            throw new IllegalArgumentException(String.format(EXCEPTION_COORDINATE_GOES_BEYOND_MAP_TEMPLATE, position));
+        }
         return !entityPosition.containsKey(position);
     }
 

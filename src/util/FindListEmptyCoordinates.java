@@ -21,6 +21,10 @@ public class FindListEmptyCoordinates {
         Collections.shuffle(emptyCoordinates);
         return emptyCoordinates;
     }
+
+    public static int getSizeMap(WorldMap worldMap){
+        return worldMap.getHeight() * worldMap.getWidth();
+    }
 }
 
 
