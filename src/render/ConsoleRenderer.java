@@ -38,7 +38,7 @@ public class ConsoleRenderer implements Renderer {
             case Rock rock -> System.out.print(ROCK_SPRITE);
             case Tree tree -> System.out.print(TREE_SPRITE);
             case Grass grass -> System.out.print(GRASS_SPRITE);
-            default -> {
+            default -> { throw new IllegalStateException("Unknown entity!");
             }
         }
     }

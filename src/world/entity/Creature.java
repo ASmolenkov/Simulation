@@ -32,6 +32,7 @@ public abstract class Creature extends Entity {
         this.maxSearchDepth = maxSearchDepth;
     }
 
+
     public abstract void plusHealth(int plusHealth);
 
     public int getSpeed() {

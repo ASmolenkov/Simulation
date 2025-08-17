@@ -42,6 +42,10 @@ public class Rabbit extends Herbivore {
         }
     }
 
+    public int getMaxHealth(){
+        return MAX_HEALTH;
+    }
+
     @Override
     protected Class<? extends Entity> getTargetType(){
         return Grass.class;

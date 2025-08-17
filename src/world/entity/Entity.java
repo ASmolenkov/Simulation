@@ -7,7 +7,7 @@ public abstract class Entity {
     protected Entity(Coordinate position) {
         this.position = position;
     }
-    public final Coordinate getPosition() {
+    public Coordinate getPosition() {
         return position;
     }
 }

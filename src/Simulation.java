@@ -13,12 +13,12 @@ import java.util.Scanner;
 
 
 public class Simulation {
-    private static final String COMMAND_STOP = "stop";
-    private static final String COMMAND_STEP = "step";
-    private static final String COMMAND_CONTINUE = "continue";
-    private static final String COMMAND_PAUSE = "pause";
+    private static final String COMMAND_STOP = "1";
+    private static final String COMMAND_STEP = "4";
+    private static final String COMMAND_CONTINUE = "2";
+    private static final String COMMAND_PAUSE = "3";
     private static final String STOPPED_SIMULATION = "Simulation is stopped";
-    private static final String PAUSED_SIMULATION_TEMPLATE = "Simulation paused. Enter '%s' or '%s'\n";
+    private static final String PAUSED_SIMULATION_TEMPLATE = "Simulation paused. Enter '%s' to continue or '%s' to take one step.\n";
     private static final String UNKNOWN_COMMAND_TEMPLATE = "Unknown command. Available: %s, %s, %s, %s \n";
     private static final int TIME_PAUSE = 3000;
 
@@ -28,6 +28,7 @@ public class Simulation {
     private final ConsoleRenderer consoleRenderer;
     private final List<Action> initActions;
     private final List<Action> turnActions;
+    private final Scanner scanner = new Scanner(System.in);
 
     private volatile boolean isRunning = true;
     private volatile boolean isPaused = false;
@@ -53,18 +54,26 @@ public class Simulation {
 
     public void starSimulation() throws InterruptedException {
         SimulationWelcomePrint.printWelcome();
-
-        startCommandListener();
-        init();
-        consoleRenderer.render(worldMap);
-
-        while (isRunning){
-            checkPauseState();
-            turn();
+        System.out.println("Начать симуляцию? 1 - Да, 2 - Нет");
+        String inputUser = scanner.nextLine();
+        if(inputUser.equals("1")){
+            startCommandListener();
+            init();
             consoleRenderer.render(worldMap);
-            Thread.sleep(TIME_PAUSE);
+
+            while (isRunning){
+                checkPauseState();
+                turn();
+                consoleRenderer.render(worldMap);
+                Thread.sleep(TIME_PAUSE);
+            }
+            System.out.println(STOPPED_SIMULATION);
         }
-        System.out.println(STOPPED_SIMULATION);
+        else if(inputUser.equals("2")){
+            isRunning = false;
+        }
+
+
     }
 
     private void init() {
