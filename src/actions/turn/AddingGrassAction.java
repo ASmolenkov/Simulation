@@ -38,7 +38,7 @@ public class AddingGrassAction implements Action {
 
     private int currentAmountGrassToMapWorld(){
         int count = 0;
-        for (Entity entity: worldMap.getEntityPosition().values()){
+        for (Entity entity: worldMap.getAllEntity()){
             if(entity instanceof Grass){
                 count++;
             }

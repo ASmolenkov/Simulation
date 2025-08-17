@@ -35,7 +35,7 @@ public class Wolf extends Predator {
         if (!pathInTarget.isEmpty() && worldMap.isWithinBounds(pathInTarget.getFirst())) {
             if (isTargetNearby(worldMap, position, getTargetType())) {
                 attack(worldMap);
-                if(isTargetDied((Creature) worldMap.getEntityPosition().get(target))){
+                if(isTargetDied((Creature) worldMap.getEntity(target))){
                     this.eat(worldMap);
 
                 }
@@ -61,7 +61,7 @@ public class Wolf extends Predator {
     @Override
     protected void attack(WorldMap worldMap) {
         Coordinate target = targetFinder.findNearestTarget(this, this.position,entity -> entity instanceof Herbivore);
-        Creature creature = (Creature) worldMap.getEntityPosition().get(target);
+        Creature creature = (Creature) worldMap.getEntity(target);
         creature.minusHealth(this.getAttackPower());
         notifyAttack(worldMap, creature, target);
     }

@@ -117,7 +117,7 @@ public abstract class Creature extends Entity {
                         pos.width() + dx,
                         pos.height() + dy
                 );
-                Entity entity = worldMap.getEntityPosition().get(neighbor);
+                Entity entity = worldMap.getEntity(neighbor);
                 if (entityType.isInstance(entity)) {
                     return true;
                 }

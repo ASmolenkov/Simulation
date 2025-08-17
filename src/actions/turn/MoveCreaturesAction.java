@@ -15,7 +15,7 @@ public class MoveCreaturesAction  implements Action {
 
     @Override
     public void perform() {
-      new HashMap<>(worldMap.getEntityPosition()).forEach((coordinate, entity) -> {
+      worldMap.getAllEntity().forEach(( entity) -> {
             if (entity instanceof Creature creature){
                 creature.performMovementAction(worldMap);
             }

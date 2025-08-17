@@ -77,7 +77,7 @@ public class BFSExplorer {
     }
 
     private boolean canPassThrough(Coordinate coordinate) {
-        Entity entity = worldMap.getEntityPosition().get(coordinate);
+        Entity entity = worldMap.getEntity(coordinate);
         return entity == null || entity instanceof Grass || entity instanceof Herbivore;
     }
 

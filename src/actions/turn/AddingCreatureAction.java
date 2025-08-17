@@ -60,7 +60,7 @@ public class AddingCreatureAction implements Action {
     }
 
     private <T extends Creature> int getCreatureCount(Class<T> creatureType) {
-        return (int) worldMap.getEntityPosition().values().stream()
+        return (int) worldMap.getAllEntity().stream()
                 .filter(creatureType::isInstance)
                 .count();
     }

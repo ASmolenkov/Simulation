@@ -22,7 +22,7 @@ public class ConsoleRenderer implements Renderer {
         for (int y = 0; y < worldMap.getHeight(); y++) {
             for (int x = 0; x < worldMap.getWidth(); x++) {
                 Coordinate coordinate = new Coordinate(x,y);
-                Entity entity = worldMap.getEntityPosition().get(coordinate);
+                Entity entity = worldMap.getEntity(coordinate);
                 printSprite(entity);
             }
             System.out.println();

@@ -21,11 +21,11 @@ public class DeletedDeadCreatureAction implements Action {
     @Override
     public void perform() {
         List<Coordinate> deadCreature = new ArrayList<>();
-        Map<Coordinate, Entity> world = worldMap.getEntityPosition();
-        world.forEach((coordinate, entity) -> {
+        List<Entity> entities = worldMap.getAllEntity();
+        entities.forEach((entity) -> {
             if(entity instanceof Creature creature){
                 if(creature.getHealth() <= 0){
-                    deadCreature.add(coordinate);
+                    deadCreature.add(creature.getPosition());
                     notifyDead(creature);
                 }
             }

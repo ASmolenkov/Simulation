@@ -19,7 +19,7 @@ public class HungerAction implements Action {
 
     @Override
     public void perform() {
-        worldMap.getEntityPosition().forEach((coordinate, entity) -> {
+        worldMap.getAllEntity().forEach(( entity) -> {
             if(entity instanceof Creature creature){
                 applyHungerEffects(creature);
             }

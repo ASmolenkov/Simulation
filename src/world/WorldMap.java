@@ -38,11 +38,6 @@ public class WorldMap {
         listeners.forEach(l -> l.onEvent(event));
     }
 
-
-    public Map<Coordinate, Entity> getEntityPosition() {
-        return entityPosition;
-    }
-
     public int getWidth() {
         return width;
     }
@@ -55,11 +50,19 @@ public class WorldMap {
         return width * height;
     }
 
+    public Entity getEntity(Coordinate coordinate){
+       return entityPosition.get(coordinate);
+    }
+
     public void addEntity(Entity entity){
         entityPosition.put(entity.getPosition(),entity);
     }
     public void subEntity(Coordinate coordinate){
         entityPosition.remove(coordinate);
+    }
+
+    public List<Entity> getAllEntity(){
+        return new ArrayList<>(entityPosition.values());
     }
 
 

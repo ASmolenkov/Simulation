@@ -3,6 +3,7 @@ package pathfinding;
 import world.*;
 import world.entity.Entity;
 import world.entity.Grass;
+import world.entity.Predator;
 
 import java.util.*;
 
@@ -96,7 +97,7 @@ public class AStarPathfinder implements Pathfinder {
 
     private boolean canPassThrough(Coordinate coordinate, Coordinate target) {
         // Общая проверка проходимости
-        Entity entity = worldMap.getEntityPosition().get(coordinate);
+        Entity entity = worldMap.getEntity(coordinate);
         return coordinate.equals(target) ||  entity == null || entity instanceof Grass;
     }
 

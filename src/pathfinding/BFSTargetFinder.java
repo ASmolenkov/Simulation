@@ -21,7 +21,7 @@ public class BFSTargetFinder extends BFSExplorer implements TargetFinder {
         AtomicReference<Coordinate> result = new AtomicReference<>(start);
 
         bfsSearch(start,(current, cameFrom) -> {
-            Entity entity = worldMap.getEntityPosition().get(current);
+            Entity entity = worldMap.getEntity(current);
             if(targetCondition.test(entity)){
                 result.set(current);
                 throw new BFSExplorer.BFSResultFoundException();
