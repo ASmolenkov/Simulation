@@ -3,7 +3,7 @@ package world.entity;
 import pathfinding.Pathfinder;
 import pathfinding.TargetFinder;
 import world.Coordinate;
-import world.MapWorld;
+import world.WorldMap;
 
 
 public abstract class Predator extends Creature {
@@ -19,7 +19,7 @@ public abstract class Predator extends Creature {
         return attackPower;
     }
 
-    protected abstract void attack(MapWorld mapWorld);
+    protected abstract void attack(WorldMap worldMap);
 
     protected boolean isTargetDied(Creature creature){
         return creature.getHealth() <= MIN_HEALTH;

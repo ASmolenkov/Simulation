@@ -13,7 +13,7 @@ public class CreatureSpawner<T extends Creature> {
     private static final String NO_FACTORY = "No factory registered for type: ";
     private static final String NO_FREE_PLACES = "No factory registered for type: ";
 
-    private final MapWorld mapWorld;
+    private final WorldMap worldMap;
     private final Random random;
     private final CoordinateFinder emptyCoordinatesFinder;
     private final CreatureCountCalculator countCalculator;
@@ -22,8 +22,8 @@ public class CreatureSpawner<T extends Creature> {
     private final Pathfinder pathExplorer;
 
 
-    public CreatureSpawner(MapWorld mapWorld, Random random, CoordinateFinder emptyCoordinatesFinder, CreatureCountCalculator countCalculator, TargetFinder targetExplorer, Pathfinder pathExplorer) {
-        this.mapWorld = mapWorld ;
+    public CreatureSpawner(WorldMap worldMap, Random random, CoordinateFinder emptyCoordinatesFinder, CreatureCountCalculator countCalculator, TargetFinder targetExplorer, Pathfinder pathExplorer) {
+        this.worldMap = worldMap;
         this.emptyCoordinatesFinder = emptyCoordinatesFinder;
         this.countCalculator = countCalculator;
         this.factories = new HashMap<>();
@@ -38,7 +38,7 @@ public class CreatureSpawner<T extends Creature> {
 
     public void spawnCreatures(){
         ensureSpawnPossible();
-        Map<CreatureType, Integer> creatureCounts = countCalculator.calculateCounts(mapWorld.getSize());
+        Map<CreatureType, Integer> creatureCounts = countCalculator.calculateCounts(worldMap.getSize());
         creatureCounts.forEach(this::spawnCreaturesOfType);
     }
 
@@ -52,7 +52,7 @@ public class CreatureSpawner<T extends Creature> {
         Coordinate position = emptyCoordinatesFinder.findRandomEmptyCoordinate();
         CreatureFactory<? extends T> factory = factories.get(creatureType);
         T creature = factory.createDefault(position, targetExplorer, pathExplorer);
-        mapWorld.addEntity(creature);
+        worldMap.addEntity(creature);
         emptyCoordinatesFinder.markPositionAsOccupied(position);
     }
 

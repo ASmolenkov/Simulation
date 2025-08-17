@@ -18,11 +18,11 @@ public class ConsoleRenderer implements Renderer {
             Grass.class,GRASS_SPRITE, Rock.class, ROCK_SPRITE, Tree.class, TREE_SPRITE, EmptyArea.class, EMPTY_AREA_SPRITE);
 
     @Override
-    public void render(MapWorld mapWorld)  {
-        for (int y = 0; y < mapWorld.getHeight(); y++) {
-            for (int x = 0; x < mapWorld.getWidth(); x++) {
+    public void render(WorldMap worldMap)  {
+        for (int y = 0; y < worldMap.getHeight(); y++) {
+            for (int x = 0; x < worldMap.getWidth(); x++) {
                 Coordinate coordinate = new Coordinate(x,y);
-                Entity entity = mapWorld.getEntityPositionMap().get(coordinate);
+                Entity entity = worldMap.getEntityPosition().get(coordinate);
                 printSprite(entity);
             }
             System.out.println();

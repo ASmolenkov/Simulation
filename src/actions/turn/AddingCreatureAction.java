@@ -4,7 +4,6 @@ import actions.Action;
 import factory.creature.CreatureFactory;
 import factory.creature.RabbitFactory;
 import factory.creature.WolfFactory;
-import listener.ConsoleLogger;
 import listener.EventType;
 import listener.SimulationEvent;
 import pathfinding.AStarPathfinder;
@@ -21,13 +20,13 @@ public class AddingCreatureAction implements Action {
     private static final double TARGET_HERBIVORE_PERCENTAGE = 0.03;
     private static final double TARGET_PREDATOR_PERCENTAGE = 0.02;
     private static final int MAX_REGROWTH_PER_TURN = 1;
-    private final MapWorld mapWorld;
+    private final WorldMap worldMap;
     private final Random random;
     private final CreatureFactory<Rabbit> rabbitFactory;
     private final CreatureFactory<Wolf> wolfFactory;
 
-    public AddingCreatureAction(MapWorld mapWorld) {
-        this.mapWorld = mapWorld;
+    public AddingCreatureAction(WorldMap worldMap) {
+        this.worldMap = worldMap;
         this.random = new Random();
         this.rabbitFactory = RabbitFactory.withDefaultConfig();
         this.wolfFactory = WolfFactory.withDefaultConfig();
@@ -43,7 +42,7 @@ public class AddingCreatureAction implements Action {
 
     private <T extends Creature> void addCreaturesByType(Class<T> creatureType, double targetPercentage, CreatureFactory<T> factory) {
         int currentCount = getCreatureCount(creatureType);
-        int targetCount = (int) (mapWorld.getSize() * targetPercentage);
+        int targetCount = (int) (worldMap.getSize() * targetPercentage);
 
         if (currentCount < targetCount) {
             int toAdd = Math.min(targetCount - currentCount, MAX_REGROWTH_PER_TURN);
@@ -54,21 +53,21 @@ public class AddingCreatureAction implements Action {
 
     private <T extends Creature> void addCreatureInRandomEmptySpots(int amount, CreatureFactory<T> creatureFactory) {
         getEmptySpots().stream().limit(amount).forEach(spot ->{
-            T creature = creatureFactory.createDefault(spot, new BFSTargetFinder(mapWorld), new AStarPathfinder(mapWorld));
-            mapWorld.addEntity(creature);
+            T creature = creatureFactory.createDefault(spot, new BFSTargetFinder(worldMap), new AStarPathfinder(worldMap));
+            worldMap.addEntity(creature);
             notifyBirth(creature);
         });
     }
 
     private <T extends Creature> int getCreatureCount(Class<T> creatureType) {
-        return (int) mapWorld.getEntityPositionMap().values().stream()
+        return (int) worldMap.getEntityPosition().values().stream()
                 .filter(creatureType::isInstance)
                 .count();
     }
 
     private List<Coordinate> getEmptySpots(){
         List<Coordinate> emptySpots = new ArrayList<>();
-        mapWorld.getEntityPositionMap().forEach((coordinate, entity) -> {
+        worldMap.getEntityPosition().forEach((coordinate, entity) -> {
             if (entity instanceof EmptyArea){
                 emptySpots.add(coordinate);
             }
@@ -78,6 +77,6 @@ public class AddingCreatureAction implements Action {
     }
 
     private void notifyBirth(Creature creature){
-        mapWorld.notifyListeners(new SimulationEvent(EventType.ENTITY_SPAWNED, String.format("🙏 A new one was born %s", creature.getClass().getSimpleName()),creature));
+        worldMap.notifyListeners(new SimulationEvent(EventType.ENTITY_SPAWNED, String.format("🙏 A new one was born %s", creature.getClass().getSimpleName()),creature));
     }
 }

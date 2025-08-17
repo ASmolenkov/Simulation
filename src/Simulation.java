@@ -6,7 +6,7 @@ import listener.ConsoleLogger;
 import listener.FinalInfo;
 import render.ConsoleRenderer;
 import render.SimulationWelcomePrint;
-import world.MapWorld;
+import world.WorldMap;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -23,7 +23,7 @@ public class Simulation {
     private static final int TIME_PAUSE = 3000;
 
     private final FinalInfo finalInfo = new FinalInfo();
-    private final MapWorld mapWorld;
+    private final WorldMap worldMap;
     private final SimulationSettings simulationSettings;
     private final ConsoleRenderer consoleRenderer;
     private final List<Action> initActions;
@@ -33,20 +33,20 @@ public class Simulation {
     private volatile boolean isPaused = false;
     private volatile boolean stepRequested = false;
 
-    public Simulation(MapWorld mapWorld) {
-        this.mapWorld = mapWorld;
-        mapWorld.addListener(new ConsoleLogger());
-        mapWorld.addListener(finalInfo);
-        this.simulationSettings = new SimulationSettings(mapWorld);
+    public Simulation(WorldMap worldMap) {
+        this.worldMap = worldMap;
+        worldMap.addListener(new ConsoleLogger());
+        worldMap.addListener(finalInfo);
+        this.simulationSettings = new SimulationSettings(worldMap);
         this.initActions = new ArrayList<>();
-        this.initActions.add(new GenerateLandscapeAction(mapWorld));
+        this.initActions.add(new GenerateLandscapeAction(worldMap));
         this.initActions.add(new GenerateCreatureAction(simulationSettings.getCreatureSpawner()));
         this.turnActions = new ArrayList<>();
-        this.turnActions.add(new AddingGrassAction(mapWorld));
-        this.turnActions.add(new AddingCreatureAction(mapWorld));
-        this.turnActions.add(new MoveCreaturesAction(mapWorld));
-        this.turnActions.add(new DeletedDeadCreatureAction(mapWorld));
-        this.turnActions.add(new HungerAction(mapWorld));
+        this.turnActions.add(new AddingGrassAction(worldMap));
+        this.turnActions.add(new AddingCreatureAction(worldMap));
+        this.turnActions.add(new MoveCreaturesAction(worldMap));
+        this.turnActions.add(new DeletedDeadCreatureAction(worldMap));
+        this.turnActions.add(new HungerAction(worldMap));
         this.consoleRenderer = new ConsoleRenderer();
 
     }
@@ -56,12 +56,12 @@ public class Simulation {
 
         startCommandListener();
         init();
-        consoleRenderer.render(mapWorld);
+        consoleRenderer.render(worldMap);
 
         while (isRunning){
             checkPauseState();
             turn();
-            consoleRenderer.render(mapWorld);
+            consoleRenderer.render(worldMap);
             Thread.sleep(TIME_PAUSE);
         }
         System.out.println(STOPPED_SIMULATION);

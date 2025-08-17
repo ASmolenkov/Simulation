@@ -4,7 +4,7 @@ import world.Coordinate;
 import world.entity.Creature;
 import world.entity.EmptyArea;
 import world.entity.Entity;
-import world.MapWorld;
+import world.WorldMap;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,8 +14,8 @@ import java.util.function.Predicate;
 
 public class BFSTargetFinder extends BFSExplorer implements TargetFinder {
 
-    public BFSTargetFinder(MapWorld mapWorld) {
-        super(mapWorld);
+    public BFSTargetFinder(WorldMap worldMap) {
+        super(worldMap);
     }
 
     @Override
@@ -23,7 +23,7 @@ public class BFSTargetFinder extends BFSExplorer implements TargetFinder {
         AtomicReference<Coordinate> result = new AtomicReference<>(start);
 
         bfsSearch(start,(current, cameFrom) -> {
-            Entity entity = mapWorld.getEntityPositionMap().get(current);
+            Entity entity = worldMap.getEntityPosition().get(current);
             if(targetCondition.test(entity)){
                 result.set(current);
                 throw new BFSExplorer.BFSResultFoundException();
@@ -33,7 +33,7 @@ public class BFSTargetFinder extends BFSExplorer implements TargetFinder {
     }
 
     @Override
-    public Coordinate findFreeCell(Creature move, MapWorld mapWorld){
+    public Coordinate findFreeCell(Creature move, WorldMap worldMap){
         Random random = new Random();
         List<Coordinate> freeCells = new ArrayList<>();
         for (int i = 0; i < move.getMaxSearchDepth(); i++) {
@@ -42,7 +42,7 @@ public class BFSTargetFinder extends BFSExplorer implements TargetFinder {
                 if(move.getPosition().equals(coordinate)){
                     continue;
                 }
-                if(mapWorld.isWithinBounds(coordinate) && mapWorld.getEntityPositionMap().get(coordinate) instanceof EmptyArea){
+                if(worldMap.isWithinBounds(coordinate) && worldMap.getEntityPosition().get(coordinate) instanceof EmptyArea){
                     freeCells.add(coordinate);
                 }
             }

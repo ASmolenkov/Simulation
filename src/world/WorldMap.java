@@ -10,24 +10,24 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MapWorld {
+public class WorldMap {
     private static final String EXCEPTION_SIZE_MAP = "The width and height of the map cannot be less than 10";
     private static final String EXCEPTION_NULL = "Creature and Coordinate cannot be null";
     private static final String EXCEPTION_COORDINATE_OCCUPIED_TEMPLATE = "Coordinate %s is already occupied";
 
     private final int width;
     private final int height;
-    private final Map <Coordinate, Entity> entityPositionMap;
+    private final Map <Coordinate, Entity> entityPosition;
     private final List<SimulationListener> listeners = new ArrayList<>();
 
 
-    public MapWorld(int width, int height) {
+    public WorldMap(int width, int height) {
         if (width < 10 || height < 10) {
             throw new IllegalArgumentException(EXCEPTION_SIZE_MAP);
         }
         this.width = width;
         this.height = height;
-        entityPositionMap = new HashMap<>();
+        entityPosition = new HashMap<>();
     }
 
     public void addListener(SimulationListener listener) {
@@ -39,8 +39,8 @@ public class MapWorld {
     }
 
 
-    public Map<Coordinate, Entity> getEntityPositionMap() {
-        return entityPositionMap;
+    public Map<Coordinate, Entity> getEntityPosition() {
+        return entityPosition;
     }
 
     public int getWidth() {
@@ -56,12 +56,12 @@ public class MapWorld {
     }
 
     public void addEntity(Entity entity){
-        entityPositionMap.put(entity.getPosition(),entity);
+        entityPosition.put(entity.getPosition(),entity);
     }
 
 
     public boolean isPositionAvailable(Coordinate position){
-        return !entityPositionMap.containsKey(position);
+        return !entityPosition.containsKey(position);
     }
 
     public boolean isWithinBounds(Coordinate coordinate){
@@ -76,11 +76,11 @@ public class MapWorld {
         if(!isWithinBounds(newPosition)){
             return;
         }
-        entityPositionMap.put(creature.getPosition(), new EmptyArea(creature.getPosition()));
-        if (entityPositionMap.get(newPosition) instanceof Predator) {
+        entityPosition.put(creature.getPosition(), new EmptyArea(creature.getPosition()));
+        if (entityPosition.get(newPosition) instanceof Predator) {
             throw new IllegalStateException(String.format(EXCEPTION_COORDINATE_OCCUPIED_TEMPLATE, newPosition) );
         }
-        entityPositionMap.put(newPosition, creature);
+        entityPosition.put(newPosition, creature);
         creature.setPosition(newPosition);
         notifyOfMove(creature, newPosition);
     }

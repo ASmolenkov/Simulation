@@ -14,16 +14,16 @@ import java.util.Map;
 
 public class DeletedDeadCreatureAction implements Action {
 
-    private final MapWorld mapWorld;
+    private final WorldMap worldMap;
 
-    public DeletedDeadCreatureAction(MapWorld mapWorld) {
-        this.mapWorld = mapWorld;
+    public DeletedDeadCreatureAction(WorldMap worldMap) {
+        this.worldMap = worldMap;
     }
 
     @Override
     public void perform() {
         List<Coordinate> deadCreature = new ArrayList<>();
-        Map<Coordinate, Entity> world = mapWorld.getEntityPositionMap();
+        Map<Coordinate, Entity> world = worldMap.getEntityPosition();
         world.forEach((coordinate, entity) -> {
             if(entity instanceof Creature creature){
                 if(creature.getHealth() <= 0){
@@ -32,10 +32,10 @@ public class DeletedDeadCreatureAction implements Action {
                 }
             }
         });
-        deadCreature.forEach(coordinate -> mapWorld.getEntityPositionMap().put(coordinate, new EmptyArea(coordinate)));
+        deadCreature.forEach(coordinate -> worldMap.getEntityPosition().put(coordinate, new EmptyArea(coordinate)));
     }
 
     private void notifyDead(Creature creature){
-        mapWorld.notifyListeners(new SimulationEvent(EventType.ENTITY_DIED, String.format("☠️ %s is died " , creature.getClass().getSimpleName()),creature));
+        worldMap.notifyListeners(new SimulationEvent(EventType.ENTITY_DIED, String.format("☠️ %s is died " , creature.getClass().getSimpleName()),creature));
     }
 }

@@ -2,22 +2,22 @@ package actions.turn;
 
 import actions.Action;
 import world.entity.Creature;
-import world.MapWorld;
+import world.WorldMap;
 
 import java.util.HashMap;
 
 public class MoveCreaturesAction  implements Action {
-    private final MapWorld mapWorld;
+    private final WorldMap worldMap;
 
-    public MoveCreaturesAction(MapWorld mapWorld) {
-        this.mapWorld = mapWorld;
+    public MoveCreaturesAction(WorldMap worldMap) {
+        this.worldMap = worldMap;
     }
 
     @Override
     public void perform() {
-      new HashMap<>(mapWorld.getEntityPositionMap()).forEach((coordinate, entity) -> {
+      new HashMap<>(worldMap.getEntityPosition()).forEach((coordinate, entity) -> {
             if (entity instanceof Creature creature){
-                creature.performMovementAction(mapWorld);
+                creature.performMovementAction(worldMap);
             }
         });
     }

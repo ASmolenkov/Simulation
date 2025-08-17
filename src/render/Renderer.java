@@ -1,7 +1,7 @@
 package render;
 
-import world.MapWorld;
+import world.WorldMap;
 
 public interface Renderer {
-    void render(MapWorld mapWorld);
+    void render(WorldMap worldMap);
 }

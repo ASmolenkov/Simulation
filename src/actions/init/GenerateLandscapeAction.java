@@ -15,16 +15,16 @@ public class GenerateLandscapeAction implements Action {
     private final static double GRASS_PROBABILITY = 0.350;
     private final static double TREE_PROBABILITY = 0.325;
     private final Random random;
-    private final MapWorld mapWorld;
+    private final WorldMap worldMap;
 
-    public GenerateLandscapeAction(MapWorld mapWorld) {
-        this.mapWorld = mapWorld;
+    public GenerateLandscapeAction(WorldMap worldMap) {
+        this.worldMap = worldMap;
         this.random = new Random();
     }
 
     @Override
     public void perform() {
-        List<Coordinate> availableCoordinates = fillFreeCoordinates(mapWorld);
+        List<Coordinate> availableCoordinates = fillFreeCoordinates(worldMap);
         int totalLandscape = (int)(availableCoordinates.size() * MAX_LANDSCAPE_PERCENTAGE);
         for (int i = 0; i < availableCoordinates.size(); i++) {
             Coordinate pos = availableCoordinates.get(i);
@@ -34,7 +34,7 @@ public class GenerateLandscapeAction implements Action {
             } else {
                 entity = new EmptyArea(pos);
             }
-            mapWorld.addEntity(entity);
+            worldMap.addEntity(entity);
         }
     }
 
@@ -59,12 +59,12 @@ public class GenerateLandscapeAction implements Action {
         return new EmptyArea(position);
     }
 
-    private List<Coordinate> fillFreeCoordinates(MapWorld mapWorld){
+    private List<Coordinate> fillFreeCoordinates(WorldMap worldMap){
         List<Coordinate> availableCoordinates = new ArrayList<>();
-        for (int x = 0; x < mapWorld.getHeight(); x++) {
-            for (int y = 0; y < mapWorld.getWidth(); y++) {
+        for (int x = 0; x < worldMap.getHeight(); x++) {
+            for (int y = 0; y < worldMap.getWidth(); y++) {
                 Coordinate pos = new Coordinate(x, y);
-                if (mapWorld.isPositionAvailable(pos)) {
+                if (worldMap.isPositionAvailable(pos)) {
                     availableCoordinates.add(pos);
                 }
             }

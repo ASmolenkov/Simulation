@@ -2,7 +2,6 @@ package actions.turn;
 
 import actions.Action;
 import listener.EventType;
-import listener.FinalInfo;
 import listener.SimulationEvent;
 import world.*;
 import world.entity.EmptyArea;
@@ -15,13 +14,13 @@ import java.util.List;
 import java.util.Random;
 
 public class AddingGrassAction implements Action {
-    private final MapWorld mapWorld;
+    private final WorldMap worldMap;
     private final Random random;
     private static final double TARGET_GRASS_PERCENTAGE = 0.05;
     private static final int MAX_REGROWTH_PER_TURN = 5;
 
-    public AddingGrassAction(MapWorld mapWorld) {
-        this.mapWorld = mapWorld;
+    public AddingGrassAction(WorldMap worldMap) {
+        this.worldMap = worldMap;
         this.random = new Random();
     }
 
@@ -33,7 +32,7 @@ public class AddingGrassAction implements Action {
 
     private void regrowGrass(){
         int currentGrassCount = currentAmountGrassToMapWorld();
-        int totalCells = mapWorld.getSize();
+        int totalCells = worldMap.getSize();
         int targetGrassCount = (int) (totalCells * TARGET_GRASS_PERCENTAGE);
 
         if(currentGrassCount < targetGrassCount){
@@ -44,7 +43,7 @@ public class AddingGrassAction implements Action {
 
     private int currentAmountGrassToMapWorld(){
         int count = 0;
-        for (Entity entity: mapWorld.getEntityPositionMap().values()){
+        for (Entity entity: worldMap.getEntityPosition().values()){
             if(entity instanceof Grass){
                 count++;
             }
@@ -54,7 +53,7 @@ public class AddingGrassAction implements Action {
 
     private void addGrassInRandomEmptySpots(int amount){
         List<Coordinate> emptySpots = new ArrayList<>();
-        mapWorld.getEntityPositionMap().forEach((coordinate, entity) -> {
+        worldMap.getEntityPosition().forEach((coordinate, entity) -> {
             if(entity instanceof EmptyArea){
                 emptySpots.add(coordinate);
             }
@@ -65,8 +64,8 @@ public class AddingGrassAction implements Action {
             if(added >= amount){
                 break;
             }
-            mapWorld.addEntity(new Grass(spot));
-            mapWorld.notifyListeners(new SimulationEvent(EventType.GRASS_GROWING, String.format("🌿 the grass is growing %s", spot)));
+            worldMap.addEntity(new Grass(spot));
+            worldMap.notifyListeners(new SimulationEvent(EventType.GRASS_GROWING, String.format("🌿 the grass is growing %s", spot)));
             added++;
         }
     }

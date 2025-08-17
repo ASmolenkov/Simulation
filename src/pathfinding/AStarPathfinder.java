@@ -9,10 +9,10 @@ import java.util.*;
 
 public class AStarPathfinder implements Pathfinder {
     private static final int[][] DIRECTIONS = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
-    private final MapWorld mapWorld;
+    private final WorldMap worldMap;
 
-    public AStarPathfinder(MapWorld mapWorld) {
-        this.mapWorld = mapWorld;
+    public AStarPathfinder(WorldMap worldMap) {
+        this.worldMap = worldMap;
     }
 
 
@@ -41,7 +41,7 @@ public class AStarPathfinder implements Pathfinder {
             closetSet.add(current);
 
             for (Node neighbor: getNeighbors(current)){
-                if(closetSet.contains(neighbor) || !canPassThrough(neighbor.getCoordinate(),target) || !mapWorld.isWithinBounds(neighbor.getCoordinate())){
+                if(closetSet.contains(neighbor) || !canPassThrough(neighbor.getCoordinate(),target) || !worldMap.isWithinBounds(neighbor.getCoordinate())){
                     continue;
                 }
 
@@ -74,7 +74,7 @@ public class AStarPathfinder implements Pathfinder {
             int newX = node.getCoordinate().width() + dir[0];
             int newY = node.getCoordinate().height() + dir[1];
             Coordinate newCoordinate = new Coordinate(newX, newY);
-            if(mapWorld.isWithinBounds(newCoordinate)){
+            if(worldMap.isWithinBounds(newCoordinate)){
                 neighbors.add(new Node(newCoordinate));
             }
         }
@@ -97,7 +97,7 @@ public class AStarPathfinder implements Pathfinder {
 
     private boolean canPassThrough(Coordinate coordinate, Coordinate target) {
         // Общая проверка проходимости
-        Entity entity = mapWorld.getEntityPositionMap().get(coordinate);
+        Entity entity = worldMap.getEntityPosition().get(coordinate);
         return coordinate.equals(target) ||  entity == null || entity instanceof EmptyArea || entity instanceof Grass;
     }
 

@@ -3,7 +3,7 @@ package world.entity;
 import pathfinding.Pathfinder;
 import pathfinding.TargetFinder;
 import world.Coordinate;
-import world.MapWorld;
+import world.WorldMap;
 
 import java.util.List;
 
@@ -63,10 +63,10 @@ public abstract class Creature extends Entity {
     }
 
 
-    public void performMovementAction(MapWorld mapWorld){
-        Coordinate target = findTarget(mapWorld);
-        List<Coordinate> path = findPathToTarget(target, mapWorld);
-        makeMove(mapWorld, path,target);
+    public void performMovementAction(WorldMap worldMap){
+        Coordinate target = findTarget(worldMap);
+        List<Coordinate> path = findPathToTarget(target, worldMap);
+        makeMove(worldMap, path,target);
     }
 
     public void minusSatiety(int satiety) {
@@ -97,19 +97,19 @@ public abstract class Creature extends Entity {
 
 
 
-    protected abstract void eat(MapWorld mapWorld);
+    protected abstract void eat(WorldMap worldMap);
 
-    protected abstract void makeMove(MapWorld mapWorld, List<Coordinate> pathInTarget, Coordinate target);
+    protected abstract void makeMove(WorldMap worldMap, List<Coordinate> pathInTarget, Coordinate target);
 
     protected abstract Class<? extends Entity> getTargetType();
 
     protected abstract Class<? extends Entity> getEnemyType();
 
-    protected void movement(Creature creature, Coordinate newPosition ,MapWorld mapWorld){
-        mapWorld.updatePosition(creature, newPosition);
+    protected void movement(Creature creature, Coordinate newPosition , WorldMap worldMap){
+        worldMap.updatePosition(creature, newPosition);
     }
 
-    protected boolean isTargetNearby(MapWorld mapWorld, Coordinate pos, Class<?> entityType) {
+    protected boolean isTargetNearby(WorldMap worldMap, Coordinate pos, Class<?> entityType) {
         for (int dx = -1; dx <= 1; dx++) {
             for (int dy = -1; dy <= 1; dy++) {
                 if (dx == 0 && dy == 0) continue;
@@ -117,7 +117,7 @@ public abstract class Creature extends Entity {
                         pos.width() + dx,
                         pos.height() + dy
                 );
-                Entity entity = mapWorld.getEntityPositionMap().get(neighbor);
+                Entity entity = worldMap.getEntityPosition().get(neighbor);
                 if (entityType.isInstance(entity)) {
                     return true;
                 }
@@ -126,15 +126,15 @@ public abstract class Creature extends Entity {
         return false;
     }
 
-    private Coordinate findTarget(MapWorld mapWorld) {
+    private Coordinate findTarget(WorldMap worldMap) {
         Coordinate target = targetFinder.findNearestTarget(this, this.getPosition(), entity -> getTargetType().isInstance(entity));
         if(target == null || target.equals(this.getPosition())){
-            return targetFinder.findFreeCell(this, mapWorld);
+            return targetFinder.findFreeCell(this, worldMap);
         }
         return target;
     }
 
-    private List<Coordinate> findPathToTarget(Coordinate target, MapWorld mapWorld) {
+    private List<Coordinate> findPathToTarget(Coordinate target, WorldMap worldMap) {
         return pathfinder.findPathToTarget(this.getPosition(), target);
     }
 

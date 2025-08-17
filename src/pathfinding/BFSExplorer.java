@@ -12,10 +12,10 @@ import java.util.function.BiConsumer;
 public class BFSExplorer {
     private static final String TARGET_FOUND = "BFS: Target found, early exit";
 
-    protected MapWorld mapWorld;
+    protected WorldMap worldMap;
 
-    public BFSExplorer(MapWorld mapWorld) {
-        this.mapWorld = mapWorld;
+    public BFSExplorer(WorldMap worldMap) {
+        this.worldMap = worldMap;
 
     }
 
@@ -70,7 +70,7 @@ public class BFSExplorer {
             int newY = coordinate.height() + dir[1];
             Coordinate neighbor = new Coordinate(newX, newY);
 
-            if(mapWorld.isWithinBounds(neighbor)){
+            if(worldMap.isWithinBounds(neighbor)){
                 neighbors.add(neighbor);
             }
         }
@@ -78,7 +78,7 @@ public class BFSExplorer {
     }
 
     private boolean canPassThrough(Coordinate coordinate) {
-        Entity entity = mapWorld.getEntityPositionMap().get(coordinate);
+        Entity entity = worldMap.getEntityPosition().get(coordinate);
         return entity == null || entity instanceof EmptyArea || entity instanceof Grass || entity instanceof Herbivore;
     }
 

@@ -3,7 +3,7 @@ package actions.turn;
 import actions.Action;
 import listener.EventType;
 import listener.SimulationEvent;
-import world.MapWorld;
+import world.WorldMap;
 import world.entity.Creature;
 
 public class HungerAction implements Action {
@@ -11,15 +11,15 @@ public class HungerAction implements Action {
     private static final int CHANGE_OF_SPEED = 1;
     private static final String CREATURE_HUNGRY_TEMPLATE = "😧 %s hungry and walks faster!";
     private static final String CREATURE_EAT_FILL_TEMPLATE = "😌 %s ate his fill and calmed down";
-    private final MapWorld mapWorld;
+    private final WorldMap worldMap;
 
-    public HungerAction(MapWorld mapWorld) {
-        this.mapWorld = mapWorld;
+    public HungerAction(WorldMap worldMap) {
+        this.worldMap = worldMap;
     }
 
     @Override
     public void perform() {
-        mapWorld.getEntityPositionMap().forEach((coordinate, entity) -> {
+        worldMap.getEntityPosition().forEach((coordinate, entity) -> {
             if(entity instanceof Creature creature){
                 applyHungerEffects(creature);
             }
@@ -46,10 +46,10 @@ public class HungerAction implements Action {
     }
 
     private void notifyHungry(Creature creature){
-        mapWorld.notifyListeners(new SimulationEvent(EventType.HUNGER,String.format(CREATURE_HUNGRY_TEMPLATE, creature.getClass().getSimpleName()),creature));
+        worldMap.notifyListeners(new SimulationEvent(EventType.HUNGER,String.format(CREATURE_HUNGRY_TEMPLATE, creature.getClass().getSimpleName()),creature));
     }
 
     private void notifyEat(Creature creature){
-        mapWorld.notifyListeners(new SimulationEvent(EventType.FULL_EAT,String.format(CREATURE_EAT_FILL_TEMPLATE, creature.getClass().getSimpleName()),creature));
+        worldMap.notifyListeners(new SimulationEvent(EventType.FULL_EAT,String.format(CREATURE_EAT_FILL_TEMPLATE, creature.getClass().getSimpleName()),creature));
     }
 }

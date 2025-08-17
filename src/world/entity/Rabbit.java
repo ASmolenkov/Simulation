@@ -5,7 +5,7 @@ import listener.SimulationEvent;
 import pathfinding.Pathfinder;
 import pathfinding.TargetFinder;
 import world.Coordinate;
-import world.MapWorld;
+import world.WorldMap;
 
 import java.util.List;
 
@@ -20,17 +20,17 @@ public class Rabbit extends Herbivore {
     }
 
     @Override
-    public void makeMove(MapWorld mapWorld, List<Coordinate> pathInTarget, Coordinate target){
-        if(!pathInTarget.isEmpty() && mapWorld.isWithinBounds(pathInTarget.getFirst())){
-            if(isTargetNearby(mapWorld, position,getTargetType())){
-                eat(mapWorld);
-                mapWorld.getEntityPositionMap().put(target, new EmptyArea(target));
-                notifyEat(mapWorld,target);
+    public void makeMove(WorldMap worldMap, List<Coordinate> pathInTarget, Coordinate target){
+        if(!pathInTarget.isEmpty() && worldMap.isWithinBounds(pathInTarget.getFirst())){
+            if(isTargetNearby(worldMap, position,getTargetType())){
+                eat(worldMap);
+                worldMap.getEntityPosition().put(target, new EmptyArea(target));
+                notifyEat(worldMap,target);
                 return;
             }
             int stepsToMove = Math.min(this.getSpeed(), pathInTarget.size());
 
-            movement(this, pathInTarget.get(stepsToMove - 1),mapWorld);
+            movement(this, pathInTarget.get(stepsToMove - 1), worldMap);
         }
     }
 
@@ -53,12 +53,12 @@ public class Rabbit extends Herbivore {
     }
 
     @Override
-    protected void eat(MapWorld mapWorld) {
+    protected void eat(WorldMap worldMap) {
         this.plusHealth(LIFE_BONUS_FOR_FOOD);
         this.plusSatiety(SATIETY_BONUS_FOR_FOOD);
     }
 
-    protected void notifyEat(MapWorld world, Coordinate targetPosition) {
+    protected void notifyEat(WorldMap world, Coordinate targetPosition) {
         String message = String.format("🍴 %s eat Grass to %s",
                 getClass().getSimpleName(), targetPosition.toString());
         world.notifyListeners(new SimulationEvent(EventType.EAT, message, this));
