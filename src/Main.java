@@ -6,6 +6,7 @@ public class Main {
         WorldMap worldMap = new WorldMap(10, 10);
         Simulation simulation = new Simulation(worldMap);
         simulation.starSimulation();
+
     }
 
 }
