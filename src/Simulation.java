@@ -5,7 +5,7 @@ import actions.turn.*;
 import listener.ConsoleLogger;
 import listener.FinalInfo;
 import render.ConsoleRenderer;
-import render.SimulationWelcomePrint;
+import render.SimulationWelcomePrinter;
 import world.WorldMap;
 import java.util.ArrayList;
 import java.util.List;
@@ -53,7 +53,7 @@ public class Simulation {
     }
 
     public void starSimulation() throws InterruptedException {
-        SimulationWelcomePrint.printWelcome();
+        SimulationWelcomePrinter.printWelcome();
         System.out.println("Начать симуляцию? 1 - Да, 2 - Нет");
         String inputUser = scanner.nextLine();
         if(inputUser.equals("1")){

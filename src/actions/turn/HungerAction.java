@@ -29,7 +29,7 @@ public class HungerAction implements Action {
         int originalSpeed = creature.getSpeed();
         creature.starve();
         if(creature.getSatiety() == 0){
-            creature.minusHealth(1);
+            creature.subHealth(1);
         }
         else if(creature.getSatiety() < (HUNGRY)){
             if(!creature.isSpeedBoosted()){

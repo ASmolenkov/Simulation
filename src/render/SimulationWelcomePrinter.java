@@ -1,6 +1,6 @@
 package render;
 
-public class SimulationWelcomePrint {
+public class SimulationWelcomePrinter {
     private static final String WELCOME = "Welcome to the \"Simulation\"!";
     private static final String CONTROL_SIMULATION = "To control the simulation, use the";
     private static final String COMMANDS = "commands:";
@@ -10,7 +10,7 @@ public class SimulationWelcomePrint {
     private static final String COMMAND_STEP = "4 - step";
     private static final int BOX_WIDTH = 36;
 
-    private SimulationWelcomePrint() {
+    private SimulationWelcomePrinter() {
     }
 
     public static void printWelcome() {

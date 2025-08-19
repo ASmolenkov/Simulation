@@ -47,22 +47,22 @@ public class Wolf extends Predator {
     }
 
     @Override
-    public  void plusHealth(int plusHealth) {
-        this.health += plusHealth;
+    public  void addHealth(int health) {
+        this.health += health;
         if(this.health > MAX_HEALTH){
             this.health = MAX_HEALTH;
         }
     }
     @Override
     protected void eat(WorldMap worldMap) {
-        this.plusHealth(LIFE_BONUS_FOR_FOOD);
-        this.plusSatiety(SATIETY_BONUS_FOR_FOOD);
+        this.addHealth(LIFE_BONUS_FOR_FOOD);
+        this.addSatiety(SATIETY_BONUS_FOR_FOOD);
     }
     @Override
     protected void attack(WorldMap worldMap) {
         Coordinate target = targetFinder.findNearestTarget(this, this.position,entity -> entity instanceof Herbivore);
         Creature creature = (Creature) worldMap.getEntity(target);
-        creature.minusHealth(this.getAttackPower());
+        creature.subHealth(this.getAttackPower());
         notifyAttack(worldMap, creature, target);
     }
     protected void notifyAttack(WorldMap world, Creature target, Coordinate targetPosition) {

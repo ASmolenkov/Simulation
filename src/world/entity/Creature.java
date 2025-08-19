@@ -33,7 +33,7 @@ public abstract class Creature extends Entity {
     }
 
 
-    public abstract void plusHealth(int plusHealth);
+    public abstract void addHealth(int health);
 
     public int getSpeed() {
         return speed;
@@ -55,12 +55,12 @@ public abstract class Creature extends Entity {
         this.position = newPosition;
     }
 
-    public void minusHealth(int health) {
+    public void subHealth(int health) {
         this.health -= health;
     }
 
     public void starve(){
-        this.minusSatiety(1);
+        this.subSatiety(1);
     }
 
 
@@ -70,14 +70,14 @@ public abstract class Creature extends Entity {
         makeMove(worldMap, path,target);
     }
 
-    public void minusSatiety(int satiety) {
+    public void subSatiety(int satiety) {
         this.satiety -= satiety;
         if(this.satiety < MIN_SATIETY){
             this.satiety = MIN_SATIETY;
         }
     }
 
-    public void plusSatiety(int satiety) {
+    public void addSatiety(int satiety) {
         this.satiety += satiety;
         if(this.satiety > MAX_SATIETY){
             this.satiety = MAX_SATIETY;

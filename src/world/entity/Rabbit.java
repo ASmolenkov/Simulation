@@ -35,8 +35,8 @@ public class Rabbit extends Herbivore {
     }
 
     @Override
-    public  void plusHealth(int plusHealth) {
-        this.health += plusHealth;
+    public  void addHealth(int health) {
+        this.health += health;
         if(this.health > MAX_HEALTH){
             this.health = MAX_HEALTH;
         }
@@ -58,8 +58,8 @@ public class Rabbit extends Herbivore {
 
     @Override
     protected void eat(WorldMap worldMap) {
-        this.plusHealth(LIFE_BONUS_FOR_FOOD);
-        this.plusSatiety(SATIETY_BONUS_FOR_FOOD);
+        this.addHealth(LIFE_BONUS_FOR_FOOD);
+        this.addSatiety(SATIETY_BONUS_FOR_FOOD);
     }
 
     protected void notifyEat(WorldMap world, Coordinate targetPosition) {
