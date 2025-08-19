@@ -2,6 +2,7 @@ package world.entity;
 
 import listener.EventType;
 import listener.SimulationEvent;
+import pathfinding.NewPathfinder;
 import pathfinding.Pathfinder;
 import pathfinding.TargetFinder;
 import world.Coordinate;
@@ -14,8 +15,8 @@ public class Rabbit extends Herbivore {
     private static final int SATIETY_BONUS_FOR_FOOD = 3;
     private static final int MAX_HEALTH = 5;
 
-    public Rabbit(Coordinate position, int speed, int health, int satiety,int maxSearchDepth, TargetFinder targetFinder, Pathfinder pathfinder) {
-        super(position, speed, health, satiety, maxSearchDepth, targetFinder, pathfinder);
+    public Rabbit(Coordinate position, int speed, int health, int satiety,int maxSearchDepth, NewPathfinder pathfinder) {
+        super(position, speed, health, satiety, maxSearchDepth, pathfinder);
 
     }
 

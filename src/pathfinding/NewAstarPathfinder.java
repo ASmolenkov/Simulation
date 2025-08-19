@@ -23,8 +23,8 @@ public class NewAstarPathfinder implements NewPathfinder{
         }
         return findPath(start, nearestTarget.get());
     }
-
-    private Optional<Coordinate> findNearestTarget(Coordinate start, Class<? extends Entity> targetClass){
+    @Override
+    public Optional<Coordinate> findNearestTarget(Coordinate start, Class<? extends Entity> targetClass){
         return worldMap.getAllCoordinates().stream().filter(coordinate -> {
             Entity entity = worldMap.getEntity(coordinate);
             return targetClass.isInstance(entity);

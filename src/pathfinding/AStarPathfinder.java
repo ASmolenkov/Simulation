@@ -3,7 +3,6 @@ package pathfinding;
 import world.*;
 import world.entity.Entity;
 import world.entity.Grass;
-import world.entity.Predator;
 
 import java.util.*;
 

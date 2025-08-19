@@ -1,5 +1,6 @@
 package factory.creature;
 
+import pathfinding.NewPathfinder;
 import pathfinding.Pathfinder;
 import pathfinding.TargetFinder;
 import world.Coordinate;
@@ -27,18 +28,18 @@ public class WolfFactory implements CreatureFactory<Wolf> {
     }
 
     @Override
-    public Wolf createDefault(Coordinate position, TargetFinder targetExplorer, Pathfinder pathExplorer) {
-        return instantiateWolf(position,defaultConfig,targetExplorer, pathExplorer);
+    public Wolf createDefault(Coordinate position, NewPathfinder pathfinder) {
+        return instantiateWolf(position,defaultConfig,pathfinder);
     }
 
     @Override
-    public Wolf create(Coordinate position, CreatureConfig config, TargetFinder targetExplorer, Pathfinder pathExplorer) {
+    public Wolf create(Coordinate position, CreatureConfig config,NewPathfinder pathfinder) {
         PredatorConfig userConfig = validateConfig(config);
-        return instantiateWolf(position,userConfig,targetExplorer, pathExplorer);
+        return instantiateWolf(position,userConfig,pathfinder);
     }
 
-    private Wolf instantiateWolf (Coordinate position, PredatorConfig config, TargetFinder targetFinder, Pathfinder pathfinder){
-        return new Wolf(position,config.getBaseSpeed(), config.getBaseHealth(), config.getAttackPower(), config.getBaseSatiety(), config.getBaseMaxSearchDepth(), targetFinder, pathfinder);
+    private Wolf instantiateWolf (Coordinate position, PredatorConfig config, NewPathfinder pathfinder){
+        return new Wolf(position,config.getBaseSpeed(), config.getBaseHealth(), config.getAttackPower(), config.getBaseSatiety(), config.getBaseMaxSearchDepth(),pathfinder);
     }
 
     private PredatorConfig validateConfig(CreatureConfig config) {

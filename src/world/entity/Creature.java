@@ -1,19 +1,21 @@
 package world.entity;
 
+import pathfinding.AStarPathfinder;
+import pathfinding.NewPathfinder;
 import pathfinding.Pathfinder;
 import pathfinding.TargetFinder;
 import world.Coordinate;
 import world.WorldMap;
 
 import java.util.List;
+import java.util.Optional;
 
 public abstract class Creature extends Entity {
     public static final int MAX_SATIETY = 10;
     private static final int MIN_SATIETY = 0;
     protected static final int MIN_HEALTH = 0;
 
-    protected final TargetFinder targetFinder;
-    protected final Pathfinder pathfinder;
+    protected final NewPathfinder pathfinder;
 
     protected final int maxSearchDepth;
     private int speed;
@@ -22,12 +24,11 @@ public abstract class Creature extends Entity {
     private boolean speedBoosted = false;
 
 
-    public Creature(Coordinate position, int speed, int health, int satiety, int maxSearchDepth, TargetFinder targetFinder, Pathfinder pathfinder) {
+    public Creature(Coordinate position, int speed, int health, int satiety, int maxSearchDepth, NewPathfinder pathfinder) {
         super(position);
         this.speed = speed;
         this.health = health;
         this.satiety = satiety;
-        this.targetFinder = targetFinder;
         this.pathfinder = pathfinder;
         this.maxSearchDepth = maxSearchDepth;
     }
@@ -64,11 +65,7 @@ public abstract class Creature extends Entity {
     }
 
 
-    public void performMovementAction(WorldMap worldMap){
-        Coordinate target = findTarget(worldMap);
-        List<Coordinate> path = findPathToTarget(target, worldMap);
-        makeMove(worldMap, path,target);
-    }
+    public abstract void performMovementAction(WorldMap worldMap);
 
     public void subSatiety(int satiety) {
         this.satiety -= satiety;
@@ -127,16 +124,14 @@ public abstract class Creature extends Entity {
         return false;
     }
 
-    private Coordinate findTarget(WorldMap worldMap) {
-        Coordinate target = targetFinder.findNearestTarget(this, this.getPosition(), entity -> getTargetType().isInstance(entity));
-        if(target == null || target.equals(this.getPosition())){
-            return targetFinder.findFreeCell(this, worldMap);
-        }
-        return target;
+    protected Coordinate findTarget(Coordinate start, Class<? extends Entity> targetClass){
+        Optional<Coordinate> target = pathfinder.findNearestTarget(start, targetClass);
+        return target.orElse(start);
+
     }
 
-    private List<Coordinate> findPathToTarget(Coordinate target, WorldMap worldMap) {
-        return pathfinder.findPathToTarget(this.getPosition(), target);
+    protected List<Coordinate> findPathToTarget(Class<? extends Entity> targetClass) {
+        return pathfinder.findPathToTarget(this.getPosition(), targetClass);
     }
 
 

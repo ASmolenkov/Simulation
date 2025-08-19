@@ -8,6 +8,7 @@ import listener.EventType;
 import listener.SimulationEvent;
 import pathfinding.AStarPathfinder;
 import pathfinding.BFSTargetFinder;
+import pathfinding.NewAstarPathfinder;
 import util.WorldMapUtils;
 import world.*;
 import world.entity.*;
@@ -53,7 +54,7 @@ public class AddingCreatureAction implements Action {
 
     private <T extends Creature> void addCreatureInRandomEmptySpots(int amount, CreatureFactory<T> creatureFactory) {
         getEmptySpots().stream().limit(amount).forEach(spot ->{
-            T creature = creatureFactory.createDefault(spot, new BFSTargetFinder(worldMap), new AStarPathfinder(worldMap));
+            T creature = creatureFactory.createDefault(spot, new NewAstarPathfinder(worldMap));
             worldMap.addEntity(creature);
             notifyBirth(creature);
         });

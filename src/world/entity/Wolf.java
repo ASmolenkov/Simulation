@@ -2,6 +2,7 @@ package world.entity;
 
 import listener.EventType;
 import listener.SimulationEvent;
+import pathfinding.NewPathfinder;
 import pathfinding.Pathfinder;
 import pathfinding.TargetFinder;
 import world.Coordinate;
@@ -15,8 +16,8 @@ public class Wolf extends Predator {
     private static final int SATIETY_BONUS_FOR_FOOD = 5;
     private static final int MAX_HEALTH = 10;
 
-    public Wolf(Coordinate position, int speed, int health, int attackPower, int satiety, int maxSearchDepth, TargetFinder targetFinder, Pathfinder pathfinder) {
-        super(position, speed, health, attackPower, satiety, maxSearchDepth, targetFinder,pathfinder);
+    public Wolf(Coordinate position, int speed, int health, int attackPower, int satiety, int maxSearchDepth, NewPathfinder pathfinder) {
+        super(position, speed, health, attackPower, satiety, maxSearchDepth,pathfinder);
     }
 
     @Override
@@ -60,7 +61,7 @@ public class Wolf extends Predator {
     }
     @Override
     protected void attack(WorldMap worldMap) {
-        Coordinate target = targetFinder.findNearestTarget(this, this.position,entity -> entity instanceof Herbivore);
+        Coordinate target = findTarget(this.position, Herbivore.class);
         Creature creature = (Creature) worldMap.getEntity(target);
         creature.subHealth(this.getAttackPower());
         notifyAttack(worldMap, creature, target);

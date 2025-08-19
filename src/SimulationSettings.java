@@ -23,6 +23,7 @@ public class SimulationSettings {
     private final WorldMap worldMap;
     private final TargetFinder targetExplorer;
     private final Pathfinder pathExplorer;
+    private final NewPathfinder pathfinder;
     private final Random random = new Random();
     private final CoordinateFinder emptyCoordinateFinder;
     private final CreatureCountCalculator creatureCountCalculator;
@@ -36,11 +37,12 @@ public class SimulationSettings {
         this.worldMap = worldMap;
         this.targetExplorer = new BFSTargetFinder(worldMap);
         this.pathExplorer = new AStarPathfinder(worldMap);
+        this.pathfinder = new NewAstarPathfinder(worldMap);
         this.creatureCountCalculator = new CreatureCountCalculator(random, PERCENTAGE_FILL_MAP_WORLD);
         creatureCountCalculator.addCreatureTypeAndProbabilities(CreatureType.HERBIVORE, PROBABILITIES_HERBIVORE);
         creatureCountCalculator.addCreatureTypeAndProbabilities(CreatureType.PREDATOR, PROBABILITIES_PREDATOR);
         this.emptyCoordinateFinder = new EmptyCoordinateFinder(random, worldMap);
-        this.creatureSpawner = new CreatureSpawner<>(worldMap,random,emptyCoordinateFinder,creatureCountCalculator,targetExplorer,pathExplorer);
+        this.creatureSpawner = new CreatureSpawner<>(worldMap,random,emptyCoordinateFinder,creatureCountCalculator,targetExplorer,pathExplorer, pathfinder);
         this.creatureSpawner.addFactory(CreatureType.HERBIVORE,rabbitFactory);
         this.creatureSpawner.addFactory(CreatureType.PREDATOR, wolfFactory);
     }
