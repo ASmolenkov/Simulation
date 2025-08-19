@@ -1,23 +1,38 @@
 package pathfinding;
 
-import world.*;
+import world.Coordinate;
+import world.WorldMap;
 import world.entity.Entity;
 import world.entity.Grass;
-import world.entity.Predator;
 
 import java.util.*;
 
-public class AStarPathfinder implements Pathfinder {
+public class NewAstarPathfinder implements NewPathfinder{
     private static final int[][] DIRECTIONS = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
     private final WorldMap worldMap;
 
-    public AStarPathfinder(WorldMap worldMap) {
+    public NewAstarPathfinder(WorldMap worldMap) {
         this.worldMap = worldMap;
     }
 
-
     @Override
-    public List<Coordinate> findPathToTarget(Coordinate start, Coordinate target) {
+    public List<Coordinate> findPathToTarget(Coordinate start, Class<? extends Entity> targetClass) {
+        Optional<Coordinate> nearestTarget = findNearestTarget(start, targetClass);
+        if(nearestTarget.isEmpty()){
+            return Collections.emptyList();
+        }
+        return findPath(start, nearestTarget.get());
+    }
+
+    private Optional<Coordinate> findNearestTarget(Coordinate start, Class<? extends Entity> targetClass){
+        return worldMap.getAllCoordinates().stream().filter(coordinate -> {
+            Entity entity = worldMap.getEntity(coordinate);
+            return targetClass.isInstance(entity);
+        }).min(Comparator.comparingInt(coordinate -> heuristic(start, coordinate)));
+
+    }
+
+    private List<Coordinate> findPath(Coordinate start, Coordinate target){
         PriorityQueue<Node> openSet = new PriorityQueue<>(Comparator.comparingDouble(Node::getF));
         Set<Node> closetSet = new HashSet<>();
         Map<Node, Node> cameFrom = new HashMap<>();
@@ -40,7 +55,7 @@ public class AStarPathfinder implements Pathfinder {
             }
             closetSet.add(current);
 
-            for (Node neighbor: getNeighbors(current)){
+            for(Node neighbor:getNeighbors(current)){
                 if(closetSet.contains(neighbor) || !canPassThrough(neighbor.getCoordinate(),target) || !worldMap.isWithinBounds(neighbor.getCoordinate())){
                     continue;
                 }
@@ -51,36 +66,20 @@ public class AStarPathfinder implements Pathfinder {
                     cameFrom.put(neighbor, current);
                     gScore.put(neighbor, tentativeG);
                     neighbor.setG(tentativeG);
-                    neighbor.setH(heuristic(neighbor.getCoordinate(), target));
+                    neighbor.setH(heuristic(neighbor.getCoordinate(),target));
                     neighbor.setF(neighbor.getG() + neighbor.getH());
 
                     if(!openSet.contains(neighbor)){
                         openSet.add(neighbor);
                     }
                 }
-
             }
         }
         return Collections.emptyList();
     }
 
-
-
-    private double heuristic (Coordinate a, Coordinate b){
+    private int heuristic (Coordinate a, Coordinate b){
         return Math.abs(a.width() - b.width()) + Math.abs(a.height() - b.height());
-    }
-
-    private List<Node> getNeighbors(Node node){
-        List<Node> neighbors = new ArrayList<>();
-        for (int dir[]: DIRECTIONS){
-            int newX = node.getCoordinate().width() + dir[0];
-            int newY = node.getCoordinate().height() + dir[1];
-            Coordinate newCoordinate = new Coordinate(newX, newY);
-            if(worldMap.isWithinBounds(newCoordinate)){
-                neighbors.add(new Node(newCoordinate));
-            }
-        }
-        return neighbors;
     }
 
     private List<Coordinate> reconstructPath(Map<Node, Node> cameFrom, Node current) {
@@ -91,16 +90,27 @@ public class AStarPathfinder implements Pathfinder {
             current = cameFrom.get(current);
             path.addFirst(current.getCoordinate());
         }
-        if(!path.isEmpty()){
+        if (!path.isEmpty()) {
             path.removeFirst();
         }
         return path;
     }
 
-    private boolean canPassThrough(Coordinate coordinate, Coordinate target) {
-        // Общая проверка проходимости
-        Entity entity = worldMap.getEntity(coordinate);
-        return coordinate.equals(target) ||  entity == null || entity instanceof Grass;
+    private List<Node> getNeighbors(Node node) {
+        List<Node> neighbors = new ArrayList<>();
+        for (int dir[] : DIRECTIONS) {
+            int newX = node.getCoordinate().width() + dir[0];
+            int newY = node.getCoordinate().height() + dir[1];
+            Coordinate newCoordinate = new Coordinate(newX, newY);
+            if (worldMap.isWithinBounds(newCoordinate)) {
+                neighbors.add(new Node(newCoordinate));
+            }
+        }
+        return neighbors;
     }
 
+    private boolean canPassThrough(Coordinate coordinate, Coordinate target) {
+        Entity entity = worldMap.getEntity(coordinate);
+        return coordinate.equals(target) || entity == null || entity instanceof Grass;
+    }
 }
