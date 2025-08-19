@@ -94,6 +94,14 @@ public class WorldMap {
         notifyOfMove(creature, newPosition);
     }
 
+    public List<Coordinate> getAllCoordinates(){
+        List<Coordinate> coordinates = new ArrayList<>();
+        for (Entity entity: entityPosition.values()){
+            coordinates.add(entity.getPosition());
+        }
+        return coordinates;
+    }
+
     private void notifyOfMove(Creature creature, Coordinate newPosition){
         notifyListeners(new SimulationEvent(EventType.ENTITY_MOVED, String.format( "➡️ %s moved to %s", creature.getClass().getSimpleName(), newPosition), creature));
     }
