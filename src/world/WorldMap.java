@@ -5,10 +5,7 @@ import listener.SimulationEvent;
 import listener.SimulationListener;
 import world.entity.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class WorldMap {
     private static final String EXCEPTION_SIZE_MAP = "The width and height of the map cannot be less than 10";
@@ -51,8 +48,8 @@ public class WorldMap {
        return entityPosition.get(coordinate);
     }
 
-    public void addEntity(Entity entity){
-        entityPosition.put(entity.getPosition(),entity);
+    public void addEntity(Coordinate coordinate, Entity entity){
+        entityPosition.put(coordinate,entity);
     }
     public void subEntity(Coordinate coordinate){
         if(!isWithinBounds(coordinate)){
@@ -95,11 +92,8 @@ public class WorldMap {
     }
 
     public List<Coordinate> getAllCoordinates(){
-        List<Coordinate> coordinates = new ArrayList<>();
-        for (Entity entity: entityPosition.values()){
-            coordinates.add(entity.getPosition());
-        }
-        return coordinates;
+        Set<Coordinate> coordinates1 = entityPosition.keySet();
+        return new ArrayList<>(coordinates1);
     }
 
     private void notifyOfMove(Creature creature, Coordinate newPosition){

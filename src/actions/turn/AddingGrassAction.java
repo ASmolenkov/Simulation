@@ -53,7 +53,7 @@ public class AddingGrassAction implements Action {
             if(added >= amount){
                 break;
             }
-            worldMap.addEntity(new Grass(spot));
+            worldMap.addEntity(spot, new Grass());
             worldMap.notifyListeners(new SimulationEvent(EventType.GRASS_GROWING, String.format("🌿 the grass is growing %s", spot)));
             added++;
         }

@@ -15,8 +15,8 @@ public abstract class Creature extends Entity {
     private static final int MIN_SATIETY = 0;
     protected static final int MIN_HEALTH = 0;
 
+    protected Coordinate position;
     protected final NewPathfinder pathfinder;
-
     protected final int maxSearchDepth;
     private int speed;
     protected int health;
@@ -25,12 +25,16 @@ public abstract class Creature extends Entity {
 
 
     public Creature(Coordinate position, int speed, int health, int satiety, int maxSearchDepth, NewPathfinder pathfinder) {
-        super(position);
+        this.position = position;
         this.speed = speed;
         this.health = health;
         this.satiety = satiety;
         this.pathfinder = pathfinder;
         this.maxSearchDepth = maxSearchDepth;
+    }
+
+    public Coordinate getPosition() {
+        return position;
     }
 
 

@@ -57,7 +57,7 @@ public class CreatureSpawner<T extends Creature> {
         Coordinate position = emptyCoordinatesFinder.findRandomEmptyCoordinate();
         CreatureFactory<? extends T> factory = factories.get(creatureType);
         T creature = factory.createDefault(position, pathfinder);
-        worldMap.addEntity(creature);
+        worldMap.addEntity(position, creature);
         emptyCoordinatesFinder.markPositionAsOccupied(position);
     }
 

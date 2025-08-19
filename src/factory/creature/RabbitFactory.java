@@ -1,8 +1,6 @@
 package factory.creature;
 
 import pathfinding.NewPathfinder;
-import pathfinding.Pathfinder;
-import pathfinding.TargetFinder;
 import world.*;
 import world.entity.Rabbit;
 
