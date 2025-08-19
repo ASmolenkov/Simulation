@@ -29,7 +29,7 @@ public class GenerateLandscapeAction implements Action {
         for (int i = 0; i < availableCoordinates.size() && i < totalLandscape; i++) {
             Coordinate pos = availableCoordinates.get(i);
             Entity entity = generateRandomTerrain(pos);
-            worldMap.addEntity(entity);
+            worldMap.addEntity(pos, entity);
         }
     }
 
@@ -39,15 +39,15 @@ public class GenerateLandscapeAction implements Action {
 
         cumulativeProbability += ROCK_PROBABILITY;
         if(rand < cumulativeProbability){
-            return new Rock(position);
+            return new Rock();
         }
 
         cumulativeProbability += GRASS_PROBABILITY;
         if(rand < cumulativeProbability){
-            return new Grass(position);
+            return new Grass();
         }
 
-        return new Tree(position);
+        return new Tree();
     }
 
     private List<Coordinate> fillFreeCoordinates(WorldMap worldMap){

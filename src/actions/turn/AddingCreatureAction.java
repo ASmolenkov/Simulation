@@ -55,7 +55,7 @@ public class AddingCreatureAction implements Action {
     private <T extends Creature> void addCreatureInRandomEmptySpots(int amount, CreatureFactory<T> creatureFactory) {
         getEmptySpots().stream().limit(amount).forEach(spot ->{
             T creature = creatureFactory.createDefault(spot, new NewAstarPathfinder(worldMap));
-            worldMap.addEntity(creature);
+            worldMap.addEntity(spot, creature);
             notifyBirth(creature);
         });
     }
