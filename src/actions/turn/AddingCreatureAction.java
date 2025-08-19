@@ -29,8 +29,8 @@ public class AddingCreatureAction implements Action {
     public AddingCreatureAction(WorldMap worldMap) {
         this.worldMap = worldMap;
         this.random = new Random();
-        this.rabbitFactory = RabbitFactory.withDefaultConfig();
-        this.wolfFactory = WolfFactory.withDefaultConfig();
+        this.rabbitFactory = new RabbitFactory();
+        this.wolfFactory = new WolfFactory();
     }
 
 

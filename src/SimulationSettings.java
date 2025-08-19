@@ -32,8 +32,8 @@ public class SimulationSettings {
     private final CreatureSpawner<Creature> creatureSpawner;
 
     public SimulationSettings(WorldMap worldMap) {
-        this.rabbitFactory = RabbitFactory.withDefaultConfig();
-        this.wolfFactory = WolfFactory.withDefaultConfig();
+        this.rabbitFactory = new RabbitFactory();
+        this.wolfFactory = new WolfFactory();
         this.worldMap = worldMap;
         this.targetExplorer = new BFSTargetFinder(worldMap);
         this.pathExplorer = new AStarPathfinder(worldMap);

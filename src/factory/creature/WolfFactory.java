@@ -11,20 +11,23 @@ import java.util.Objects;
 public class WolfFactory implements CreatureFactory<Wolf> {
     private static final String REQUIRES_PREDATOR_CONFIG = "Requires PredatorConfig";
 
-    private final PredatorConfig defaultConfig;
+
     private static final int DEFAULT_SPEED = 1;
     private static final int DEFAULT_HEALTH = 5;
     private static final int DEFAULT_ATTACK_POWER = 3;
     private static final int DEFAULT_SATIETY = 7;
     private static final int DEFAULT_MAX_SEARCH_DEPTH = 15;
+    private static final PredatorConfig DEFAULT_CONFIG = new PredatorConfig.Builder().setSpeed(DEFAULT_SPEED).setHealth(DEFAULT_HEALTH)
+            .setSatiety(DEFAULT_SATIETY).setMaxSearchDepth(DEFAULT_MAX_SEARCH_DEPTH).setAttackPower(DEFAULT_ATTACK_POWER).build();
+    private final PredatorConfig defaultConfig;
 
 
     public WolfFactory(PredatorConfig defaultConfig) {
         this.defaultConfig = Objects.requireNonNull(defaultConfig);
     }
 
-    public static WolfFactory withDefaultConfig(){
-        return new WolfFactory(new PredatorConfig.Builder().setSpeed(DEFAULT_SPEED).setHealth(DEFAULT_HEALTH).setAttackPower(DEFAULT_ATTACK_POWER).setSatiety(DEFAULT_SATIETY).setMaxSearchDepth(DEFAULT_MAX_SEARCH_DEPTH).build());
+    public WolfFactory() {
+        this(DEFAULT_CONFIG);
     }
 
     @Override
