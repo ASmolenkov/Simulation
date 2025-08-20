@@ -17,7 +17,6 @@ public class CreatureSpawner<T extends Creature> {
 
     private final WorldMap worldMap;
     private final Random random;
-    private final CoordinateFinder emptyCoordinatesFinder;
     private final CreatureCountCalculator countCalculator;
     private final Map<CreatureType, CreatureFactory<? extends T>> factories;
     private final TargetFinder targetExplorer;
@@ -25,10 +24,9 @@ public class CreatureSpawner<T extends Creature> {
     private final NewPathfinder pathfinder;
 
 
-    public CreatureSpawner(WorldMap worldMap, Random random, CoordinateFinder emptyCoordinatesFinder, CreatureCountCalculator countCalculator,
+    public CreatureSpawner(WorldMap worldMap, Random random, CreatureCountCalculator countCalculator,
                            TargetFinder targetExplorer, Pathfinder pathExplorer, NewPathfinder pathfinder) {
         this.worldMap = worldMap;
-        this.emptyCoordinatesFinder = emptyCoordinatesFinder;
         this.countCalculator = countCalculator;
         this.pathfinder = pathfinder;
         this.factories = new HashMap<>();
@@ -54,11 +52,10 @@ public class CreatureSpawner<T extends Creature> {
     }
 
     private void spawnSingleCreature(CreatureType creatureType){
-        Coordinate position = emptyCoordinatesFinder.findRandomEmptyCoordinate();
+        Coordinate position = WorldMapUtils.getRandomEmptyCoordinate(worldMap);
         CreatureFactory<? extends T> factory = factories.get(creatureType);
         T creature = factory.createDefault(position, pathfinder);
         worldMap.addEntity(position, creature);
-        emptyCoordinatesFinder.markPositionAsOccupied(position);
     }
 
     private void spawnCreaturesOfType(CreatureType creatureType, int count){
@@ -69,7 +66,7 @@ public class CreatureSpawner<T extends Creature> {
     }
 
     private void ensureSpawnPossible() {
-        if (emptyCoordinatesFinder.hasEmptyCoordinates()) {
+        if (WorldMapUtils.hasNotEmptyCoordinates(worldMap)) {
             throw new IllegalStateException(NO_FREE_PLACES);
         }
     }

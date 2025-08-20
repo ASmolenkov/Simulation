@@ -1,6 +1,7 @@
 import actions.Action;
 import actions.init.GenerateCreatureAction;
 import actions.init.GenerateLandscapeAction;
+import actions.init.SpawnAction;
 import actions.turn.*;
 import listener.ConsoleLogger;
 import listener.FinalInfo;
@@ -40,8 +41,9 @@ public class Simulation {
         worldMap.addListener(finalInfo);
         this.simulationSettings = new SimulationSettings(worldMap);
         this.initActions = new ArrayList<>();
-        this.initActions.add(new GenerateLandscapeAction(worldMap));
-        this.initActions.add(new GenerateCreatureAction(simulationSettings.getCreatureSpawner()));
+        //this.initActions.add(new GenerateLandscapeAction(worldMap));
+        //this.initActions.add(new GenerateCreatureAction(simulationSettings.getCreatureSpawner()));
+        this.initActions.add(new SpawnAction(worldMap,simulationSettings.getCreatureSpawner()));
         this.turnActions = new ArrayList<>();
         this.turnActions.add(new AddingGrassAction(worldMap));
         this.turnActions.add(new AddingCreatureAction(worldMap));
