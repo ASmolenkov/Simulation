@@ -50,4 +50,16 @@ public class SimulationSettings {
     public CreatureSpawner<Creature> getCreatureSpawner() {
         return creatureSpawner;
     }
+
+    public CreatureFactory<Rabbit> getRabbitFactory() {
+        return rabbitFactory;
+    }
+
+    public CreatureFactory<Wolf> getWolfFactory() {
+        return wolfFactory;
+    }
+
+    public NewPathfinder getPathfinder() {
+        return pathfinder;
+    }
 }

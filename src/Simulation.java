@@ -45,8 +45,9 @@ public class Simulation {
         //this.initActions.add(new GenerateCreatureAction(simulationSettings.getCreatureSpawner()));
         this.initActions.add(new SpawnAction(worldMap,simulationSettings.getCreatureSpawner()));
         this.turnActions = new ArrayList<>();
-        this.turnActions.add(new AddingGrassAction(worldMap));
-        this.turnActions.add(new AddingCreatureAction(worldMap));
+       // this.turnActions.add(new AddingGrassAction(worldMap));
+        //this.turnActions.add(new AddingCreatureAction(worldMap));
+        this.turnActions.add(new MapReplenishmentAction(worldMap,simulationSettings.getWolfFactory(),simulationSettings.getRabbitFactory(), simulationSettings.getPathfinder()));
         this.turnActions.add(new MoveCreaturesAction(worldMap));
         this.turnActions.add(new DeletedDeadCreatureAction(worldMap));
         this.turnActions.add(new HungerAction(worldMap));

@@ -2,6 +2,8 @@ package util;
 
 import world.Coordinate;
 import world.WorldMap;
+import world.entity.*;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -31,13 +33,46 @@ public class WorldMapUtils {
         return emptyCoordinates.get(random.nextInt(emptyCoordinates.size()));
     }
 
-    public static boolean hasNotEmptyCoordinates(WorldMap worldMap){
-        List<Coordinate> emptyCoordinates = getEmptyCoordinates (worldMap);
-        return emptyCoordinates.isEmpty();
+    public static int getAmountHerbivore (WorldMap worldMap){
+        int amountHerbivore = 0;
+        List<Entity> entities = worldMap.getAllEntity();
+        for (Entity entity: entities){
+            if(entity instanceof Herbivore){
+                amountHerbivore++;
+            }
+        }
+        return amountHerbivore;
+    }
+
+    public static int getAmountPredator (WorldMap worldMap){
+        int amountPredator = 0;
+        List<Entity> entities = worldMap.getAllEntity();
+        for (Entity entity: entities){
+            if(entity instanceof Predator){
+                amountPredator++;
+            }
+        }
+        return amountPredator;
+    }
+
+    public static int getAmountGrass (WorldMap worldMap){
+        int amountGrass = 0;
+        List<Entity> entities = worldMap.getAllEntity();
+        for (Entity entity: entities){
+            if(entity instanceof Grass){
+                amountGrass++;
+            }
+        }
+        return amountGrass;
     }
 
     public static int getSizeMap(WorldMap worldMap){
         return worldMap.getHeight() * worldMap.getWidth();
+    }
+
+    public static boolean hasNotEmptyCoordinates(WorldMap worldMap){
+        List<Coordinate> emptyCoordinates = getEmptyCoordinates (worldMap);
+        return emptyCoordinates.isEmpty();
     }
 }
 
