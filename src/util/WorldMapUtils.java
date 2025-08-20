@@ -5,8 +5,13 @@ import world.WorldMap;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 public class WorldMapUtils {
+
+    private WorldMapUtils(){
+
+    }
 
     public static List<Coordinate> getEmptyCoordinates(WorldMap worldMap){
         List<Coordinate> emptyCoordinates = new ArrayList<>();
@@ -20,6 +25,12 @@ public class WorldMapUtils {
         }
         Collections.shuffle(emptyCoordinates);
         return emptyCoordinates;
+    }
+
+    public static Coordinate getRandomEmptyCoordinate(WorldMap worldMap){
+        Random random = new Random();
+        List<Coordinate> emptyCoordinates = getEmptyCoordinates(worldMap);
+        return emptyCoordinates.get(random.nextInt(emptyCoordinates.size()));
     }
 
     public static int getSizeMap(WorldMap worldMap){
