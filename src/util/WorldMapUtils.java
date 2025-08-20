@@ -9,9 +9,7 @@ import java.util.Random;
 
 public class WorldMapUtils {
 
-    private WorldMapUtils(){
-
-    }
+    private WorldMapUtils(){}
 
     public static List<Coordinate> getEmptyCoordinates(WorldMap worldMap){
         List<Coordinate> emptyCoordinates = new ArrayList<>();
