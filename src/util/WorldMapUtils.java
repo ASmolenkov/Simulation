@@ -33,6 +33,11 @@ public class WorldMapUtils {
         return emptyCoordinates.get(random.nextInt(emptyCoordinates.size()));
     }
 
+    public static boolean hasNotEmptyCoordinates(WorldMap worldMap){
+        List<Coordinate> emptyCoordinates = getEmptyCoordinates (worldMap);
+        return emptyCoordinates.isEmpty();
+    }
+
     public static int getSizeMap(WorldMap worldMap){
         return worldMap.getHeight() * worldMap.getWidth();
     }
