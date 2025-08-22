@@ -140,4 +140,18 @@ public abstract class Creature extends Entity {
         return false;
     }
 
+    protected Coordinate selectMovementStep(List<Coordinate> pathInTarget){
+        if(pathInTarget.size() == 2){
+            return pathInTarget.getFirst();
+
+        }
+        else if(this.getSpeed() >= pathInTarget.size() - 1) {
+            int stepsToMove = Math.min(this.getSpeed(), pathInTarget.size());
+            return pathInTarget.get(stepsToMove - 1);
+        }
+        else {
+            return pathInTarget.get(this.getSpeed());
+        }
+    }
+
 }

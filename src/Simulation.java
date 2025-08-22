@@ -5,6 +5,7 @@ import listener.ConsoleLogger;
 import listener.FinalInfo;
 import pathfinding.AstarPathfinder;
 import render.ConsoleRenderer;
+import render.Renderer;
 import render.SimulationConsolePrinter;
 import world.WorldMap;
 import java.util.ArrayList;
@@ -25,7 +26,7 @@ public class Simulation {
 
     private final FinalInfo finalInfo = new FinalInfo();
     private final WorldMap worldMap;
-    private final ConsoleRenderer consoleRenderer;
+    private final Renderer consoleRenderer;
     private final List<Action> initActions;
     private final List<Action> turnActions;
 
@@ -33,7 +34,7 @@ public class Simulation {
     private volatile boolean isPaused = false;
     private volatile boolean stepRequested = false;
 
-    public Simulation(WorldMap worldMap) {
+    public Simulation(WorldMap worldMap, Renderer renderer) {
         this.worldMap = worldMap;
         worldMap.addListener(new ConsoleLogger());
         worldMap.addListener(finalInfo);
@@ -44,7 +45,7 @@ public class Simulation {
         this.turnActions.add(new MoveCreaturesAction(worldMap));
         this.turnActions.add(new DeletedDeadCreatureAction(worldMap));
         this.turnActions.add(new HungerAction(worldMap));
-        this.consoleRenderer = new ConsoleRenderer();
+        this.consoleRenderer = renderer;
     }
 
     public void starSimulation() throws InterruptedException {
