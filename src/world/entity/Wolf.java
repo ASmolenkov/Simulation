@@ -30,9 +30,14 @@ public class Wolf extends Predator {
         return Predator.class;
     }
 
+    @Override
+    protected int getMaxHealth() {
+        return MAX_HEALTH;
+    }
 
     @Override
     public void makeMove(WorldMap worldMap, List<Coordinate> pathInTarget, Coordinate target){
+        System.out.println(this.getClass().getSimpleName() + " = " + pathInTarget);
         if (!pathInTarget.isEmpty() && worldMap.isWithinBounds(pathInTarget.getFirst())) {
             if (isTargetNearby(worldMap, position, getTargetType())) {
                 attack(worldMap);
@@ -47,13 +52,6 @@ public class Wolf extends Predator {
         }
     }
 
-    @Override
-    public  void addHealth(int health) {
-        this.health += health;
-        if(this.health > MAX_HEALTH){
-            this.health = MAX_HEALTH;
-        }
-    }
     @Override
     protected void eat(WorldMap worldMap) {
         this.addHealth(LIFE_BONUS_FOR_FOOD);

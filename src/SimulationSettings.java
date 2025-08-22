@@ -38,7 +38,7 @@ public class SimulationSettings {
         this.creatureCountCalculator = new CreatureCountCalculator(random, PERCENTAGE_FILL_MAP_WORLD);
         creatureCountCalculator.addCreatureTypeAndProbabilities(CreatureType.HERBIVORE, PROBABILITIES_HERBIVORE);
         creatureCountCalculator.addCreatureTypeAndProbabilities(CreatureType.PREDATOR, PROBABILITIES_PREDATOR);
-        this.creatureSpawner = new CreatureSpawner<>(worldMap,random,creatureCountCalculator,targetExplorer,pathExplorer, pathfinder);
+        this.creatureSpawner = new CreatureSpawner<>(worldMap,random,creatureCountCalculator, pathfinder);
         this.creatureSpawner.addFactory(CreatureType.HERBIVORE,rabbitFactory);
         this.creatureSpawner.addFactory(CreatureType.PREDATOR, wolfFactory);
     }

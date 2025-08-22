@@ -1,6 +1,6 @@
 package render;
 
-public class SimulationWelcomePrinter {
+public class SimulationConsolePrinter {
     private static final String WELCOME = "Welcome to the \"Simulation\"!";
     private static final String CONTROL_SIMULATION = "To control the simulation, use the";
     private static final String COMMANDS = "commands:";
@@ -10,7 +10,7 @@ public class SimulationWelcomePrinter {
     private static final String COMMAND_STEP = "4 - step";
     private static final int BOX_WIDTH = 36;
 
-    private SimulationWelcomePrinter() {
+    private SimulationConsolePrinter() {
     }
 
     public static void printWelcome() {
@@ -39,6 +39,10 @@ public class SimulationWelcomePrinter {
 
         // Нижняя граница
         printBorder(cyan, "╚", "╝", reset);
+    }
+
+    public static void printInConsole(String text){
+        System.out.println(text);
     }
 
     private static void printBorder(String color, String left, String right, String reset) {

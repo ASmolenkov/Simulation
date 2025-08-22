@@ -9,8 +9,6 @@ import java.util.Objects;
 public class RabbitFactory implements CreatureFactory<Rabbit> {
     private static final String REQUIRES_HERBIVORE_CONFIG = "Requires HerbivoreConfig";
 
-
-
     private static final int DEFAULT_SPEED = 2;
     private static final int DEFAULT_HEALTH = 5;
     private static final int DEFAULT_SATIETY = 7;
@@ -18,6 +16,7 @@ public class RabbitFactory implements CreatureFactory<Rabbit> {
     private static final HerbivoreConfig DEFAULT_CONFIG = new HerbivoreConfig.Builder().setSpeed(DEFAULT_SPEED).setHealth(DEFAULT_HEALTH)
             .setSatiety(DEFAULT_SATIETY).setMaxSearchDepth(DEFAULT_MAX_SEARCH_DEPTH).build();
     private final HerbivoreConfig defaultConfig;
+
 
 
 
@@ -30,8 +29,8 @@ public class RabbitFactory implements CreatureFactory<Rabbit> {
     }
 
     @Override
-    public Rabbit createDefault(Coordinate position, NewPathfinder pathExplorer) {
-        return instantiateRabbit(position,defaultConfig,pathExplorer);
+    public Rabbit createDefault(Coordinate position, NewPathfinder pathfinder) {
+        return instantiateRabbit(position,defaultConfig,pathfinder);
     }
 
     @Override

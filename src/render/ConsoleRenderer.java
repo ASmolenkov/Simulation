@@ -22,8 +22,14 @@ public class ConsoleRenderer implements Renderer {
         for (int y = 0; y < worldMap.getHeight(); y++) {
             for (int x = 0; x < worldMap.getWidth(); x++) {
                 Coordinate coordinate = new Coordinate(x,y);
-                Entity entity = worldMap.getEntity(coordinate);
-                printSprite(entity);
+                if(worldMap.isFreePosition(coordinate)){
+                    System.out.print(EMPTY_AREA_SPRITE);
+                }
+                else {
+                    Entity entity = worldMap.getEntity(coordinate);
+                    printSprite(entity);
+                }
+
             }
             System.out.println();
         }
@@ -32,7 +38,6 @@ public class ConsoleRenderer implements Renderer {
 
     private void printSprite(Entity entity){
         switch (entity) {
-            case null -> System.out.print(EMPTY_AREA_SPRITE);
             case Wolf wolf -> System.out.print(WOLF_SPRITE);
             case Rabbit rabbit -> System.out.print(RABBIT_SPRITE);
             case Rock rock -> System.out.print(ROCK_SPRITE);

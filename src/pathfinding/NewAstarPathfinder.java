@@ -23,6 +23,9 @@ public class NewAstarPathfinder implements NewPathfinder{
         }
         return findPath(start, nearestTarget.get());
     }
+
+    //TODO сделать метод поиска цели приватным, переработать класс Creature + подумать над проходимостью
+
     @Override
     public Optional<Coordinate> findNearestTarget(Coordinate start, Class<? extends Entity> targetClass){
         return worldMap.getAllCoordinates().stream().filter(coordinate -> {
@@ -56,7 +59,7 @@ public class NewAstarPathfinder implements NewPathfinder{
             closetSet.add(current);
 
             for(Node neighbor:getNeighbors(current)){
-                if(closetSet.contains(neighbor) || !canPassThrough(neighbor.getCoordinate(),target) || !worldMap.isWithinBounds(neighbor.getCoordinate())){
+                if(closetSet.contains(neighbor) || !worldMap.isWithinBounds(neighbor.getCoordinate())){
                     continue;
                 }
 
@@ -109,8 +112,4 @@ public class NewAstarPathfinder implements NewPathfinder{
         return neighbors;
     }
 
-    private boolean canPassThrough(Coordinate coordinate, Coordinate target) {
-        Entity entity = worldMap.getEntity(coordinate);
-        return coordinate.equals(target) || entity == null || entity instanceof Grass;
-    }
 }

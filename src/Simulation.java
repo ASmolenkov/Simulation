@@ -1,12 +1,10 @@
 import actions.Action;
-import actions.init.GenerateCreatureAction;
-import actions.init.GenerateLandscapeAction;
 import actions.init.SpawnAction;
 import actions.turn.*;
 import listener.ConsoleLogger;
 import listener.FinalInfo;
 import render.ConsoleRenderer;
-import render.SimulationWelcomePrinter;
+import render.SimulationConsolePrinter;
 import world.WorldMap;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +17,8 @@ public class Simulation {
     private static final String COMMAND_CONTINUE = "2";
     private static final String COMMAND_PAUSE = "3";
     private static final String STOPPED_SIMULATION = "Simulation is stopped";
+    private static final String QUESTION_TO_USER_TO_START  = "Start simulation? 1 - STOP, 2 - START";
+    private static final String UNKNOWN_COMMAND = "Unknown command.";
     private static final String PAUSED_SIMULATION_TEMPLATE = "Simulation paused. Enter '%s' to continue or '%s' to take one step.\n";
     private static final String UNKNOWN_COMMAND_TEMPLATE = "Unknown command. Available: %s, %s, %s, %s \n";
     private static final int TIME_PAUSE = 3000;
@@ -29,7 +29,6 @@ public class Simulation {
     private final ConsoleRenderer consoleRenderer;
     private final List<Action> initActions;
     private final List<Action> turnActions;
-    private final Scanner scanner = new Scanner(System.in);
 
     private volatile boolean isRunning = true;
     private volatile boolean isPaused = false;
@@ -43,40 +42,45 @@ public class Simulation {
         this.initActions = new ArrayList<>();
         //this.initActions.add(new GenerateLandscapeAction(worldMap));
         //this.initActions.add(new GenerateCreatureAction(simulationSettings.getCreatureSpawner()));
-        this.initActions.add(new SpawnAction(worldMap,simulationSettings.getCreatureSpawner()));
+        this.initActions.add(new SpawnAction(worldMap,simulationSettings.getPathfinder()));
         this.turnActions = new ArrayList<>();
        // this.turnActions.add(new AddingGrassAction(worldMap));
         //this.turnActions.add(new AddingCreatureAction(worldMap));
-        this.turnActions.add(new MapReplenishmentAction(worldMap,simulationSettings.getWolfFactory(),simulationSettings.getRabbitFactory(), simulationSettings.getPathfinder()));
+        this.turnActions.add(new SpawnAction(worldMap,simulationSettings.getPathfinder()));
         this.turnActions.add(new MoveCreaturesAction(worldMap));
         this.turnActions.add(new DeletedDeadCreatureAction(worldMap));
         this.turnActions.add(new HungerAction(worldMap));
         this.consoleRenderer = new ConsoleRenderer();
 
+
     }
 
     public void starSimulation() throws InterruptedException {
-        SimulationWelcomePrinter.printWelcome();
-        System.out.println("Начать симуляцию? 1 - Да, 2 - Нет");
-        String inputUser = scanner.nextLine();
-        if(inputUser.equals("1")){
-            startCommandListener();
-            init();
-            consoleRenderer.render(worldMap);
-
-            while (isRunning){
-                checkPauseState();
-                turn();
+        SimulationConsolePrinter.printWelcome();
+        SimulationConsolePrinter.printInConsole(QUESTION_TO_USER_TO_START);
+        while (true) {
+            String inputUser = InputUser.nextLine();
+            if (inputUser.equals(COMMAND_CONTINUE)) {
+                startCommandListener();
+                init();
                 consoleRenderer.render(worldMap);
-                Thread.sleep(TIME_PAUSE);
+
+                while (isRunning) {
+                    checkPauseState();
+                    turn();
+                    consoleRenderer.render(worldMap);
+                    Thread.sleep(TIME_PAUSE);
+                }
+                System.out.println(STOPPED_SIMULATION);
+            } else if (inputUser.equals(COMMAND_STOP)) {
+                isRunning = false;
+                break;
             }
-            System.out.println(STOPPED_SIMULATION);
+            else {
+                SimulationConsolePrinter.printInConsole(UNKNOWN_COMMAND);
+                SimulationConsolePrinter.printInConsole(QUESTION_TO_USER_TO_START);
+            }
         }
-        else if(inputUser.equals("2")){
-            isRunning = false;
-        }
-
-
     }
 
     private void init() {
@@ -89,9 +93,8 @@ public class Simulation {
 
     private void startCommandListener(){
         new Thread(()->{
-            Scanner scanner = new Scanner(System.in);
             while (isRunning){
-                String command = scanner.nextLine().trim().toLowerCase();
+                String command = InputUser.nextLine().trim().toLowerCase();
                 switch (command){
                     case COMMAND_STOP:
                         isRunning = false;
@@ -117,7 +120,6 @@ public class Simulation {
                         System.out.printf(UNKNOWN_COMMAND_TEMPLATE, COMMAND_STOP,COMMAND_PAUSE,COMMAND_CONTINUE,COMMAND_STEP);
                 }
             }
-            scanner.close();
         }).start();
     }
 

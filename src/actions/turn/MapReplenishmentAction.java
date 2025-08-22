@@ -18,7 +18,6 @@ public class MapReplenishmentAction implements Action {
     private final WorldMap worldMap;
     private final CreatureFactory<Wolf> wolfFactory;
     private final CreatureFactory<Rabbit> rabbitFactory;
-
     private final NewPathfinder pathfinder;
 
     public MapReplenishmentAction(WorldMap worldMap, CreatureFactory<Wolf> wolfFactory, CreatureFactory<Rabbit> rabbitFactory, NewPathfinder pathfinder) {
@@ -30,12 +29,12 @@ public class MapReplenishmentAction implements Action {
 
     @Override
     public void perform() {
-        topUpMapGrass(worldMap);
-        topUpMapCreature(worldMap, WorldMapUtils.getAmountHerbivore(worldMap), TARGET_HERBIVORE_PERCENTAGE,rabbitFactory);
-        topUpMapCreature(worldMap, WorldMapUtils.getAmountPredator(worldMap), TARGET_PREDATOR_PERCENTAGE,wolfFactory);
+        refillGrassOnMap(worldMap);
+        refillCreatureOnMap(worldMap, WorldMapUtils.getAmountHerbivore(worldMap), TARGET_HERBIVORE_PERCENTAGE,rabbitFactory);
+        refillCreatureOnMap(worldMap, WorldMapUtils.getAmountPredator(worldMap), TARGET_PREDATOR_PERCENTAGE,wolfFactory);
     }
 
-    private void topUpMapGrass(WorldMap worldMap){
+    private void refillGrassOnMap(WorldMap worldMap){
         int targetAmountGrass = (int) (WorldMapUtils.getSizeMap(worldMap) * TARGET_GRASS_PERCENTAGE);
         int amountGrass = WorldMapUtils.getAmountGrass(worldMap);
         if(amountGrass < targetAmountGrass){
@@ -47,7 +46,7 @@ public class MapReplenishmentAction implements Action {
         }
 
     }
-    private void topUpMapCreature(WorldMap worldMap, int amount, double minAmountPercentage, CreatureFactory<? extends Creature> creatureFactory){
+    private void refillCreatureOnMap(WorldMap worldMap, int amount, double minAmountPercentage, CreatureFactory<? extends Creature> creatureFactory){
         int minAmount = (int) (minAmountPercentage * WorldMapUtils.getSizeMap(worldMap));
         if(amount < minAmount){
             for (int i = amount; i <= minAmount ; i++) {

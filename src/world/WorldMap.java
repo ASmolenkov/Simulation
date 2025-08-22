@@ -8,7 +8,8 @@ import world.entity.*;
 import java.util.*;
 
 public class WorldMap {
-    private static final String EXCEPTION_SIZE_MAP = "The width and height of the map cannot be less than 10";
+    private static final int MIN_SIZE_MAP = 10;
+    private static final String EXCEPTION_SIZE_MAP = "The width and height of the map cannot be less than " + MIN_SIZE_MAP;
     private static final String EXCEPTION_NULL = "Creature and Coordinate cannot be null";
     private static final String EXCEPTION_COORDINATE_OCCUPIED_TEMPLATE = "Coordinate %s is already occupied";
     private static final String EXCEPTION_COORDINATE_GOES_BEYOND_MAP_TEMPLATE = "Coordinate %s goes beyond the map";
@@ -20,7 +21,7 @@ public class WorldMap {
 
 
     public WorldMap(int width, int height) {
-        if (width < 10 || height < 10) {
+        if (width < MIN_SIZE_MAP || height < MIN_SIZE_MAP) {
             throw new IllegalArgumentException(EXCEPTION_SIZE_MAP);
         }
         this.width = width;
@@ -45,7 +46,12 @@ public class WorldMap {
     }
 
     public Entity getEntity(Coordinate coordinate){
-       return entityPosition.get(coordinate);
+        validate(coordinate);
+        Entity entity = entityPosition.get(coordinate);
+       if(entity == null){
+           throw new IllegalArgumentException("The creature was not found at the coordinate - " + coordinate);
+       }
+       return entity;
     }
 
     public void addEntity(Coordinate coordinate, Entity entity){
@@ -63,17 +69,17 @@ public class WorldMap {
     }
 
 
-    public boolean isPositionAvailable(Coordinate position){
-        if(!isWithinBounds(position)){
-            throw new IllegalArgumentException(String.format(EXCEPTION_COORDINATE_GOES_BEYOND_MAP_TEMPLATE, position));
-        }
+    public boolean isFreePosition(Coordinate position){
+        validate(position);
         return !entityPosition.containsKey(position);
     }
 
     public boolean isWithinBounds(Coordinate coordinate){
-        return coordinate.width() >= 0 && coordinate.width() <= width - 1 &&
-                coordinate.height() >= 0 && coordinate.height() <= height - 1;
+        return coordinate.width() >= 0 && coordinate.width() < width &&
+                coordinate.height() >= 0 && coordinate.height() < height;
     }
+
+  //TODO Подумать над перенесением метода в Action или Creature
 
     public void updatePosition(Creature creature, Coordinate newPosition) {
         if (creature == null || newPosition == null) {
@@ -84,7 +90,7 @@ public class WorldMap {
         }
         entityPosition.remove(creature.getPosition());
         if (entityPosition.get(newPosition) instanceof Predator) {
-            throw new IllegalStateException(String.format(EXCEPTION_COORDINATE_OCCUPIED_TEMPLATE, newPosition) );
+            entityPosition.put(creature.getPosition(),creature);
         }
         entityPosition.put(newPosition, creature);
         creature.setPosition(newPosition);
@@ -92,12 +98,18 @@ public class WorldMap {
     }
 
     public List<Coordinate> getAllCoordinates(){
-        Set<Coordinate> coordinates1 = entityPosition.keySet();
-        return new ArrayList<>(coordinates1);
+        Set<Coordinate> coordinates = entityPosition.keySet();
+        return new ArrayList<>(coordinates);
     }
 
     private void notifyOfMove(Creature creature, Coordinate newPosition){
         notifyListeners(new SimulationEvent(EventType.ENTITY_MOVED, String.format( "➡️ %s moved to %s", creature.getClass().getSimpleName(), newPosition), creature));
+    }
+
+    private void validate(Coordinate coordinate){
+        if(!isWithinBounds(coordinate)){
+            throw new IllegalArgumentException("Incorrect coordinate! - " + coordinate);
+        }
     }
 
 }

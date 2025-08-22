@@ -18,7 +18,7 @@ public class WorldMapUtils {
         for (int i = 0; i < worldMap.getHeight(); i++) {
             for (int j = 0; j < worldMap.getWidth(); j++) {
                 Coordinate coordinate = new Coordinate(i, j);
-                if(worldMap.isPositionAvailable(coordinate)){
+                if(worldMap.isFreePosition(coordinate)){
                     emptyCoordinates.add(coordinate);
                 }
             }
@@ -66,11 +66,22 @@ public class WorldMapUtils {
         return amountGrass;
     }
 
+    public static int getAmountEntities(WorldMap worldMap, Class<? extends Entity> entityClass){
+        int amount = 0;
+        List<Entity> entities = worldMap.getAllEntity();
+        for (Entity entity1: entities){
+            if(entityClass.isInstance(entity1)){
+                amount++;
+            }
+        }
+        return amount;
+    }
+
     public static int getSizeMap(WorldMap worldMap){
         return worldMap.getHeight() * worldMap.getWidth();
     }
 
-    public static boolean hasNotEmptyCoordinates(WorldMap worldMap){
+    public static boolean noEmptyCoordinates(WorldMap worldMap){
         List<Coordinate> emptyCoordinates = getEmptyCoordinates (worldMap);
         return emptyCoordinates.isEmpty();
     }

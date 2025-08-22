@@ -2,8 +2,6 @@ package creature.generate;
 
 import factory.creature.CreatureFactory;
 import pathfinding.NewPathfinder;
-import pathfinding.Pathfinder;
-import pathfinding.TargetFinder;
 import util.WorldMapUtils;
 import world.*;
 import world.entity.Creature;
@@ -16,23 +14,17 @@ public class CreatureSpawner<T extends Creature> {
     private static final String NO_FREE_PLACES = "There are no available coordinates";
 
     private final WorldMap worldMap;
-    private final Random random;
     private final CreatureCountCalculator countCalculator;
     private final Map<CreatureType, CreatureFactory<? extends T>> factories;
-    private final TargetFinder targetExplorer;
-    private final Pathfinder pathExplorer;
     private final NewPathfinder pathfinder;
 
 
-    public CreatureSpawner(WorldMap worldMap, Random random, CreatureCountCalculator countCalculator,
-                           TargetFinder targetExplorer, Pathfinder pathExplorer, NewPathfinder pathfinder) {
+    public CreatureSpawner(WorldMap worldMap, Random random, CreatureCountCalculator countCalculator, NewPathfinder pathfinder) {
         this.worldMap = worldMap;
         this.countCalculator = countCalculator;
         this.pathfinder = pathfinder;
         this.factories = new HashMap<>();
-        this.targetExplorer = targetExplorer;
-        this.pathExplorer = pathExplorer;
-        this.random = random;
+
     }
 
     public void addFactory(CreatureType creatureType, CreatureFactory<? extends T> factory){
@@ -66,7 +58,7 @@ public class CreatureSpawner<T extends Creature> {
     }
 
     private void ensureSpawnPossible() {
-        if (WorldMapUtils.hasNotEmptyCoordinates(worldMap)) {
+        if (WorldMapUtils.noEmptyCoordinates(worldMap)) {
             throw new IllegalStateException(NO_FREE_PLACES);
         }
     }

@@ -22,6 +22,7 @@ public class Rabbit extends Herbivore {
 
     @Override
     public void makeMove(WorldMap worldMap, List<Coordinate> pathInTarget, Coordinate target){
+        System.out.println(this.getClass().getSimpleName() + " = " + pathInTarget);
         if(!pathInTarget.isEmpty() && worldMap.isWithinBounds(pathInTarget.getFirst())){
             if(isTargetNearby(worldMap, position,getTargetType())){
                 eat(worldMap);
@@ -35,15 +36,11 @@ public class Rabbit extends Herbivore {
         }
     }
 
-    @Override
-    public  void addHealth(int health) {
-        this.health += health;
-        if(this.health > MAX_HEALTH){
-            this.health = MAX_HEALTH;
-        }
-    }
 
-    public int getMaxHealth(){
+
+
+
+    protected int getMaxHealth(){
         return MAX_HEALTH;
     }
 

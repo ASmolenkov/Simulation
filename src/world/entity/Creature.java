@@ -37,8 +37,12 @@ public abstract class Creature extends Entity {
         return position;
     }
 
-
-    public abstract void addHealth(int health);
+    public  void addHealth(int health){
+        this.health += health;
+        if(this.health > getMaxHealth()){
+            this.health = getMaxHealth();
+        }
+    }
 
     public int getSpeed() {
         return speed;
@@ -70,6 +74,9 @@ public abstract class Creature extends Entity {
 
 
     public abstract void performMovementAction(WorldMap worldMap);
+    protected abstract int getMaxHealth();
+
+
 
     public void subSatiety(int satiety) {
         this.satiety -= satiety;
@@ -114,15 +121,23 @@ public abstract class Creature extends Entity {
     protected boolean isTargetNearby(WorldMap worldMap, Coordinate pos, Class<?> entityType) {
         for (int dx = -1; dx <= 1; dx++) {
             for (int dy = -1; dy <= 1; dy++) {
-                if (dx == 0 && dy == 0) continue;
-                Coordinate neighbor = new Coordinate(
-                        pos.width() + dx,
-                        pos.height() + dy
-                );
-                Entity entity = worldMap.getEntity(neighbor);
-                if (entityType.isInstance(entity)) {
-                    return true;
+                if (dx == 0 && dy == 0){
+                    continue;
                 }
+                Coordinate neighbor = new Coordinate(pos.width() + dx, pos.height() + dy);
+                if(!worldMap.isWithinBounds(neighbor)){
+                    continue;
+                }
+                if(worldMap.isFreePosition(neighbor)){
+                    continue;
+                }
+                else {
+                    Entity entity = worldMap.getEntity(neighbor);
+                    if (entityType.isInstance(entity)) {
+                        return true;
+                    }
+                }
+
             }
         }
         return false;

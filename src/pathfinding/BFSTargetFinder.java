@@ -40,7 +40,7 @@ public class BFSTargetFinder extends BFSExplorer implements TargetFinder {
                 if(move.getPosition().equals(coordinate)){
                     continue;
                 }
-                if(worldMap.isWithinBounds(coordinate) && !worldMap.isPositionAvailable(coordinate)){
+                if(worldMap.isWithinBounds(coordinate) && !worldMap.isFreePosition(coordinate)){
                     freeCells.add(coordinate);
                 }
             }
