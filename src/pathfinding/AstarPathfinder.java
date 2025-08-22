@@ -23,7 +23,7 @@ public class AstarPathfinder implements Pathfinder {
         return findPath(start, nearestTarget.get());
     }
 
-    //TODO сделать метод поиска цели приватным, переработать класс Creature + подумать над проходимостью
+    //TODO сделать метод поиска цели приватным, переработать класс Creature
 
     @Override
     public Optional<Coordinate> findNearestTarget(Coordinate start, Class<? extends Entity> targetClass){
@@ -57,7 +57,7 @@ public class AstarPathfinder implements Pathfinder {
             }
             closetSet.add(current);
 
-            for(Node neighbor:getNeighbors(current)){
+            for(Node neighbor:getNeighbors(current, target)){
                 if(closetSet.contains(neighbor) || !worldMap.isWithinBounds(neighbor.getCoordinate())){
                     continue;
                 }
@@ -98,14 +98,16 @@ public class AstarPathfinder implements Pathfinder {
         return path;
     }
 
-    private List<Node> getNeighbors(Node node) {
+    private List<Node> getNeighbors(Node node, Coordinate target) {
         List<Node> neighbors = new ArrayList<>();
         for (int dir[] : DIRECTIONS) {
             int newX = node.getCoordinate().width() + dir[0];
             int newY = node.getCoordinate().height() + dir[1];
             Coordinate newCoordinate = new Coordinate(newX, newY);
             if (worldMap.isWithinBounds(newCoordinate)) {
-                neighbors.add(new Node(newCoordinate));
+                if(newCoordinate.equals(target) || worldMap.isFreePosition(newCoordinate)) {
+                    neighbors.add(new Node(newCoordinate));
+                }
             }
         }
         return neighbors;
