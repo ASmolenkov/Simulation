@@ -40,12 +40,8 @@ public class Simulation {
         worldMap.addListener(finalInfo);
         this.simulationSettings = new SimulationSettings(worldMap);
         this.initActions = new ArrayList<>();
-        //this.initActions.add(new GenerateLandscapeAction(worldMap));
-        //this.initActions.add(new GenerateCreatureAction(simulationSettings.getCreatureSpawner()));
         this.initActions.add(new SpawnAction(worldMap,simulationSettings.getPathfinder()));
         this.turnActions = new ArrayList<>();
-       // this.turnActions.add(new AddingGrassAction(worldMap));
-        //this.turnActions.add(new AddingCreatureAction(worldMap));
         this.turnActions.add(new SpawnAction(worldMap,simulationSettings.getPathfinder()));
         this.turnActions.add(new MoveCreaturesAction(worldMap));
         this.turnActions.add(new DeletedDeadCreatureAction(worldMap));

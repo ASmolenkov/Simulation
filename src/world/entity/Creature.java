@@ -1,9 +1,6 @@
 package world.entity;
 
-import pathfinding.AStarPathfinder;
-import pathfinding.NewPathfinder;
 import pathfinding.Pathfinder;
-import pathfinding.TargetFinder;
 import world.Coordinate;
 import world.WorldMap;
 
@@ -16,7 +13,7 @@ public abstract class Creature extends Entity {
     protected static final int MIN_HEALTH = 0;
 
     protected Coordinate position;
-    protected final NewPathfinder pathfinder;
+    protected final Pathfinder pathfinder;
     protected final int maxSearchDepth;
     private int speed;
     protected int health;
@@ -24,7 +21,7 @@ public abstract class Creature extends Entity {
     private boolean speedBoosted = false;
 
 
-    public Creature(Coordinate position, int speed, int health, int satiety, int maxSearchDepth, NewPathfinder pathfinder) {
+    public Creature(Coordinate position, int speed, int health, int satiety, int maxSearchDepth, Pathfinder pathfinder) {
         this.position = position;
         this.speed = speed;
         this.health = health;

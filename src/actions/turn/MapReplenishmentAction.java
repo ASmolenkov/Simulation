@@ -4,7 +4,7 @@ import actions.Action;
 import factory.creature.CreatureFactory;
 import listener.EventType;
 import listener.SimulationEvent;
-import pathfinding.NewPathfinder;
+import pathfinding.Pathfinder;
 import util.WorldMapUtils;
 import world.Coordinate;
 import world.WorldMap;
@@ -18,9 +18,9 @@ public class MapReplenishmentAction implements Action {
     private final WorldMap worldMap;
     private final CreatureFactory<Wolf> wolfFactory;
     private final CreatureFactory<Rabbit> rabbitFactory;
-    private final NewPathfinder pathfinder;
+    private final Pathfinder pathfinder;
 
-    public MapReplenishmentAction(WorldMap worldMap, CreatureFactory<Wolf> wolfFactory, CreatureFactory<Rabbit> rabbitFactory, NewPathfinder pathfinder) {
+    public MapReplenishmentAction(WorldMap worldMap, CreatureFactory<Wolf> wolfFactory, CreatureFactory<Rabbit> rabbitFactory, Pathfinder pathfinder) {
         this.worldMap = worldMap;
         this.wolfFactory = wolfFactory;
         this.rabbitFactory = rabbitFactory;

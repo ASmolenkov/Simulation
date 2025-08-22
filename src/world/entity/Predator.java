@@ -1,8 +1,6 @@
 package world.entity;
 
-import pathfinding.NewPathfinder;
 import pathfinding.Pathfinder;
-import pathfinding.TargetFinder;
 import world.Coordinate;
 import world.WorldMap;
 
@@ -13,7 +11,7 @@ public abstract class Predator extends Creature {
 
     private final int attackPower;
 
-    public Predator(Coordinate position, int speed, int health, int attackPower, int satiety, int maxSearchDepth, NewPathfinder pathfinder) {
+    public Predator(Coordinate position, int speed, int health, int attackPower, int satiety, int maxSearchDepth, Pathfinder pathfinder) {
         super(position,speed, health, satiety, maxSearchDepth,pathfinder);
         this.attackPower = attackPower;
     }

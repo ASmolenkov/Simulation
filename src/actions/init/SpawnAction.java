@@ -1,10 +1,9 @@
 package actions.init;
 
 import actions.Action;
-import creature.generate.CreatureSpawner;
 import factory.creature.RabbitFactory;
 import factory.creature.WolfFactory;
-import pathfinding.NewPathfinder;
+import pathfinding.Pathfinder;
 import util.WorldMapUtils;
 import world.Coordinate;
 import world.WorldMap;
@@ -13,7 +12,6 @@ import world.entity.*;
 import java.util.function.Function;
 
 public class SpawnAction implements Action {
-    private final static double MAX_LANDSCAPE_PERCENTAGE = 0.2;
     private static final int COUNT_GRASS_PERCENTAGE = 6;
     private static final int COUNT_TREE_PERCENTAGE = 5;
     private static final int COUNT_ROCK_PERCENTAGE = 5;
@@ -23,12 +21,12 @@ public class SpawnAction implements Action {
     private final WorldMap worldMap;
     private final WolfFactory wolfFactory = new WolfFactory();
     private final RabbitFactory rabbitFactory = new RabbitFactory();
-    private final NewPathfinder newPathfinder;
+    private final Pathfinder pathfinder;
 
 
-    public SpawnAction(WorldMap worldMap, NewPathfinder newPathfinder) {
+    public SpawnAction(WorldMap worldMap, Pathfinder pathfinder) {
         this.worldMap = worldMap;
-        this.newPathfinder = newPathfinder;
+        this.pathfinder = pathfinder;
     }
 
     @Override
@@ -36,8 +34,8 @@ public class SpawnAction implements Action {
         spawn(worldMap, Grass.class, (coordinate) -> new Grass(), COUNT_GRASS_PERCENTAGE);
         spawn(worldMap, Rock.class, (coordinate) -> new Rock(), COUNT_ROCK_PERCENTAGE);
         spawn(worldMap, Tree.class, (coordinate) -> new Tree(), COUNT_TREE_PERCENTAGE);
-        spawn(worldMap, Rabbit.class, (coordinate) -> rabbitFactory.createDefault(coordinate,newPathfinder), COUNT_RABBIT_PERCENTAGE);
-        spawn(worldMap, Wolf.class, (coordinate) -> wolfFactory.createDefault(coordinate,newPathfinder), COUNT_WOLF_PERCENTAGE);
+        spawn(worldMap, Rabbit.class, (coordinate) -> rabbitFactory.createDefault(coordinate, pathfinder), COUNT_RABBIT_PERCENTAGE);
+        spawn(worldMap, Wolf.class, (coordinate) -> wolfFactory.createDefault(coordinate, pathfinder), COUNT_WOLF_PERCENTAGE);
     }
 
     /*private void spawn(WorldMap worldMap, Function<Coordinate, Entity> mapper, double amount){

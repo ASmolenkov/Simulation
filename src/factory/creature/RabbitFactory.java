@@ -1,6 +1,6 @@
 package factory.creature;
 
-import pathfinding.NewPathfinder;
+import pathfinding.Pathfinder;
 import world.*;
 import world.entity.Rabbit;
 
@@ -29,17 +29,17 @@ public class RabbitFactory implements CreatureFactory<Rabbit> {
     }
 
     @Override
-    public Rabbit createDefault(Coordinate position, NewPathfinder pathfinder) {
+    public Rabbit createDefault(Coordinate position, Pathfinder pathfinder) {
         return instantiateRabbit(position,defaultConfig,pathfinder);
     }
 
     @Override
-    public Rabbit create(Coordinate position, CreatureConfig config, NewPathfinder pathfinder) {
+    public Rabbit create(Coordinate position, CreatureConfig config, Pathfinder pathfinder) {
         HerbivoreConfig userConfig = validateConfig(config);
         return instantiateRabbit(position, userConfig, pathfinder);
     }
 
-    private Rabbit instantiateRabbit (Coordinate position, HerbivoreConfig config, NewPathfinder pathfinder){
+    private Rabbit instantiateRabbit (Coordinate position, HerbivoreConfig config, Pathfinder pathfinder){
         return new Rabbit(position,config.getBaseSpeed(),config.getBaseHealth(), config.getBaseSatiety(), config.baseMaxSearchDepth,pathfinder);
     }
 

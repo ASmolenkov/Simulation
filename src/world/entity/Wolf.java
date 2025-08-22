@@ -2,9 +2,7 @@ package world.entity;
 
 import listener.EventType;
 import listener.SimulationEvent;
-import pathfinding.NewPathfinder;
 import pathfinding.Pathfinder;
-import pathfinding.TargetFinder;
 import world.Coordinate;
 import world.WorldMap;
 
@@ -16,7 +14,7 @@ public class Wolf extends Predator {
     private static final int SATIETY_BONUS_FOR_FOOD = 5;
     private static final int MAX_HEALTH = 10;
 
-    public Wolf(Coordinate position, int speed, int health, int attackPower, int satiety, int maxSearchDepth, NewPathfinder pathfinder) {
+    public Wolf(Coordinate position, int speed, int health, int attackPower, int satiety, int maxSearchDepth, Pathfinder pathfinder) {
         super(position, speed, health, attackPower, satiety, maxSearchDepth,pathfinder);
     }
 

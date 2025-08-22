@@ -1,8 +1,6 @@
 package world.entity;
 
-import pathfinding.NewPathfinder;
 import pathfinding.Pathfinder;
-import pathfinding.TargetFinder;
 import world.Coordinate;
 import world.WorldMap;
 
@@ -10,7 +8,7 @@ import java.util.List;
 
 public abstract class Herbivore extends Creature {
 
-    public Herbivore(Coordinate position, int speed, int health, int satiety, int maxSearchDepth, NewPathfinder pathExplorer) {
+    public Herbivore(Coordinate position, int speed, int health, int satiety, int maxSearchDepth, Pathfinder pathExplorer) {
         super(position, speed, health, satiety, maxSearchDepth, pathExplorer);
 
     }
