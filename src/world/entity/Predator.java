@@ -17,8 +17,8 @@ public abstract class Predator extends Creature {
     }
 
     public void performMovementAction(WorldMap worldMap){
-        Coordinate target = findTarget(this.getPosition(), Herbivore.class);
-        List<Coordinate> path = findPathToTarget(Herbivore.class);
+        List<Coordinate> path = pathfinder.findPathToTarget(this.getPosition(), Herbivore.class);
+        Coordinate target = path.getLast();
         makeMove(worldMap, path,target);
     }
 
@@ -26,7 +26,7 @@ public abstract class Predator extends Creature {
         return attackPower;
     }
 
-    protected abstract void attack(WorldMap worldMap);
+    protected abstract void attack(WorldMap worldMap, Coordinate target);
 
     protected boolean isTargetDied(Creature creature){
         return creature.getHealth() <= MIN_HEALTH;

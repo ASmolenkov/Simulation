@@ -25,8 +25,8 @@ public class AstarPathfinder implements Pathfinder {
 
     //TODO сделать метод поиска цели приватным, переработать класс Creature
 
-    @Override
-    public Optional<Coordinate> findNearestTarget(Coordinate start, Class<? extends Entity> targetClass){
+
+    private Optional<Coordinate> findNearestTarget(Coordinate start, Class<? extends Entity> targetClass){
         return worldMap.getAllCoordinates().stream().filter(coordinate -> {
             Entity entity = worldMap.getEntity(coordinate);
             return targetClass.isInstance(entity);

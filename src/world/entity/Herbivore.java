@@ -14,9 +14,11 @@ public abstract class Herbivore extends Creature {
     }
 
     public void performMovementAction(WorldMap worldMap){
-        Coordinate target = findTarget(this.getPosition(), Grass.class);
-        List<Coordinate> path = findPathToTarget(Grass.class);
-        makeMove(worldMap, path,target);
+        List<Coordinate> path = pathfinder.findPathToTarget(this.getPosition(), Grass.class);
+        if(!path.isEmpty()) {
+            Coordinate target = path.getLast();
+            makeMove(worldMap, path, target);
+        }
     }
 
 }

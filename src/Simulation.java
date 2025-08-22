@@ -3,12 +3,12 @@ import actions.init.SpawnAction;
 import actions.turn.*;
 import listener.ConsoleLogger;
 import listener.FinalInfo;
+import pathfinding.AstarPathfinder;
 import render.ConsoleRenderer;
 import render.SimulationConsolePrinter;
 import world.WorldMap;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 
 public class Simulation {
@@ -25,7 +25,6 @@ public class Simulation {
 
     private final FinalInfo finalInfo = new FinalInfo();
     private final WorldMap worldMap;
-    private final SimulationSettings simulationSettings;
     private final ConsoleRenderer consoleRenderer;
     private final List<Action> initActions;
     private final List<Action> turnActions;
@@ -38,17 +37,14 @@ public class Simulation {
         this.worldMap = worldMap;
         worldMap.addListener(new ConsoleLogger());
         worldMap.addListener(finalInfo);
-        this.simulationSettings = new SimulationSettings(worldMap);
         this.initActions = new ArrayList<>();
-        this.initActions.add(new SpawnAction(worldMap,simulationSettings.getPathfinder()));
+        this.initActions.add(new SpawnAction(worldMap, new AstarPathfinder(worldMap)));
         this.turnActions = new ArrayList<>();
-        this.turnActions.add(new SpawnAction(worldMap,simulationSettings.getPathfinder()));
+        this.turnActions.add(new SpawnAction(worldMap,new AstarPathfinder(worldMap)));
         this.turnActions.add(new MoveCreaturesAction(worldMap));
         this.turnActions.add(new DeletedDeadCreatureAction(worldMap));
         this.turnActions.add(new HungerAction(worldMap));
         this.consoleRenderer = new ConsoleRenderer();
-
-
     }
 
     public void starSimulation() throws InterruptedException {

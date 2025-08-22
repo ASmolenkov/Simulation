@@ -140,15 +140,4 @@ public abstract class Creature extends Entity {
         return false;
     }
 
-    protected Coordinate findTarget(Coordinate start, Class<? extends Entity> targetClass){
-        Optional<Coordinate> target = pathfinder.findNearestTarget(start, targetClass);
-        return target.orElse(start);
-
-    }
-
-    protected List<Coordinate> findPathToTarget(Class<? extends Entity> targetClass) {
-        return pathfinder.findPathToTarget(this.getPosition(), targetClass);
-    }
-
-
 }

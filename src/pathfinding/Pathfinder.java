@@ -8,5 +8,5 @@ import java.util.Optional;
 
 public interface Pathfinder {
     public List<Coordinate> findPathToTarget(Coordinate start, Class<? extends Entity> targetClass);
-    public Optional<Coordinate> findNearestTarget(Coordinate start, Class<? extends Entity> targetClass);
+
 }
