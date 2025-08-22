@@ -23,9 +23,6 @@ public class AstarPathfinder implements Pathfinder {
         return findPath(start, nearestTarget.get());
     }
 
-    //TODO сделать метод поиска цели приватным, переработать класс Creature
-
-
     private Optional<Coordinate> findNearestTarget(Coordinate start, Class<? extends Entity> targetClass){
         return worldMap.getAllCoordinates().stream().filter(coordinate -> {
             Entity entity = worldMap.getEntity(coordinate);
@@ -112,5 +109,4 @@ public class AstarPathfinder implements Pathfinder {
         }
         return neighbors;
     }
-
 }

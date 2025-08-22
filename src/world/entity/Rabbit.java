@@ -28,14 +28,18 @@ public class Rabbit extends Herbivore {
                 notifyEat(worldMap,target);
                 return;
             }
-            int stepsToMove = Math.min(this.getSpeed(), pathInTarget.size());
-
-            movement(this, pathInTarget.get(stepsToMove - 1), worldMap);
+            if(pathInTarget.size() == 2){
+                movement(this, pathInTarget.getFirst(), worldMap);
+            }
+            else if(this.getSpeed() >= pathInTarget.size() - 1) {
+                int stepsToMove = Math.min(this.getSpeed(), pathInTarget.size());
+                movement(this, pathInTarget.get(stepsToMove - 1), worldMap);
+            }
+            else {
+                movement(this, pathInTarget.get(this.getSpeed()),worldMap);
+            }
         }
     }
-
-
-
 
 
     protected int getMaxHealth(){

@@ -18,8 +18,11 @@ public abstract class Predator extends Creature {
 
     public void performMovementAction(WorldMap worldMap){
         List<Coordinate> path = pathfinder.findPathToTarget(this.getPosition(), Herbivore.class);
-        Coordinate target = path.getLast();
-        makeMove(worldMap, path,target);
+        if(!path.isEmpty()){
+            Coordinate target = path.getLast();
+            makeMove(worldMap, path,target);
+        }
+
     }
 
     protected int getAttackPower() {

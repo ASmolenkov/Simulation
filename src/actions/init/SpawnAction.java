@@ -3,6 +3,8 @@ package actions.init;
 import actions.Action;
 import factory.creature.RabbitFactory;
 import factory.creature.WolfFactory;
+import listener.EventType;
+import listener.SimulationEvent;
 import pathfinding.Pathfinder;
 import util.WorldMapUtils;
 import world.Coordinate;
@@ -38,15 +40,6 @@ public class SpawnAction implements Action {
         spawn(worldMap, Wolf.class, (coordinate) -> wolfFactory.createDefault(coordinate, pathfinder), COUNT_WOLF_PERCENTAGE);
     }
 
-    /*private void spawn(WorldMap worldMap, Function<Coordinate, Entity> mapper, double amount){
-        int countEntity = (int) ((WorldMapUtils.getSizeMap(worldMap) * amount) * MAX_LANDSCAPE_PERCENTAGE);
-            for (int i = 0; i < countEntity; i++) {
-                Coordinate randomCoordinate = WorldMapUtils.getRandomEmptyCoordinate(worldMap);
-                Entity entity = mapper.apply(randomCoordinate);
-                worldMap.addEntity(randomCoordinate, entity);
-            }
-    }*/
-
     private void spawn(WorldMap worldMap,Class<? extends Entity> clazz, Function<Coordinate, Entity> mapper, int percentage){
         int currentAmount = WorldMapUtils.getAmountEntities(worldMap,clazz);
         int maxAmount = WorldMapUtils.getSizeMap(worldMap) * percentage / 100;
@@ -56,7 +49,19 @@ public class SpawnAction implements Action {
             Coordinate randomCoordinate = WorldMapUtils.getRandomEmptyCoordinate(worldMap);
             Entity entity = mapper.apply(randomCoordinate);
             worldMap.addEntity(randomCoordinate, entity);
+            notifyOfAdd(entity, randomCoordinate);
         }
+
+    }
+
+    private void notifyOfAdd(Entity entity, Coordinate newPosition){
+        if(entity instanceof Grass){
+            worldMap.notifyListeners(new SimulationEvent(EventType.GRASS_GROWING, String.format( "🌱 The grass has grown %s", newPosition)));
+        }
+        else if(entity instanceof Creature) {
+            worldMap.notifyListeners(new SimulationEvent(EventType.ENTITY_SPAWNED, String.format( "😇 %s was born %s", entity.getClass().getSimpleName(), newPosition), entity));
+        }
+
     }
 
 }
